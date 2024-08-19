@@ -1,0 +1,20 @@
+### Hello World
+GET http://localhost:8080/api/sample/hello
+
+### Find Member
+GET http://localhost:8080/api/sample/member?id=1
+
+### Find Member2
+GET http://localhost:8080/api/sample/member2?id=1
+
+### Create Member
+POST http://localhost:8080/api/sample/member
+Content-Type: application/json
+
+{
+  "name": "John Doe",
+  "nickname": "johnny",
+  "contact": "123-456-7890",
+  "loginStatus": "LOGGED_IN",
+  "status": "ACTIVE"
+}
