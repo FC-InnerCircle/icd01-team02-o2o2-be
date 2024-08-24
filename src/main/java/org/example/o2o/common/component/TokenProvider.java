@@ -7,8 +7,8 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.example.o2o.common.dto.jwt.Payload;
 import org.example.o2o.common.dto.jwt.TokenDto.AccessTokenClaimsInfo;
+import org.example.o2o.common.dto.jwt.TokenDto.Payload;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -26,6 +26,13 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class TokenProvider {
 
+	private final ObjectMapper objectMapper;
+	private static SecretKey SECRET_KEY;
+	private static long ACCESS_EXPIRATION;
+	private static long REFRESH_EXPIRATION;
+	private static final String ACCESS_TOKEN_SUBJECT = "Access Token";
+	private static final String REFRESH_TOKEN_SUBJECT = "Refresh Token";
+
 	public TokenProvider(
 		@Value("${jwt.secret}") String secreyKey,
 		@Value("${jwt.access.expiration}") long accessExpiration,
@@ -38,14 +45,6 @@ public class TokenProvider {
 		REFRESH_EXPIRATION = refreshExpiration;
 		this.objectMapper = objectMapper;
 	}
-
-	private final ObjectMapper objectMapper;
-
-	private final SecretKey SECRET_KEY;
-	private final long ACCESS_EXPIRATION;
-	private final long REFRESH_EXPIRATION;
-	private final String ACCESS_TOKEN_SUBJECT = "Access Token";
-	private final String REFRESH_TOKEN_SUBJECT = "Refresh Token";
 
 	public String createAccessToken(AccessTokenClaimsInfo claimsInfo) {
 		ZonedDateTime now = ZonedDateTime.now();

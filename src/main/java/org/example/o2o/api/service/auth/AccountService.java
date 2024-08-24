@@ -10,7 +10,6 @@ import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.config.exception.enums.auth.AccountErrorCode;
 import org.example.o2o.domain.auth.Account;
 import org.example.o2o.repository.auth.AccountRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

@@ -3,7 +3,7 @@ package org.example.o2o.config.security.filter;
 import java.io.IOException;
 
 import org.example.o2o.common.component.TokenProvider;
-import org.example.o2o.common.dto.jwt.Payload;
+import org.example.o2o.common.dto.jwt.TokenDto.Payload;
 import org.example.o2o.config.security.CustomUserDetails;
 import org.example.o2o.domain.auth.Account;
 import org.example.o2o.domain.auth.AccountRole;
@@ -24,7 +24,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
 	private final TokenProvider tokenProvider;
 
-	private final String AUTHORIZATION_HEADER_PREFIX = "Bearer ";
+	private static final String AUTHORIZATION_HEADER_PREFIX = "Bearer ";
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
