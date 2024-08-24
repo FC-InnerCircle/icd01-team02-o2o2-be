@@ -4,12 +4,18 @@ import java.util.List;
 
 import org.example.o2o.domain.AbstractEntity;
 import org.example.o2o.domain.file.FileGroup;
+import org.example.o2o.domain.store.Store;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
@@ -28,13 +34,19 @@ public class StoreMenu extends AbstractEntity {
 	@OneToMany(mappedBy = "menu")
 	private List<StoreMenuOptionGroup> menuOptionGroups;
 
-	@OneToOne
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "image_file_group_id")
-	private FileGroup imageFileGroupId;
+	private FileGroup imageFileGroup;
 
 	private String name;
 	private String description;
 	private Integer price;
-	private String status;
+	private Integer ordering;
 
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "store_id")
+	private Store store;
+
+	@Enumerated(EnumType.STRING)
+	private StoreMenuStatus status;
 }
