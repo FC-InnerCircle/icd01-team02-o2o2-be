@@ -32,4 +32,5 @@ public class StoreMenuOptionGroup {
 	private String name;
 	private String isRequired;
 	private Integer ordering;
+
 }
