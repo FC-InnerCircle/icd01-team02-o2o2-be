@@ -1,4 +1,4 @@
-package org.example.o2o.config;
+package org.example.o2o.config.db;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,7 +14,7 @@ public class QuerydslConfig {
 	private final EntityManager entityManager;
 
 	@Bean
-	public JPAQueryFactory jpaQueryFactory(){
+	public JPAQueryFactory jpaQueryFactory() {
 		return new JPAQueryFactory(entityManager);
 	}
 }
