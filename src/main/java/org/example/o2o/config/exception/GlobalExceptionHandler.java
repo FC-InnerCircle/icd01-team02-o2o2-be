@@ -30,6 +30,8 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(ApiException.class)
 	protected ResponseEntity<ErrorResponse> handleApiException(ApiException ex, WebRequest request) {
+		log.error("API_EXCEPTION_ERROR: ", ex);
+
 		ErrorCode errorCode = ex.getErrorCode();
 
 		return ResponseEntity
@@ -41,6 +43,7 @@ public class GlobalExceptionHandler {
 	protected ResponseEntity<ErrorResponse> handleMethodArgumentNotValidException(MethodArgumentNotValidException ex,
 		WebRequest request) {
 		log.error("METHOD_ARGUMENT_NOT_VALID_ERROR: ", ex);
+
 		FieldError fieldError = ex.getBindingResult().getFieldError();
 		String errorMessage = fieldError.getDefaultMessage();
 
