@@ -1,4 +1,4 @@
-package org.example.o2o.config;
+package org.example.o2o.config.db;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
