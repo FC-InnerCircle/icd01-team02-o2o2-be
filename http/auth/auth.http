@@ -18,3 +18,8 @@ Content-Type: application/json
 
 ### 로그아웃 API
 POST http://localhost:8080/api/v1/auth/logout
+Content-Type: application/json
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjQ0MzMwMjcsImV4cCI6MTgxMDgzMzAyNywic3ViIjoiQWNjZXNzIFRva2VuIiwiaWQiOjEsImFjY291bnRJZCI6ImFkbWluIiwicm9sZSI6IkFETUlOIiwibmFtZSI6Iu2Zjeq4uOuPmSJ9.ya6e4ZLJMyjNhZ5XHwRWSRX2RMKZrgwZaVRsLFBTpH8"
+}

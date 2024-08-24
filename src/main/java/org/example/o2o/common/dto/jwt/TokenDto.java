@@ -45,7 +45,7 @@ public class TokenDto {
 
 	@Getter
 	@NoArgsConstructor
-	public class Payload {
+	public static class Payload {
 		private String subject;
 
 		private Long id;

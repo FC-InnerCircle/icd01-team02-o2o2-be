@@ -1,8 +1,10 @@
 package org.example.o2o.api.controller.auth;
 
 import org.example.o2o.api.dto.auth.AuthDto.LoginRequest;
+import org.example.o2o.api.dto.auth.AuthDto.LogoutRequest;
 import org.example.o2o.api.dto.auth.AuthDto.ReissueTokenRequest;
 import org.example.o2o.api.service.auth.AuthService;
+import org.example.o2o.common.dto.ApiResponse;
 import org.example.o2o.common.dto.jwt.TokenDto.TokenResponse;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,18 +22,21 @@ public class AuthController {
 	private final AuthService authService;
 
 	@PostMapping("/login")
-	public TokenResponse login(@RequestBody @Valid LoginRequest loginRequest) {
-		return authService.login(loginRequest);
+	public ApiResponse<TokenResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
+		TokenResponse reesponse = authService.login(loginRequest);
+		return ApiResponse.success(reesponse);
 	}
 
 	@PostMapping("/refresh")
-	public TokenResponse refresh(@RequestBody @Valid ReissueTokenRequest reissueTokenRequest) {
-		return authService.reissueToken(reissueTokenRequest);
+	public ApiResponse<TokenResponse> refresh(@RequestBody @Valid ReissueTokenRequest reissueTokenRequest) {
+		TokenResponse response = authService.reissueToken(reissueTokenRequest);
+		return ApiResponse.success(response);
 	}
 
 	@PostMapping("/logout")
-	public String logout() {
-		return "";
+	public ApiResponse<Void> logout(@RequestBody @Valid LogoutRequest logoutRequest) {
+		authService.logout(logoutRequest);
+		return ApiResponse.success();
 	}
 
 }

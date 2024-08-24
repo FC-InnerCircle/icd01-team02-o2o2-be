@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 public enum AccountErrorCode implements ErrorCode {
 
 	DUPLICATED_ACCOUNT_ID(HttpStatus.CONFLICT.value(), String.valueOf(HttpStatus.CONFLICT.value()), "아이디가 존재합니다."),
+	INACTIVE_ACCOUNT_STATUS(HttpStatus.FORBIDDEN.value(), String.valueOf(HttpStatus.FORBIDDEN.value()),
+		"계정이 비활성화 상태입니다."),
 	INVALID_LOGIN_REQUEST(HttpStatus.BAD_REQUEST.value(), String.valueOf(HttpStatus.BAD_REQUEST.value()),
 		"아이디 또는 비밀번호가 잘못 되었습니다. 아이디와 비밀번호를 정확히 입력해 주세요."),
 	NOT_EXISTS_ACCOUNT_ID(HttpStatus.BAD_REQUEST.value(), String.valueOf(HttpStatus.BAD_REQUEST.value()),
