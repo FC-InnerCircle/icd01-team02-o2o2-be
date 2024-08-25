@@ -40,7 +40,8 @@ public class MenuDto {
 			String name,
 			String desc,
 			int price,
-			String thumbImageUrl
+			String thumbImageUrl,
+			int ordering
 		) {
 			public static Menu of(StoreMenu menu) {
 				return Menu.builder()
@@ -50,6 +51,7 @@ public class MenuDto {
 					.desc(menu.getDescription())
 					.price(menu.getPrice())
 					.thumbImageUrl(menu.getThumbImageUrl())
+					.ordering(menu.getOrdering())
 					.build();
 			}
 		}
