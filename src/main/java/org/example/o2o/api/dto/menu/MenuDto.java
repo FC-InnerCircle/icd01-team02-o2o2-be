@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import org.example.o2o.domain.file.FileDetail;
 import org.example.o2o.domain.menu.StoreMenu;
+import org.example.o2o.domain.menu.StoreMenuOption;
+import org.example.o2o.domain.menu.StoreMenuOptionGroup;
 import org.example.o2o.domain.menu.StoreMenuStatus;
 import org.springframework.data.domain.Page;
 
@@ -14,7 +16,10 @@ public class MenuDto {
 
 	@Builder
 	public record StoreMenusResponse(
-		List<Menu> menus, Integer page, Integer size, Long totalLength
+		List<Menu> menus,
+		int page,
+		int size,
+		long totalLength
 	) {
 		public static StoreMenusResponse of(Page<StoreMenu> menuPage) {
 			return StoreMenusResponse.builder()
@@ -30,11 +35,11 @@ public class MenuDto {
 
 		@Builder
 		private record Menu(
-			Integer id,
+			int id,
 			StoreMenuStatus status,
 			String name,
 			String desc,
-			Integer price,
+			int price,
 			String thumbImageUrl
 		) {
 			public static Menu of(StoreMenu menu) {
@@ -44,17 +49,90 @@ public class MenuDto {
 					.name(menu.getName())
 					.desc(menu.getDescription())
 					.price(menu.getPrice())
-					.thumbImageUrl(menu.getImageFileGroup().getDetails().get(0).getPath())
+					.thumbImageUrl(menu.getThumbImageUrl())
 					.build();
 			}
 		}
+	}
 
-		private record Image(
-			Integer seq,
-			String imageUrl
+	@Builder
+	public record StoreMenuDetailResponse(
+		long menuId,
+		StoreMenuStatus status,
+		String name,
+		String desc,
+		int price,
+		List<Image> images,
+		List<MenuOptionGroup> optionGroups
+	) {
+
+		public static StoreMenuDetailResponse of(StoreMenu menu) {
+			return StoreMenuDetailResponse.builder()
+				.menuId(menu.getId())
+				.status(menu.getStatus())
+				.name(menu.getName())
+				.desc(menu.getDescription())
+				.price(menu.getPrice())
+				.images(menu.getImageFileGroup()
+					.getDetails()
+					.stream()
+					.map(Image::of)
+					.collect(Collectors.toList()))
+				.optionGroups(menu.getMenuOptionGroups()
+					.stream()
+					.map(MenuOptionGroup::of)
+					.collect(Collectors.toList()))
+				.build();
+		}
+
+		@Builder
+		public record Image(long imageId, int ordering, String imageUrl) {
+
+			public static Image of(FileDetail detail) {
+				return new Image(detail.getId(), detail.getOrdering(), detail.getPath());
+			}
+		}
+
+		@Builder
+		public record MenuOptionGroup(
+			long optionGroupId,
+			int ordering,
+			boolean isRequired,
+			String title,
+			List<Option> options
 		) {
-			public static Image of(FileDetail fileDetail) {
-				return new Image(fileDetail.getOrdering(), fileDetail.getPath());
+
+			public static MenuOptionGroup of(StoreMenuOptionGroup optionGroup) {
+				return MenuOptionGroup.builder()
+					.optionGroupId(optionGroup.getId())
+					.ordering(optionGroup.getOrdering())
+					.isRequired(optionGroup.getIsRequired())
+					.title(optionGroup.getName())
+					.options(optionGroup.getOptions()
+						.stream()
+						.map(Option::of)
+						.collect(Collectors.toList()))
+					.build();
+			}
+
+			@Builder
+			public record Option(
+				long optionId,
+				int ordering,
+				int price,
+				String name,
+				String desc
+			) {
+
+				public static Option of(StoreMenuOption option) {
+					return Option.builder()
+						.optionId(option.getId())
+						.ordering(option.getOrdering())
+						.price(option.getPrice())
+						.name(option.getName())
+						.desc(option.getDescription())
+						.build();
+				}
 			}
 		}
 	}

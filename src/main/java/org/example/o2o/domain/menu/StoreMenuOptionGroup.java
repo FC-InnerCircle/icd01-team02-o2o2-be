@@ -30,6 +30,6 @@ public class StoreMenuOptionGroup {
 	private List<StoreMenuOption> options;
 
 	private String name;
-	private String isRequired;
+	private Boolean isRequired;
 	private Integer ordering;
 }

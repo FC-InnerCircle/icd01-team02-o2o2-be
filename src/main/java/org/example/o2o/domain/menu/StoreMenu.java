@@ -1,5 +1,6 @@
 package org.example.o2o.domain.menu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.example.o2o.domain.AbstractEntity;
@@ -32,7 +33,7 @@ public class StoreMenu extends AbstractEntity {
 	private Integer id;
 
 	@OneToMany(mappedBy = "menu")
-	private List<StoreMenuOptionGroup> menuOptionGroups;
+	private List<StoreMenuOptionGroup> menuOptionGroups = new ArrayList<>();
 
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "image_file_group_id")
@@ -49,4 +50,11 @@ public class StoreMenu extends AbstractEntity {
 
 	@Enumerated(EnumType.STRING)
 	private StoreMenuStatus status;
+
+	public String getThumbImageUrl() {
+		if (imageFileGroup == null || imageFileGroup.getDetails().isEmpty()) {
+			return "";
+		}
+		return imageFileGroup.getDetails().get(0).getPath();
+	}
 }

@@ -37,4 +37,11 @@ public class MenuController {
 
 		return ApiResponse.success(menusResponse);
 	}
+
+	@GetMapping("/{menuId}")
+	public ApiResponse<MenuDto.StoreMenuDetailResponse> getStoreMenuDetail(@PathVariable(name = "storeId") Long storeId,
+		@PathVariable(name = "menuId") Long menuId) {
+
+		return ApiResponse.success(menuService.findStoreMenuDetail(storeId, menuId));
+	}
 }
