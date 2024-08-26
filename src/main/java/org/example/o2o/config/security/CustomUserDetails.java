@@ -3,6 +3,8 @@ package org.example.o2o.config.security;
 import java.util.Collection;
 import java.util.List;
 
+import org.example.o2o.config.exception.ApiException;
+import org.example.o2o.config.exception.enums.auth.AccountErrorCode;
 import org.example.o2o.domain.auth.Account;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +15,20 @@ public class CustomUserDetails implements UserDetails {
 
 	public CustomUserDetails(Account account) {
 		this.account = account;
+	}
+
+	public Long getId() {
+		return account.getId();
+	}
+
+	public String getAccountId() {
+		return account.getAccountId();
+	}
+
+	public void validateId(Long id) {
+		if (account.getId().compareTo(id) != 0) {
+			throw new ApiException(AccountErrorCode.INVALID_ACCOUNT_INFO);
+		}
 	}
 
 	@Override

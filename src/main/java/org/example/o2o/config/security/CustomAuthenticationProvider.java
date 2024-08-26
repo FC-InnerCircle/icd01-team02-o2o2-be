@@ -1,7 +1,8 @@
 package org.example.o2o.config.security;
 
+import org.example.o2o.config.exception.ApiException;
+import org.example.o2o.config.exception.enums.auth.AccountErrorCode;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -27,7 +28,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 			return new UsernamePasswordAuthenticationToken(username, password, user.getAuthorities());
 		}
 
-		throw new BadCredentialsException("Bad credentials");
+		throw new ApiException(AccountErrorCode.INVALID_LOGIN_REQUEST);
 	}
 
 	@Override

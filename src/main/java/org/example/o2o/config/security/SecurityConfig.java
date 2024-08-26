@@ -1,11 +1,11 @@
 package org.example.o2o.config.security;
 
+import org.example.o2o.common.component.TokenProvider;
 import org.example.o2o.config.security.filter.JwtAuthenticationFilter;
+import org.example.o2o.config.security.handler.CustomAccessDeniedHandler;
+import org.example.o2o.config.security.handler.CustomAuthenticationEntryPoint;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,8 +24,11 @@ import lombok.RequiredArgsConstructor;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-	private final JwtAuthenticationFilter jwtAuthenticationFilter;
-	private final CustomUserDetailsService customUserDetailsService;
+	private final TokenProvider tokenProvider;
+	private final CustomUserDetailsService userDetailsService;
+
+	private final CustomAccessDeniedHandler customAccessDeniedHandler;
+	private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -36,6 +39,7 @@ public class SecurityConfig {
 			.authorizeHttpRequests(authorizeRequests ->
 				authorizeRequests
 					.requestMatchers("/api/v1/auth/*").permitAll()
+					.requestMatchers("/api/v1/accounts/owner").hasRole("OWNER")
 					.anyRequest().permitAll()
 			)
 			.logout(logout ->
@@ -45,7 +49,13 @@ public class SecurityConfig {
 			.sessionManagement(httpSecuritySessionManagementConfigurer ->
 				httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 			)
-			.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+			.exceptionHandling(exceptionHandling ->
+				exceptionHandling.accessDeniedHandler(customAccessDeniedHandler)
+					.authenticationEntryPoint(customAuthenticationEntryPoint)
+			)
+			//.addFilterBefore(new IpWhitelistFilter(), UsernamePasswordAuthenticationFilter.class)
+			.addFilterBefore(new JwtAuthenticationFilter(tokenProvider, userDetailsService),
+				UsernamePasswordAuthenticationFilter.class)
 			.build();
 	}
 
