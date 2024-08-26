@@ -11,6 +11,7 @@ import org.example.o2o.domain.menu.StoreMenuStatus;
 import org.example.o2o.repository.menu.StoreMenuRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,16 +26,19 @@ public class MenuService {
 	/**
 	 * 특정 가게의 모든 메뉴 조회
 	 */
+	@Transactional(readOnly = true)
 	public MenusResponseDto findStoreMenu(final Long storeId, final PageRequest page,
 		final List<StoreMenuStatus> status) {
+
 		return MenusResponseDto.of(menuRepository.findByStoreIdAndStatusIn(storeId, status, page));
 	}
 
 	/**
 	 * 메뉴 상세 조회
 	 */
-	public MenuDetailResponseDto findStoreMenuDetail(final Long storeId, final Long menuId) {
-		StoreMenu menu = menuRepository.findByIdAndStoreId(storeId, menuId)
+	@Transactional(readOnly = true)
+	public MenuDetailResponseDto findStoreMenuDetail(final Long menuId) {
+		StoreMenu menu = menuRepository.findStoreMenuWithDetails(menuId)
 			.orElseThrow(() -> new ApiException(MenuErrorCode.NOTFOUND_MENU));
 
 		return MenuDetailResponseDto.of(menu);

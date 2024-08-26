@@ -7,7 +7,7 @@ import lombok.Builder;
 
 @Builder
 public record MenuResponseDto(
-	int id,
+	long id,
 	StoreMenuStatus status,
 	String name,
 	String desc,

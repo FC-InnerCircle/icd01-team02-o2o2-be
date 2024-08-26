@@ -43,6 +43,6 @@ public class MenuController {
 	public ApiResponse<MenuDetailResponseDto> getStoreMenuDetail(@PathVariable(name = "storeId") Long storeId,
 		@PathVariable(name = "menuId") Long menuId) {
 
-		return ApiResponse.success(menuService.findStoreMenuDetail(storeId, menuId));
+		return ApiResponse.success(menuService.findStoreMenuDetail(menuId));
 	}
 }

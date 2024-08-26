@@ -30,7 +30,7 @@ public class StoreMenu extends AbstractEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@OneToMany(mappedBy = "menu")
 	private List<StoreMenuOptionGroup> menuOptionGroups = new ArrayList<>();

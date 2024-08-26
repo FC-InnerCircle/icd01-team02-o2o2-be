@@ -23,7 +23,7 @@ public class FileGroup extends AbstractEntity {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@Enumerated(EnumType.STRING)
 	private FileGroupType groupType;
