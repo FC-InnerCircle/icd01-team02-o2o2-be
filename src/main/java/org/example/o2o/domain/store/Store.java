@@ -1,11 +1,18 @@
 package org.example.o2o.domain.store;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.example.o2o.domain.AbstractEntity;
+import org.example.o2o.domain.menu.StoreMenu;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -36,4 +43,9 @@ public class Store extends AbstractEntity {
 	private String deliveryArea;
 	private Integer minimumOrderAmount;
 
+	@OneToMany(mappedBy = "store")
+	private List<StoreMenu> menus = new ArrayList<>();
+
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "store")
+	private StoreRateScore storeRateScore;
 }
