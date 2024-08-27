@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.example.o2o.domain.AbstractEntity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -13,11 +14,15 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Builder
 @Entity
 public class FileGroup extends AbstractEntity {
 
@@ -28,6 +33,6 @@ public class FileGroup extends AbstractEntity {
 	@Enumerated(EnumType.STRING)
 	private FileGroupType groupType;
 
-	@OneToMany(mappedBy = "fileGroup")
+	@OneToMany(mappedBy = "fileGroup", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<FileDetail> details = new ArrayList<>();
 }
