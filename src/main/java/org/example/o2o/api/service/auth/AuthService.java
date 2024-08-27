@@ -71,7 +71,7 @@ public class AuthService {
 
 		Long id = tokenProvider.extractPayload(reissueTokenRequest.getRefreshToken()).getId();
 		Account findAccount = accountRepository.findById(id)
-			.orElseThrow(() -> new ApiException(TokenErrorCode.INVALID_TOKEN));
+			.orElseThrow(() -> new ApiException(AccountErrorCode.NOT_EXISTS_ACCOUNT_ID));
 
 		if (!findAccount.isActive()) {
 			throw new ApiException(AccountErrorCode.INACTIVE_ACCOUNT_STATUS);
