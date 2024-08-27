@@ -1,4 +1,3 @@
-
 spring:
   application:
     name: o2o
@@ -19,6 +18,10 @@ spring:
     driverClassName: org.h2.Driver
     username: sa
     password:
+  sql:
+    init:
+      mode: always
+      data-locations: file:sql/data.sql
   h2:
     console:
       enabled: true
@@ -35,6 +38,7 @@ spring:
         highlight_sql: true
         use_sql_comments: true
         show_sql: true
+    defer-datasource-initialization: true
 jwt:
   secret: wRe37FZ7VijwSr25mdaZl4q7Di06YOngs6aRgwYHkDM=
   access:

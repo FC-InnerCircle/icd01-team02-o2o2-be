@@ -16,6 +16,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class SecurityConfig {
 
 	private final TokenProvider tokenProvider;
 	private final CustomUserDetailsService userDetailsService;
+	private final ObjectMapper objectMapper;
 
 	private final CustomAccessDeniedHandler customAccessDeniedHandler;
 	private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
@@ -54,7 +57,7 @@ public class SecurityConfig {
 					.authenticationEntryPoint(customAuthenticationEntryPoint)
 			)
 			//.addFilterBefore(new IpWhitelistFilter(), UsernamePasswordAuthenticationFilter.class)
-			.addFilterBefore(new JwtAuthenticationFilter(tokenProvider, userDetailsService),
+			.addFilterBefore(new JwtAuthenticationFilter(tokenProvider, userDetailsService, objectMapper),
 				UsernamePasswordAuthenticationFilter.class)
 			.build();
 	}

@@ -15,6 +15,8 @@ public enum AccountErrorCode implements ErrorCode {
 		"계정이 비활성화 상태입니다."),
 	INVALID_LOGIN_REQUEST(HttpStatus.BAD_REQUEST.value(), String.valueOf(HttpStatus.BAD_REQUEST.value()),
 		"아이디 또는 비밀번호가 잘못 되었습니다. 아이디와 비밀번호를 정확히 입력해 주세요."),
+	INVALID_ACCOUNT_INFO(HttpStatus.BAD_REQUEST.value(), String.valueOf(HttpStatus.BAD_REQUEST.value()),
+		"계정 정보가 올바르지 않습니다."),
 	NOT_EXISTS_ACCOUNT_ID(HttpStatus.BAD_REQUEST.value(), String.valueOf(HttpStatus.BAD_REQUEST.value()),
 		"아이디가 존재하지 않습니다."),
 	INVALID_EMAIL_FORMAT(HttpStatus.BAD_REQUEST.value(), String.valueOf(HttpStatus.BAD_REQUEST.value()),
