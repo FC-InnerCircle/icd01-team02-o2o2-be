@@ -15,8 +15,8 @@ public interface StoreMenuRepository extends JpaRepository<StoreMenu, Long> {
 
 	@Query(
 		value = "SELECT sm FROM StoreMenu sm"
-			+ " JOIN FETCH sm.menuOptionGroups"
-			+ " JOIN FETCH sm.imageFileGroup"
+			+ " LEFT JOIN FETCH sm.menuOptionGroups"
+			+ " LEFT JOIN FETCH sm.imageFileGroup"
 			+ " WHERE sm.store.id = :storeId AND sm.status IN :statuses",
 		countQuery = "SELECT COUNT(sm) FROM StoreMenu sm"
 			+ " WHERE sm.store.id = :storeId AND sm.status IN :statuses"
