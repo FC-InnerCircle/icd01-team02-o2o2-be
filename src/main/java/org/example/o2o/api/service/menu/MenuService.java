@@ -27,7 +27,7 @@ public class MenuService {
 	 * 특정 가게의 모든 메뉴 조회
 	 */
 	@Transactional(readOnly = true)
-	public MenusResponseDto findStoreMenu(final Long storeId, final PageRequest page,
+	public MenusResponseDto findStoreMenus(final Long storeId, final PageRequest page,
 		final List<StoreMenuStatus> status) {
 
 		return MenusResponseDto.of(menuRepository.findByStoreIdAndStatusIn(storeId, status, page));
