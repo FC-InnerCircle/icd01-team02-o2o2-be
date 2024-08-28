@@ -1,5 +1,6 @@
 package org.example.o2o.domain.menu;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -15,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -27,14 +29,20 @@ public class StoreMenuOptionGroup {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
+	@Setter
 	@ManyToOne
 	@JoinColumn(name = "menu_id")
 	private StoreMenu menu;
 
 	@OneToMany(mappedBy = "optionGroup", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<StoreMenuOption> options;
+	private List<StoreMenuOption> options = new ArrayList<>();
 
-	private String name;
+	private String title;
 	private Boolean isRequired;
 	private Integer ordering;
+
+	public void addMenuOption(StoreMenuOption menuOption) {
+		options.add(menuOption);
+		menuOption.setOptionGroup(this);
+	}
 }

@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.stream.Collectors;
 
-import org.example.o2o.api.dto.file.ImageFileResponseDto;
+import org.example.o2o.api.dto.file.response.ImageFileResponseDto;
 import org.example.o2o.api.dto.menu.request.MenusRequestDto;
 import org.example.o2o.api.dto.menu.response.MenuDetailResponseDto;
 import org.example.o2o.api.dto.menu.response.MenuOptionGroupResponseDto;

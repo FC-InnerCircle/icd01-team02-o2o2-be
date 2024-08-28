@@ -55,6 +55,21 @@ public class StoreMenu extends AbstractEntity {
 	@Enumerated(EnumType.STRING)
 	private StoreMenuStatus status;
 
+	public void setStore(Store store) {
+		this.store = store;
+		store.getMenus().add(this);
+	}
+
+	public void setImageFileGroup(FileGroup fileGroup) {
+		this.imageFileGroup = fileGroup;
+		fileGroup.setMenu(this);
+	}
+
+	public void addMenuOptionGroup(StoreMenuOptionGroup optionGroup) {
+		this.menuOptionGroups.add(optionGroup);
+		optionGroup.setMenu(this);
+	}
+
 	public String getThumbImageUrl() {
 		if (imageFileGroup == null || imageFileGroup.getDetails().isEmpty()) {
 			return "";

@@ -20,7 +20,7 @@ public record MenuOptionGroupResponseDto(
 			.optionGroupId(optionGroup.getId())
 			.ordering(optionGroup.getOrdering())
 			.isRequired(optionGroup.getIsRequired())
-			.title(optionGroup.getName())
+			.title(optionGroup.getTitle())
 			.options(optionGroup.getOptions()
 				.stream()
 				.map(MenuOptionResponseDto::of)

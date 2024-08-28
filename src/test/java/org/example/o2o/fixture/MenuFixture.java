@@ -87,7 +87,7 @@ public class MenuFixture {
 
 		StoreMenuOptionGroup menuOptionGroup = StoreMenuOptionGroup.builder()
 			.options(new ArrayList<>())
-			.name("맵기 선택")
+			.title("맵기 선택")
 			.isRequired(true)
 			.ordering(1)
 			.build();
