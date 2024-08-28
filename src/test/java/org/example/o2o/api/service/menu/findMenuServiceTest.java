@@ -25,7 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
-public class MenuServiceTest {
+public class findMenuServiceTest {
 
 	@Autowired
 	private MenuService menuService;
