@@ -1,4 +1,4 @@
-package org.example.o2o.api.dto.menu;
+package org.example.o2o.api.dto.menu.request;
 
 import java.util.Objects;
 

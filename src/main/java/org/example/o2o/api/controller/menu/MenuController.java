@@ -1,8 +1,8 @@
 package org.example.o2o.api.controller.menu;
 
-import org.example.o2o.api.dto.menu.MenuDetailResponseDto;
-import org.example.o2o.api.dto.menu.MenusRequestDto;
-import org.example.o2o.api.dto.menu.MenusResponseDto;
+import org.example.o2o.api.dto.menu.request.MenusRequestDto;
+import org.example.o2o.api.dto.menu.response.MenuDetailResponseDto;
+import org.example.o2o.api.dto.menu.response.MenusResponseDto;
 import org.example.o2o.api.service.menu.MenuService;
 import org.example.o2o.common.dto.ApiResponse;
 import org.example.o2o.domain.menu.StoreMenuStatus;

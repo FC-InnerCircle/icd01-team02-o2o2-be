@@ -2,8 +2,8 @@ package org.example.o2o.api.service.menu;
 
 import java.util.List;
 
-import org.example.o2o.api.dto.menu.MenuDetailResponseDto;
-import org.example.o2o.api.dto.menu.MenusResponseDto;
+import org.example.o2o.api.dto.menu.response.MenuDetailResponseDto;
+import org.example.o2o.api.dto.menu.response.MenusResponseDto;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.config.exception.enums.menu.MenuErrorCode;
 import org.example.o2o.domain.menu.StoreMenu;

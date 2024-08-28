@@ -1,4 +1,4 @@
-package org.example.o2o.api.dto.menu;
+package org.example.o2o.api.dto.menu.response;
 
 import java.util.List;
 import java.util.stream.Collectors;
