@@ -62,3 +62,8 @@ checkstyle {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+// IntelliJ 빌드시 메인 경로에도 Q Class가 생성되어 삭제 설정
+clean {
+    delete file('src/main/generated')
+}

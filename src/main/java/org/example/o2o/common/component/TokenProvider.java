@@ -9,6 +9,9 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.example.o2o.common.dto.jwt.TokenDto.AccessTokenClaimsInfo;
 import org.example.o2o.common.dto.jwt.TokenDto.Payload;
+import org.example.o2o.config.exception.ApiException;
+import org.example.o2o.config.exception.enums.auth.TokenErrorCode;
+import org.example.o2o.config.exception.enums.common.CommonErrorCode;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -16,10 +19,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.security.SignatureException;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -88,20 +93,28 @@ public class TokenProvider {
 			Jwts.parser().verifyWith(SECRET_KEY).build().parse(token);
 			return true;
 		} catch (SecurityException | MalformedJwtException e) {
-			log.info("Invalid JWT Token", e);
+			log.error("Invalid JWT Token", e);
 		} catch (ExpiredJwtException e) {
-			log.info("Expired JWT Token", e);
+			log.error("Expired JWT Token", e);
 		} catch (UnsupportedJwtException e) {
-			log.info("Unsupported JWT Token", e);
+			log.error("Unsupported JWT Token", e);
 		} catch (IllegalArgumentException e) {
-			log.info("JWT claims string is empty.", e);
+			log.error("JWT claims string is empty.", e);
+		} catch (SignatureException e) {
+			log.error("SignatureException: ", e);
 		}
 		return false;
 	}
 
 	public Payload extractPayload(String token) {
-		Claims claims = Jwts.parser().verifyWith(SECRET_KEY).build().parseSignedClaims(token).getPayload();
-		return objectMapper.convertValue(claims, Payload.class);
+		try {
+			Claims claims = Jwts.parser().verifyWith(SECRET_KEY).build().parseSignedClaims(token).getPayload();
+			return objectMapper.convertValue(claims, Payload.class);
+		} catch (IllegalArgumentException e) {
+			throw new ApiException(CommonErrorCode.UNKNOWN_ERROR);
+		} catch (JwtException e) {
+			throw new ApiException(TokenErrorCode.INVALID_TOKEN);
+		}
 	}
 
 }

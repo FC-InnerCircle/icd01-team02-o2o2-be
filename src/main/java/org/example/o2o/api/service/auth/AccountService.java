@@ -2,6 +2,9 @@ package org.example.o2o.api.service.auth;
 
 import java.util.Optional;
 
+import org.example.o2o.api.dto.auth.AccountDto.FindProfileResponse;
+import org.example.o2o.api.dto.auth.AccountDto.ModifyAccountResponse;
+import org.example.o2o.api.dto.auth.AccountDto.ModifyProfileRequest;
 import org.example.o2o.api.dto.auth.AccountDto.SignupAdminRequest;
 import org.example.o2o.api.dto.auth.AccountDto.SignupAdminResponse;
 import org.example.o2o.api.dto.auth.AccountDto.SignupOwnerRequest;
@@ -12,6 +15,7 @@ import org.example.o2o.domain.auth.Account;
 import org.example.o2o.repository.auth.AccountRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -60,6 +64,39 @@ public class AccountService {
 		Account savedAccount = accountRepository.save(signupRequest.toAccount(encryptedPassword));
 
 		return SignupAdminResponse.of(savedAccount);
+	}
+
+	/**
+	 * 프로필 정보 조회
+	 * @param id 계정 ID
+	 * @return
+	 */
+	public FindProfileResponse findProfileInfo(Long id) {
+		Account findAccount = accountRepository.findById(id)
+			.orElseThrow(() -> new ApiException(AccountErrorCode.NOT_EXISTS_ACCOUNT_ID));
+
+		return FindProfileResponse.of(findAccount);
+	}
+
+	/**
+	 * 프로필 정보 변경
+	 * @param id 계정 ID
+	 * @param modifyRequest 변경할 프로필 정보
+	 * @return 변경이 적용된 최종 계정 정보
+	 */
+	@Transactional
+	public ModifyAccountResponse modifyProfile(Long id, ModifyProfileRequest modifyRequest) {
+		Account findAccount = accountRepository.findById(id)
+			.orElseThrow(() -> new ApiException(AccountErrorCode.NOT_EXISTS_ACCOUNT_ID));
+
+		if (!findAccount.isActive()) {
+			throw new ApiException(AccountErrorCode.INACTIVE_ACCOUNT_STATUS);
+		}
+
+		String encryptedPassword = passwordEncoder.encode(modifyRequest.getPassword());
+		findAccount.updateProfileInfo(modifyRequest.toModifyProfile(encryptedPassword));
+
+		return ModifyAccountResponse.of(findAccount);
 	}
 
 }

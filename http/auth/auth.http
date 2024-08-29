@@ -9,11 +9,10 @@ Content-Type: application/json
 
 ### 리프레쉬 토큰 API
 POST http://localhost:8080/api/v1/auth/refresh
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjQ0MzE2NDUsImV4cCI6MTgxMDgzMTY0NSwic3ViIjoiQWNjZXNzIFRva2VuIiwiaWQiOjEsImFjY291bnRJZCI6ImFkbWluIiwicm9sZSI6IkFETUlOIiwibmFtZSI6Iu2Zjeq4uOuPmSJ9.mDOlJAkd0vijETK2STAmF_jp2DzDqDqdqdHWr91If44
 Content-Type: application/json
 
 {
-  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjQ0MzMwMjcsImV4cCI6MTgxMDgzMzAyNywic3ViIjoiQWNjZXNzIFRva2VuIiwiaWQiOjEsImFjY291bnRJZCI6ImFkbWluIiwicm9sZSI6IkFETUlOIiwibmFtZSI6Iu2Zjeq4uOuPmSJ9.ya6e4ZLJMyjNhZ5XHwRWSRX2RMKZrgwZaVRsLFBTpH8"
+  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjQ0ODc2NjMsImV4cCI6MzMyNjA0ODc2NjMsInN1YiI6IkFjY2VzcyBUb2tlbiIsImlkIjoxLCJhY2NvdW50SWQiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiIsIm5hbWUiOiLtmY3quLjrj5kifQ.HAY5QufE5PwaZT__EOVF1WmuEIMU4pwLMCnor6wnSzU"
 }
 
 ### 로그아웃 API
@@ -21,5 +20,5 @@ POST http://localhost:8080/api/v1/auth/logout
 Content-Type: application/json
 
 {
-  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjQ0MzMwMjcsImV4cCI6MTgxMDgzMzAyNywic3ViIjoiQWNjZXNzIFRva2VuIiwiaWQiOjEsImFjY291bnRJZCI6ImFkbWluIiwicm9sZSI6IkFETUlOIiwibmFtZSI6Iu2Zjeq4uOuPmSJ9.ya6e4ZLJMyjNhZ5XHwRWSRX2RMKZrgwZaVRsLFBTpH8"
+  "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3MjQ0ODc2NjMsImV4cCI6MzMyNjA0ODc2NjMsInN1YiI6IkFjY2VzcyBUb2tlbiIsImlkIjoxLCJhY2NvdW50SWQiOiJhZG1pbiIsInJvbGUiOiJBRE1JTiIsIm5hbWUiOiLtmY3quLjrj5kifQ.HAY5QufE5PwaZT__EOVF1WmuEIMU4pwLMCnor6wnSzU"
 }

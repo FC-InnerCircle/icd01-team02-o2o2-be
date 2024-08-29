@@ -42,6 +42,10 @@ public class Account {
 		return status == AccountStatus.ACTIVE;
 	}
 
+	public void updateStatus(AccountStatus accountStatus) {
+		this.status = accountStatus;
+	}
+
 	public void updateRefreshToken(String refreshToken) {
 		this.refreshToken = refreshToken;
 	}
