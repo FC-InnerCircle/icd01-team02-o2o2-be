@@ -1,6 +1,5 @@
 package org.example.o2o.api.dto.menu.request;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import org.example.o2o.api.dto.file.request.ImageFileCreateRequestDto;
@@ -53,7 +52,6 @@ public record MenuCreateRequestDto(
 			.name(name())
 			.description(desc())
 			.price(price())
-			.menuOptionGroups(new ArrayList<>())
 			.build();
 
 		Arrays.stream(optionGroups()).forEach(optionGroup -> menu.addMenuOptionGroup(optionGroup.to()));

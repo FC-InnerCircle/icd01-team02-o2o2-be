@@ -1,7 +1,6 @@
 package org.example.o2o.fixture;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.example.o2o.domain.file.FileDetail;
@@ -51,7 +50,6 @@ public class MenuFixture {
 
 		FileGroup fileGroup = FileGroup.builder()
 			.groupType(FileGroupType.MENU)
-			.details(new ArrayList<>())
 			.build();
 
 		FileDetail fileDetail1 = FileDetail.builder()
@@ -86,7 +84,6 @@ public class MenuFixture {
 	private static StoreMenuOptionGroup createMenuOptionGroup() {
 
 		StoreMenuOptionGroup menuOptionGroup = StoreMenuOptionGroup.builder()
-			.options(new ArrayList<>())
 			.title("맵기 선택")
 			.isRequired(true)
 			.ordering(1)

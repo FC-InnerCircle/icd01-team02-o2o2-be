@@ -36,6 +36,7 @@ public class StoreMenu extends AbstractEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Builder.Default
 	@OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<StoreMenuOptionGroup> menuOptionGroups = new ArrayList<>();
 

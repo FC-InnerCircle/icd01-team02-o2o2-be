@@ -38,6 +38,7 @@ public class FileGroup extends AbstractEntity {
 	@Enumerated(EnumType.STRING)
 	private FileGroupType groupType;
 
+	@Builder.Default
 	@OneToMany(mappedBy = "fileGroup", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<FileDetail> details = new ArrayList<>();
 

@@ -34,6 +34,7 @@ public class StoreMenuOptionGroup {
 	@JoinColumn(name = "menu_id")
 	private StoreMenu menu;
 
+	@Builder.Default
 	@OneToMany(mappedBy = "optionGroup", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<StoreMenuOption> options = new ArrayList<>();
 
