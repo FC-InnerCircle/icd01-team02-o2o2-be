@@ -19,6 +19,7 @@ import org.example.o2o.fixture.StoreFixture;
 import org.example.o2o.repository.menu.StoreMenuRepository;
 import org.example.o2o.repository.store.StoreRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,8 +42,9 @@ public class CreateMenuServiceTest {
 		storeRepository.deleteAll();
 	}
 
+	@DisplayName("메뉴 등록 성공")
 	@Test
-	void 메뉴등록() {
+	void testCreateMenuSuccessful() {
 		Store store = storeRepository.save(StoreFixture.createStore());
 		StoreMenu menu = MenuFixture.createMenu(store, 1);
 
@@ -52,8 +54,9 @@ public class CreateMenuServiceTest {
 		assertThat(response.name()).isEqualTo(menu.getName());
 	}
 
+	@DisplayName("메뉴 등록 후 조회 성공")
 	@Test
-	void 메뉴등록_조회() {
+	void testCreateAndFindMenuSuccessful() {
 		Store store = storeRepository.save(StoreFixture.createStore());
 		StoreMenu menu = MenuFixture.createMenu(store, 1);
 
@@ -73,8 +76,9 @@ public class CreateMenuServiceTest {
 			.collect(Collectors.toList()));
 	}
 
+	@DisplayName("메뉴 DTO로 등록")
 	@Test
-	void 메뉴등록_dto() {
+	void testCreateMenuByDtoSuccessful() {
 		Store store = storeRepository.save(StoreFixture.createStore());
 
 		MenuOptionCreateRequestDto option1 = new MenuOptionCreateRequestDto(1, "1단계", "", 0);

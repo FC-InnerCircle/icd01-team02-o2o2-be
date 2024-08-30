@@ -17,6 +17,7 @@ import org.example.o2o.fixture.MenuFixture;
 import org.example.o2o.repository.menu.StoreMenuRepository;
 import org.example.o2o.repository.store.StoreRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,7 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @Transactional
-public class findMenuServiceTest {
+public class FindMenuServiceTest {
 
 	@Autowired
 	private MenuService menuService;
@@ -42,8 +43,9 @@ public class findMenuServiceTest {
 		TEST_MENU = menuRepository.save(MenuFixture.createMenu(storeRepository.save(MenuFixture.creatStore()), 1));
 	}
 
+	@DisplayName("메뉴 목록 조회")
 	@Test
-	void 메뉴목록_조회() {
+	void testFindMenusSuccessful() {
 		MenusRequestDto requestDto = new MenusRequestDto(0, 10, "ENABLED", "ordering", Sort.Direction.DESC);
 
 		MenusResponseDto storeMenus = menuService.findStoreMenus(
@@ -56,8 +58,9 @@ public class findMenuServiceTest {
 		assertThat(storeMenus.menus().get(0)).isEqualTo(MenuResponseDto.of(TEST_MENU));
 	}
 
+	@DisplayName("메뉴 목록 조회 - 품절")
 	@Test
-	void 메뉴목록_품절() {
+	void testFindMenusStatusInSoldOutSuccessful() {
 		MenusRequestDto requestDto = new MenusRequestDto(0, 1, "SOLDOUT", "ordering", Sort.Direction.DESC);
 
 		MenusResponseDto storeMenus = menuService.findStoreMenus(
@@ -69,8 +72,9 @@ public class findMenuServiceTest {
 		assertThat(storeMenus.totalLength()).isEqualTo(0);
 	}
 
+	@DisplayName("메뉴 목록 조회 - 페이징")
 	@Test
-	void 메뉴목록_페이징() {
+	void testFindMenusByPagingSuccessful() {
 		menuRepository.save(MenuFixture.createMenu(TEST_MENU.getStore(), 2));
 
 		MenusRequestDto requestDto = new MenusRequestDto(0, 1, "", "ordering", Sort.Direction.DESC);
@@ -85,8 +89,9 @@ public class findMenuServiceTest {
 		assertThat(storeMenus.menus().size()).isEqualTo(1);
 	}
 
+	@DisplayName("메뉴 목록 정렬 - 내림차순")
 	@Test
-	void 메뉴목록_정렬_내림차순() {
+	void testFindMenusOrderByDescSuccessful() {
 		menuRepository.save(MenuFixture.createMenu(TEST_MENU.getStore(), 2));
 
 		MenusRequestDto requestDto = new MenusRequestDto(0, 10, "", "ordering", Sort.Direction.DESC);
@@ -102,8 +107,9 @@ public class findMenuServiceTest {
 		assertThat(storeMenus.menus().get(1).ordering()).isEqualTo(1);
 	}
 
+	@DisplayName("메뉴 목록 정렬 - 오름차순")
 	@Test
-	void 메뉴목록_정렬_오름차순() {
+	void testFindMenusOrderByAscSuccessful() {
 		menuRepository.save(MenuFixture.createMenu(TEST_MENU.getStore(), 2));
 
 		MenusRequestDto requestDto = new MenusRequestDto(0, 10, "", "ordering", Sort.Direction.ASC);
@@ -119,8 +125,9 @@ public class findMenuServiceTest {
 		assertThat(storeMenus.menus().get(1).ordering()).isEqualTo(2);
 	}
 
+	@DisplayName("메뉴 상세정보 조회")
 	@Test
-	void 메뉴상세정보_조회() {
+	void testFindMenuDetailSuccessful() {
 		MenuDetailResponseDto menuDetail = menuService.findStoreMenuDetail(TEST_MENU.getId());
 
 		assertThat(menuDetail.name()).isEqualTo(TEST_MENU.getName());
@@ -136,8 +143,9 @@ public class findMenuServiceTest {
 			.collect(Collectors.toList()));
 	}
 
+	@DisplayName("메뉴 상세정보 조회 - 실패")
 	@Test
-	void 메뉴상세정보_조회실패() {
+	void testFindMenuDetailFail() {
 		assertThatThrownBy(() -> menuService.findStoreMenuDetail(99L))
 			.isInstanceOf(ApiException.class);
 	}
