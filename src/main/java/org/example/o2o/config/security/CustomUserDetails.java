@@ -34,7 +34,7 @@ public class CustomUserDetails implements UserDetails {
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		CustomUserDetailsAuthority customUserDetailsAuthority = new CustomUserDetailsAuthority(
-			account.getRole().name());
+			"ROLE_" + account.getRole().name());
 		return List.of(customUserDetailsAuthority);
 	}
 
