@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -38,6 +40,9 @@ public class AccountController {
 	private final AccountService accountService;
 
 	@Operation(summary = "점주 회원가입", description = "점주 정보로 회원가입합니다.")
+	@Parameters({
+		@Parameter(name = "Authorization", description = "Bearer Token을 포함한 인증 헤더", required = true),
+	})
 	@ApiResponse(responseCode = "200", description = "회원가입 후 등록된 회원 정보를 반환합니다.")
 	@ApiResponse(responseCode = "409", description = "아이디가 중복된 경우",
 		content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
@@ -50,6 +55,9 @@ public class AccountController {
 	}
 
 	@Operation(summary = "관리자 회원가입", description = "관리자 정보로 회원가입합니다.")
+	@Parameters({
+		@Parameter(name = "Authorization", description = "Bearer Token을 포함한 인증 헤더", required = true),
+	})
 	@ApiResponse(responseCode = "200", description = "회원가입 후 등록된 회원 정보를 반환합니다.")
 	@ApiResponse(responseCode = "409", description = "아이디가 중복된 경우",
 		content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
@@ -62,6 +70,9 @@ public class AccountController {
 	}
 
 	@Operation(summary = "프로필 정보 조회", description = "계정 ID에 해당하는 프로필 정보를 조회합니다.")
+	@Parameters({
+		@Parameter(name = "Authorization", description = "Bearer Token을 포함한 인증 헤더", required = true),
+	})
 	@ApiResponse(responseCode = "200", description = "계정의 프로필 정보를 반환합니다.")
 	@ApiResponse(responseCode = "400", description = "아이디가 존재하지 않는 경우",
 		content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
@@ -76,6 +87,9 @@ public class AccountController {
 	}
 
 	@Operation(summary = "프로필 정보 변경", description = "계정 ID에 해당하는 프로필 정보를 변경합니다.")
+	@Parameters({
+		@Parameter(name = "Authorization", description = "Bearer Token을 포함한 인증 헤더", required = true),
+	})
 	@ApiResponse(responseCode = "200", description = "프로필 정보를 변경하고 변경된 프로필 정보를 반환합니다.")
 	@ApiResponse(responseCode = "400", description = "아이디가 존재하지 않는 경우",
 		content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
