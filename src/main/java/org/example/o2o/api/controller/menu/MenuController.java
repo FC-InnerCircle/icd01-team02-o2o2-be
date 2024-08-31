@@ -55,6 +55,6 @@ public class MenuController {
 		@PathVariable(name = "storeId") Long storeId,
 		@RequestBody @Valid MenuCreateRequestDto requestDto) {
 
-		return org.example.o2o.common.dto.ApiResponse.success(menuService.register(storeId, requestDto.to()));
+		return org.example.o2o.common.dto.ApiResponse.success(menuService.register(storeId, requestDto.toStoreMenu()));
 	}
 }

@@ -18,7 +18,7 @@ public record ImageFileCreateRequestDto(
 	@NotNull(message = "이미지 URL은 필수입니다.")
 	String imageUrl
 ) {
-	FileDetail to() {
+	FileDetail toFileDetail() {
 		return FileDetail.builder()
 			.ordering(ordering())
 			.path(imageUrl())
@@ -30,7 +30,7 @@ public record ImageFileCreateRequestDto(
 			.groupType(type)
 			.build();
 
-		Arrays.stream(images).forEach(image -> fileGroup.addDetail(image.to()));
+		Arrays.stream(images).forEach(image -> fileGroup.addDetail(image.toFileDetail()));
 		return fileGroup;
 	}
 }

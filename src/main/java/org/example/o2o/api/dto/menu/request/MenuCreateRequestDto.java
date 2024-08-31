@@ -45,7 +45,7 @@ public record MenuCreateRequestDto(
 	@Length(min = 1, message = "이미지는 하나 이상 등록 되어야 합니다.")
 	ImageFileCreateRequestDto[] images
 ) {
-	public StoreMenu to() {
+	public StoreMenu toStoreMenu() {
 		StoreMenu menu = StoreMenu.builder()
 			.ordering(ordering())
 			.status(status())
@@ -54,7 +54,8 @@ public record MenuCreateRequestDto(
 			.price(price())
 			.build();
 
-		Arrays.stream(optionGroups()).forEach(optionGroup -> menu.addMenuOptionGroup(optionGroup.to()));
+		Arrays.stream(optionGroups())
+			.forEach(optionGroup -> menu.addMenuOptionGroup(optionGroup.toStoreMenuOptionGroup()));
 		menu.setImageFileGroup(ImageFileCreateRequestDto.createFileGroup(images(), FileGroupType.MENU));
 		return menu;
 	}

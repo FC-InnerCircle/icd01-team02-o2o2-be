@@ -103,7 +103,7 @@ public class CreateMenuServiceTest {
 			new ImageFileCreateRequestDto[] {image1, image2}
 		);
 
-		MenuDetailResponseDto response = menuService.register(store.getId(), menu.to());
+		MenuDetailResponseDto response = menuService.register(store.getId(), menu.toStoreMenu());
 
 		assertThat(menuRepository.count()).isEqualTo(1);
 		assertThat(response.name()).isEqualTo(menu.name());

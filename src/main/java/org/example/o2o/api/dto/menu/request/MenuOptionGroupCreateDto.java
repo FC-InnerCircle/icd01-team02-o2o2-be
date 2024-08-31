@@ -25,14 +25,14 @@ public record MenuOptionGroupCreateDto(
 	@Length(min = 1, message = "옵션 항목은 하나 이상 등록되어야 합니다.")
 	MenuOptionCreateRequestDto[] options
 ) {
-	StoreMenuOptionGroup to() {
+	StoreMenuOptionGroup toStoreMenuOptionGroup() {
 		StoreMenuOptionGroup optionGroup = StoreMenuOptionGroup.builder()
 			.ordering(ordering())
 			.title(title())
 			.isRequired(isRequired())
 			.build();
 
-		Arrays.stream(options).forEach(option -> optionGroup.addMenuOption(option.to()));
+		Arrays.stream(options).forEach(option -> optionGroup.addMenuOption(option.toStoreMenuOption()));
 		return optionGroup;
 	}
 }

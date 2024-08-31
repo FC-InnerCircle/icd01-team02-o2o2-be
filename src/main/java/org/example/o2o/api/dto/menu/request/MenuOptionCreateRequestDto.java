@@ -22,7 +22,7 @@ public record MenuOptionCreateRequestDto(
 	@Min(value = 0, message = "메뉴 옵션 가격은 최소 0원입니다.")
 	Integer price
 ) {
-	StoreMenuOption to() {
+	StoreMenuOption toStoreMenuOption() {
 		return StoreMenuOption.builder()
 			.ordering(ordering())
 			.name(name())
