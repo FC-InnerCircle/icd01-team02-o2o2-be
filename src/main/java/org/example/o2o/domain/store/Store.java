@@ -6,6 +6,7 @@ import java.util.List;
 import org.example.o2o.domain.AbstractEntity;
 import org.example.o2o.domain.menu.StoreMenu;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -43,7 +44,7 @@ public class Store extends AbstractEntity {
 	private String deliveryArea;
 	private Integer minimumOrderAmount;
 
-	@OneToMany(mappedBy = "store")
+	@OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
 	private List<StoreMenu> menus = new ArrayList<>();
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "store")

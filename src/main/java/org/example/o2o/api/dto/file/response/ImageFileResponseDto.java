@@ -1,4 +1,4 @@
-package org.example.o2o.api.dto.file;
+package org.example.o2o.api.dto.file.response;
 
 import org.example.o2o.domain.file.FileDetail;
 

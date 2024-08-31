@@ -2,13 +2,16 @@ package org.example.o2o.api.service.menu;
 
 import java.util.List;
 
-import org.example.o2o.api.dto.menu.MenuDetailResponseDto;
-import org.example.o2o.api.dto.menu.MenusResponseDto;
+import org.example.o2o.api.dto.menu.response.MenuDetailResponseDto;
+import org.example.o2o.api.dto.menu.response.MenusResponseDto;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.config.exception.enums.menu.MenuErrorCode;
+import org.example.o2o.config.exception.enums.store.StoreErrorCode;
 import org.example.o2o.domain.menu.StoreMenu;
 import org.example.o2o.domain.menu.StoreMenuStatus;
+import org.example.o2o.domain.store.Store;
 import org.example.o2o.repository.menu.StoreMenuRepository;
+import org.example.o2o.repository.store.StoreRepository;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class MenuService {
 
+	private final StoreRepository storeRepository;
 	private final StoreMenuRepository menuRepository;
 
 	/**
@@ -42,5 +46,17 @@ public class MenuService {
 			.orElseThrow(() -> new ApiException(MenuErrorCode.NOTFOUND_MENU));
 
 		return MenuDetailResponseDto.of(menu);
+	}
+
+	/**
+	 * 메뉴 단일 등록
+	 */
+	@Transactional
+	public MenuDetailResponseDto register(final Long storeId, final StoreMenu menu) {
+		Store store = storeRepository.findById(storeId)
+			.orElseThrow(() -> new ApiException(StoreErrorCode.NOT_EXISTS_STORE));
+
+		menu.setStore(store);
+		return MenuDetailResponseDto.of(menuRepository.save(menu));
 	}
 }

@@ -1,4 +1,4 @@
-package org.example.o2o.api.dto.menu;
+package org.example.o2o.api.dto.menu.request;
 
 import java.util.Objects;
 
@@ -17,16 +17,21 @@ public record MenusRequestDto(
 
 	@Builder
 	public MenusRequestDto {
-		if (Objects.isNull(page))
+		if (Objects.isNull(page)) {
 			page = 0;
-		if (Objects.isNull(size))
+		}
+		if (Objects.isNull(size)) {
 			size = 10;
-		if (Objects.isNull(status))
+		}
+		if (Objects.isNull(status)) {
 			status = "";
-		if (Objects.isNull(sortField))
+		}
+		if (Objects.isNull(sortField)) {
 			sortField = "ordering";
-		if (Objects.isNull(sortDirection))
+		}
+		if (Objects.isNull(sortDirection)) {
 			sortDirection = Sort.Direction.DESC;
+		}
 	}
 
 	public PageRequest toPageRequest() {

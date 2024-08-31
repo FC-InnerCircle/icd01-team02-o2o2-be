@@ -1,4 +1,4 @@
-package org.example.o2o.api.dto.menu;
+package org.example.o2o.api.dto.menu.response;
 
 import org.example.o2o.domain.menu.StoreMenu;
 import org.example.o2o.domain.menu.StoreMenuStatus;

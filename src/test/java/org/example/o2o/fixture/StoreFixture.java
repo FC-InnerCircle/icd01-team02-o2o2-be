@@ -1,5 +1,7 @@
 package org.example.o2o.fixture;
 
+import java.util.ArrayList;
+
 import org.example.o2o.domain.store.Store;
 
 public class StoreFixture {
@@ -18,6 +20,7 @@ public class StoreFixture {
 			.category("Korean")
 			.deliveryArea("테스트구")
 			.minimumOrderAmount(10000)
+			.menus(new ArrayList<>())
 			.build();
 	}
 
@@ -35,6 +38,7 @@ public class StoreFixture {
 			.category(category)
 			.deliveryArea("테스트구")
 			.minimumOrderAmount(10000)
+			.menus(new ArrayList<>())
 			.build();
 	}
 }
