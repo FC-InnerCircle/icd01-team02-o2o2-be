@@ -2,6 +2,7 @@ package org.example.o2o.common.dto.jwt;
 
 import org.example.o2o.domain.auth.Account;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,10 @@ public class TokenDto {
 	@NoArgsConstructor
 	@AllArgsConstructor
 	public static class TokenResponse {
+		@Schema(description = "액세스 토큰", example = "aaa.bbb.ccc")
 		private String accessToken;
+
+		@Schema(description = "리프레쉬 토큰", example = "aaa.bbb.ccc")
 		private String refreshToken;
 	}
 
