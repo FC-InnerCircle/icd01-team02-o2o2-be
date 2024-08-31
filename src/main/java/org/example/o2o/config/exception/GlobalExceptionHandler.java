@@ -1,5 +1,8 @@
 package org.example.o2o.config.exception;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 import org.example.o2o.config.exception.enums.ErrorCode;
 import org.example.o2o.config.exception.enums.common.CommonErrorCode;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -105,6 +110,26 @@ public class GlobalExceptionHandler {
 		log.error("HTTP_MESSAGE_NOT_READABLE_EXCEPTION: ", ex);
 
 		ErrorCode errorCode = CommonErrorCode.BAD_REQUEST;
+
+		Throwable cause = ex.getCause();
+		if (cause instanceof InvalidFormatException) {
+			InvalidFormatException ife = (InvalidFormatException)cause;
+
+			if (ife.getTargetType().isEnum()) {
+				String enumClassName = ife.getTargetType().getSimpleName();
+				String invalidValue = ife.getValue().toString();
+				String allowedValues = Arrays.stream(ife.getTargetType().getEnumConstants())
+					.map(Object::toString)
+					.collect(Collectors.joining(", "));
+
+				String message = String.format("%s으로 '%s' 값을 사용할 수 없습니다. [%s]", enumClassName, invalidValue,
+					allowedValues);
+
+				return ResponseEntity
+					.status(errorCode.getHttpStatusCode())
+					.body(ErrorResponse.of(errorCode.getErrorCode(), message));
+			}
+		}
 
 		return ResponseEntity
 			.status(errorCode.getHttpStatusCode())
