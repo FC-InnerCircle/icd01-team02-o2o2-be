@@ -20,12 +20,12 @@ import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/stores/{storeId}/menus")
+@RequestMapping("/api/v1")
 public class MenuController {
 
 	private final MenuService menuService;
 
-	@GetMapping
+	@GetMapping("/stores/{storeId}/menus")
 	public org.example.o2o.common.dto.ApiResponse<MenusResponseDto> getStoreMenus(
 		@PathVariable(name = "storeId") Long storeId, MenusRequestDto requestDto
 	) {
@@ -39,9 +39,8 @@ public class MenuController {
 		return org.example.o2o.common.dto.ApiResponse.success(menusDto);
 	}
 
-	@GetMapping("/{menuId}")
+	@GetMapping("/menus/{menuId}")
 	public org.example.o2o.common.dto.ApiResponse<MenuDetailResponseDto> getStoreMenuDetail(
-		@PathVariable(name = "storeId") Long storeId,
 		@PathVariable(name = "menuId") Long menuId) {
 
 		return org.example.o2o.common.dto.ApiResponse.success(menuService.findStoreMenuDetail(menuId));
@@ -50,7 +49,7 @@ public class MenuController {
 	@Operation(summary = "메뉴 등록", description = "store id에 해당하는 가게에 메뉴를 등록합니다.")
 	@ApiResponse(responseCode = "200", description = "메뉴를 성공적으로 저장 후 저장 된 값을 반환합니다.")
 	@ApiResponse(responseCode = "400", description = "유효하지 않은 스토어 ID입니다.")
-	@PostMapping
+	@PostMapping("/stores/{storeId}/menus")
 	public org.example.o2o.common.dto.ApiResponse<MenuDetailResponseDto> registerMenu(
 		@PathVariable(name = "storeId") Long storeId,
 		@RequestBody @Valid MenuCreateRequestDto requestDto) {
