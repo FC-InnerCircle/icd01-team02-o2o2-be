@@ -11,11 +11,11 @@ import org.example.o2o.api.dto.menu.request.MenuOptionCreateRequestDto;
 import org.example.o2o.api.dto.menu.request.MenuOptionGroupCreateDto;
 import org.example.o2o.api.dto.menu.response.MenuDetailResponseDto;
 import org.example.o2o.api.dto.menu.response.MenuOptionGroupResponseDto;
+import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.domain.menu.StoreMenu;
 import org.example.o2o.domain.menu.StoreMenuStatus;
 import org.example.o2o.domain.store.Store;
 import org.example.o2o.fixture.MenuFixture;
-import org.example.o2o.fixture.StoreFixture;
 import org.example.o2o.repository.menu.StoreMenuRepository;
 import org.example.o2o.repository.store.StoreRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,24 +31,26 @@ public class CreateMenuServiceTest {
 
 	@Autowired
 	private MenuService menuService;
+
 	@Autowired
 	private StoreRepository storeRepository;
+
 	@Autowired
 	private StoreMenuRepository menuRepository;
 
+	private Store testStore = null;
+
 	@BeforeEach
 	void setUp() {
-		menuRepository.deleteAll();
 		storeRepository.deleteAll();
+		testStore = storeRepository.save(MenuFixture.creatStore());
 	}
 
 	@DisplayName("메뉴 등록 성공")
 	@Test
 	void testCreateMenuSuccessful() {
-		Store store = storeRepository.save(StoreFixture.createStore());
-		StoreMenu menu = MenuFixture.createMenu(store, 1);
-
-		MenuDetailResponseDto response = menuService.register(store.getId(), menu);
+		StoreMenu menu = MenuFixture.createMenu(testStore, 1);
+		MenuDetailResponseDto response = menuService.register(testStore.getId(), menu);
 
 		assertThat(menuRepository.count()).isEqualTo(1);
 		assertThat(response.name()).isEqualTo(menu.getName());
@@ -57,10 +59,8 @@ public class CreateMenuServiceTest {
 	@DisplayName("메뉴 등록 후 조회 성공")
 	@Test
 	void testCreateAndFindMenuSuccessful() {
-		Store store = storeRepository.save(StoreFixture.createStore());
-		StoreMenu menu = MenuFixture.createMenu(store, 1);
-
-		MenuDetailResponseDto saveMenu = menuService.register(store.getId(), menu);
+		StoreMenu menu = MenuFixture.createMenu(testStore, 1);
+		MenuDetailResponseDto saveMenu = menuService.register(testStore.getId(), menu);
 		MenuDetailResponseDto response = menuService.findStoreMenuDetail(saveMenu.menuId());
 
 		assertThat(response.menuId()).isEqualTo(saveMenu.menuId());
@@ -79,8 +79,6 @@ public class CreateMenuServiceTest {
 	@DisplayName("메뉴 DTO로 등록")
 	@Test
 	void testCreateMenuByDtoSuccessful() {
-		Store store = storeRepository.save(StoreFixture.createStore());
-
 		MenuOptionCreateRequestDto option1 = new MenuOptionCreateRequestDto(1, "1단계", "", 0);
 		MenuOptionCreateRequestDto option2 = new MenuOptionCreateRequestDto(2, "2단계", "", 0);
 		MenuOptionGroupCreateDto optionGroup = new MenuOptionGroupCreateDto(
@@ -103,7 +101,7 @@ public class CreateMenuServiceTest {
 			new ImageFileCreateRequestDto[] {image1, image2}
 		);
 
-		MenuDetailResponseDto response = menuService.register(store.getId(), menu.toStoreMenu());
+		MenuDetailResponseDto response = menuService.register(testStore.getId(), menu.toStoreMenu());
 
 		assertThat(menuRepository.count()).isEqualTo(1);
 		assertThat(response.name()).isEqualTo(menu.name());
@@ -112,5 +110,14 @@ public class CreateMenuServiceTest {
 		assertThat(response.optionGroups().get(0).options().get(1).name()).isEqualTo(option2.name());
 		assertThat(response.images().get(0).imageUrl()).isEqualTo(image1.imageUrl());
 		assertThat(response.images().get(1).imageUrl()).isEqualTo(image2.imageUrl());
+	}
+
+	@Test
+	void testCreateMenuFail_store404() {
+		StoreMenu menu = MenuFixture.createMenu(testStore, 1);
+		menuService.register(testStore.getId(), menu);
+
+		assertThatThrownBy(() -> menuService.register(999L, menu))
+			.isInstanceOf(ApiException.class);
 	}
 }

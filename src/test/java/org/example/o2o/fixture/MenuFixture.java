@@ -1,6 +1,7 @@
 package org.example.o2o.fixture;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.example.o2o.domain.file.FileDetail;
@@ -43,6 +44,7 @@ public class MenuFixture {
 			.category("테스트 카테고리")
 			.deliveryArea("테스트 지역")
 			.minimumOrderAmount(10000)
+			.menus(new ArrayList<>())
 			.build();
 	}
 

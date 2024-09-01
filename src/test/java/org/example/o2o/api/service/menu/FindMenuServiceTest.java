@@ -30,8 +30,10 @@ public class FindMenuServiceTest {
 
 	@Autowired
 	private MenuService menuService;
+
 	@Autowired
 	private StoreRepository storeRepository;
+
 	@Autowired
 	private StoreMenuRepository menuRepository;
 
@@ -39,7 +41,7 @@ public class FindMenuServiceTest {
 
 	@BeforeEach
 	void setUp() {
-		menuRepository.deleteAll();
+		storeRepository.deleteAll();
 		testMenu = menuRepository.save(MenuFixture.createMenu(storeRepository.save(MenuFixture.creatStore()), 1));
 	}
 
