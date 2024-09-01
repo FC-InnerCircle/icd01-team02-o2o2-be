@@ -11,6 +11,7 @@ import org.example.o2o.common.dto.file.FileDto.UploadFileResponse;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.config.exception.enums.file.FileErrorCode;
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,19 @@ public class LocalFileManager implements FileManager {
 
 	@Override
 	public List<UploadFileResponse> storeFiles(List<MultipartFile> files) {
-		return files.stream()
+		if (ObjectUtils.isEmpty(files)) {
+			return null;
+		}
+
+		List<MultipartFile> validFiles = files.stream()
+			.filter(file -> !file.isEmpty())
+			.toList();
+
+		if (validFiles.isEmpty()) {
+			return null;
+		}
+
+		return validFiles.stream()
 			.map(this::storeFile)
 			.toList();
 	}
