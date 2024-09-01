@@ -59,4 +59,15 @@ public class MenuService {
 		menu.setStore(store);
 		return MenuDetailResponseDto.of(menuRepository.save(menu));
 	}
+
+	/**
+	 * 메뉴 단일 삭제
+	 */
+	@Transactional
+	public void delete(final Long menuId) {
+		StoreMenu menu = menuRepository.findById(menuId)
+			.orElseThrow(() -> new ApiException(MenuErrorCode.NOTFOUND_MENU));
+
+		menuRepository.delete(menu);
+	}
 }

@@ -6,6 +6,7 @@ import org.example.o2o.api.dto.menu.response.MenuDetailResponseDto;
 import org.example.o2o.api.dto.menu.response.MenusResponseDto;
 import org.example.o2o.api.service.menu.MenuService;
 import org.example.o2o.domain.menu.StoreMenuStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -55,5 +56,13 @@ public class MenuController {
 		@RequestBody @Valid MenuCreateRequestDto requestDto) {
 
 		return org.example.o2o.common.dto.ApiResponse.success(menuService.register(storeId, requestDto.toStoreMenu()));
+	}
+
+	@DeleteMapping("/menus/{menuId}")
+	public org.example.o2o.common.dto.ApiResponse<Void> deleteMenu(@PathVariable(name = "menuId") Long menuId) {
+
+		menuService.delete(menuId);
+
+		return org.example.o2o.common.dto.ApiResponse.success();
 	}
 }
