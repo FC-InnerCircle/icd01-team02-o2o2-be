@@ -25,7 +25,7 @@ public record MenuOptionGroupCreateDto(
 	@Length(min = 1, message = "옵션 항목은 하나 이상 등록되어야 합니다.")
 	MenuOptionCreateRequestDto[] options
 ) {
-	StoreMenuOptionGroup toStoreMenuOptionGroup() {
+	public StoreMenuOptionGroup toStoreMenuOptionGroup() {
 		StoreMenuOptionGroup optionGroup = StoreMenuOptionGroup.builder()
 			.ordering(ordering())
 			.title(title())
