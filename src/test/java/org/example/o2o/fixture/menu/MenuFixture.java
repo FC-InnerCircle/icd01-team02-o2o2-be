@@ -1,4 +1,4 @@
-package org.example.o2o.fixture;
+package org.example.o2o.fixture.menu;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,24 +25,6 @@ public class MenuFixture {
 			.ordering(ordering)
 			.store(store)
 			.status(StoreMenuStatus.ENABLED)
-			.build();
-	}
-
-	public static Store creatStore() {
-
-		return Store.builder()
-			.name("테스트 가게")
-			.contactNumber("010-1234-5678")
-			.zipCode("111-11")
-			.address("테스트 주소")
-			.addressDetail("테스트 상세 주소")
-			.latitude("11.11")
-			.longitude("99.99")
-			.openTime("09:00")
-			.closeTime("18:00")
-			.category("테스트 카테고리")
-			.deliveryArea("테스트 지역")
-			.minimumOrderAmount(10000)
 			.build();
 	}
 

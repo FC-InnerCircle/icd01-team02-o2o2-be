@@ -13,7 +13,9 @@ import org.example.o2o.api.dto.menu.response.MenusResponseDto;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.domain.menu.StoreMenu;
 import org.example.o2o.domain.menu.StoreMenuStatus;
-import org.example.o2o.fixture.MenuFixture;
+import org.example.o2o.domain.store.Store;
+import org.example.o2o.fixture.StoreFixture;
+import org.example.o2o.fixture.menu.MenuFixture;
 import org.example.o2o.repository.menu.StoreMenuRepository;
 import org.example.o2o.repository.store.StoreRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,41 +32,47 @@ public class FindMenuServiceTest {
 
 	@Autowired
 	private MenuService menuService;
+
 	@Autowired
 	private StoreRepository storeRepository;
+
 	@Autowired
 	private StoreMenuRepository menuRepository;
 
-	private StoreMenu testMenu = null;
+	private Store testStore = null;
 
 	@BeforeEach
 	void setUp() {
-		menuRepository.deleteAll();
-		testMenu = menuRepository.save(MenuFixture.createMenu(storeRepository.save(MenuFixture.creatStore()), 1));
+		storeRepository.deleteAll();
+		testStore = storeRepository.save(StoreFixture.createStore());
 	}
 
 	@DisplayName("메뉴 목록 조회")
 	@Test
 	void testFindMenusSuccessful() {
+		StoreMenu menu = menuRepository.save(MenuFixture.createMenu(testStore, 1));
+
 		MenusRequestDto requestDto = new MenusRequestDto(0, 10, "ENABLED", "ordering", Sort.Direction.DESC);
 
 		MenusResponseDto storeMenus = menuService.findStoreMenus(
-			testMenu.getStore().getId(),
+			menu.getStore().getId(),
 			requestDto.toPageRequest(),
 			StoreMenuStatus.getMenuStatuses(requestDto.status())
 		);
 
 		assertThat(storeMenus.totalLength()).isEqualTo(1);
-		assertThat(storeMenus.menus().get(0)).isEqualTo(MenuResponseDto.of(testMenu));
+		assertThat(storeMenus.menus().get(0)).isEqualTo(MenuResponseDto.of(menu));
 	}
 
 	@DisplayName("메뉴 목록 조회 - 품절")
 	@Test
 	void testFindMenusStatusInSoldOutSuccessful() {
+		StoreMenu menu = menuRepository.save(MenuFixture.createMenu(testStore, 1));
+
 		MenusRequestDto requestDto = new MenusRequestDto(0, 1, "SOLDOUT", "ordering", Sort.Direction.DESC);
 
 		MenusResponseDto storeMenus = menuService.findStoreMenus(
-			testMenu.getStore().getId(),
+			menu.getStore().getId(),
 			requestDto.toPageRequest(),
 			StoreMenuStatus.getMenuStatuses(requestDto.status())
 		);
@@ -75,12 +83,14 @@ public class FindMenuServiceTest {
 	@DisplayName("메뉴 목록 조회 - 페이징")
 	@Test
 	void testFindMenusByPagingSuccessful() {
-		menuRepository.save(MenuFixture.createMenu(testMenu.getStore(), 2));
+		StoreMenu menu = menuRepository.save(MenuFixture.createMenu(testStore, 1));
+
+		menuRepository.save(MenuFixture.createMenu(menu.getStore(), 2));
 
 		MenusRequestDto requestDto = new MenusRequestDto(0, 1, "", "ordering", Sort.Direction.DESC);
 
 		MenusResponseDto storeMenus = menuService.findStoreMenus(
-			testMenu.getStore().getId(),
+			menu.getStore().getId(),
 			requestDto.toPageRequest(),
 			StoreMenuStatus.getMenuStatuses(requestDto.status())
 		);
@@ -92,12 +102,14 @@ public class FindMenuServiceTest {
 	@DisplayName("메뉴 목록 정렬 - 내림차순")
 	@Test
 	void testFindMenusOrderByDescSuccessful() {
-		menuRepository.save(MenuFixture.createMenu(testMenu.getStore(), 2));
+		StoreMenu menu = menuRepository.save(MenuFixture.createMenu(testStore, 1));
+
+		menuRepository.save(MenuFixture.createMenu(menu.getStore(), 2));
 
 		MenusRequestDto requestDto = new MenusRequestDto(0, 10, "", "ordering", Sort.Direction.DESC);
 
 		MenusResponseDto storeMenus = menuService.findStoreMenus(
-			testMenu.getStore().getId(),
+			menu.getStore().getId(),
 			requestDto.toPageRequest(),
 			StoreMenuStatus.getMenuStatuses(requestDto.status())
 		);
@@ -110,12 +122,14 @@ public class FindMenuServiceTest {
 	@DisplayName("메뉴 목록 정렬 - 오름차순")
 	@Test
 	void testFindMenusOrderByAscSuccessful() {
-		menuRepository.save(MenuFixture.createMenu(testMenu.getStore(), 2));
+		StoreMenu menu = menuRepository.save(MenuFixture.createMenu(testStore, 1));
+
+		menuRepository.save(MenuFixture.createMenu(menu.getStore(), 2));
 
 		MenusRequestDto requestDto = new MenusRequestDto(0, 10, "", "ordering", Sort.Direction.ASC);
 
 		MenusResponseDto storeMenus = menuService.findStoreMenus(
-			testMenu.getStore().getId(),
+			menu.getStore().getId(),
 			requestDto.toPageRequest(),
 			StoreMenuStatus.getMenuStatuses(requestDto.status())
 		);
@@ -128,16 +142,18 @@ public class FindMenuServiceTest {
 	@DisplayName("메뉴 상세정보 조회")
 	@Test
 	void testFindMenuDetailSuccessful() {
-		MenuDetailResponseDto menuDetail = menuService.findStoreMenuDetail(testMenu.getId());
+		StoreMenu menu = menuRepository.save(MenuFixture.createMenu(testStore, 1));
 
-		assertThat(menuDetail.name()).isEqualTo(testMenu.getName());
-		assertThat(menuDetail.status()).isEqualTo(testMenu.getStatus());
-		assertThat(menuDetail.images()).containsAll(testMenu.getImageFileGroup()
+		MenuDetailResponseDto menuDetail = menuService.findStoreMenuDetail(menu.getId());
+
+		assertThat(menuDetail.name()).isEqualTo(menu.getName());
+		assertThat(menuDetail.status()).isEqualTo(menu.getStatus());
+		assertThat(menuDetail.images()).containsAll(menu.getImageFileGroup()
 			.getDetails()
 			.stream()
 			.map(ImageFileResponseDto::of)
 			.collect(Collectors.toList()));
-		assertThat(menuDetail.optionGroups()).containsAll(testMenu.getMenuOptionGroups()
+		assertThat(menuDetail.optionGroups()).containsAll(menu.getMenuOptionGroups()
 			.stream()
 			.map(MenuOptionGroupResponseDto::of)
 			.collect(Collectors.toList()));
