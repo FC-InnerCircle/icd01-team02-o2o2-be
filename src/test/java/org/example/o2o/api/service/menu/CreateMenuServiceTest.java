@@ -15,6 +15,7 @@ import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.domain.menu.StoreMenu;
 import org.example.o2o.domain.menu.StoreMenuStatus;
 import org.example.o2o.domain.store.Store;
+import org.example.o2o.fixture.StoreFixture;
 import org.example.o2o.fixture.menu.MenuFixture;
 import org.example.o2o.repository.menu.StoreMenuRepository;
 import org.example.o2o.repository.store.StoreRepository;
@@ -43,7 +44,7 @@ public class CreateMenuServiceTest {
 	@BeforeEach
 	void setUp() {
 		storeRepository.deleteAll();
-		testStore = storeRepository.save(MenuFixture.creatStore());
+		testStore = storeRepository.save(StoreFixture.createStore());
 	}
 
 	@DisplayName("메뉴 등록 성공")

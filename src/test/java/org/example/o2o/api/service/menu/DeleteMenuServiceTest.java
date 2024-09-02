@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.domain.menu.StoreMenu;
 import org.example.o2o.domain.store.Store;
+import org.example.o2o.fixture.StoreFixture;
 import org.example.o2o.fixture.menu.MenuFixture;
 import org.example.o2o.repository.file.FileGroupRepository;
 import org.example.o2o.repository.menu.StoreMenuOptionGroupRepository;
@@ -41,33 +42,33 @@ class DeleteMenuServiceTest {
 
 	private Store testStore = null;
 
-	private StoreMenu testMenu = null;
-
 	@BeforeEach
 	void setUp() {
 		storeRepository.deleteAll();
 		fileGroupRepository.deleteAll();
-		testStore = storeRepository.save(MenuFixture.creatStore());
-		testMenu = menuRepository.save(MenuFixture.createMenu(testStore, 1));
+		testStore = storeRepository.save(StoreFixture.createStore());
 	}
 
 	@Test
 	void testDeleteMenuSuccessful() {
+		StoreMenu menu = menuRepository.save(MenuFixture.createMenu(testStore, 1));
+
 		assertThat(menuRepository.count()).isEqualTo(1);
 
-		menuService.delete(testMenu.getId());
+		menuService.delete(menu.getId());
 
 		assertThat(menuRepository.count()).isEqualTo(0);
 	}
 
 	@Test
 	void testDeleteMenuWithOptionsSuccessful() {
-		Long imageGroupId = testMenu.getImageFileGroup().getId();
-		int menuOptionGroupCount = testMenu.getMenuOptionGroups().size();
+		StoreMenu menu = menuRepository.save(MenuFixture.createMenu(testStore, 1));
+
+		int menuOptionGroupCount = menu.getMenuOptionGroups().size();
 
 		assertThat(menuOptionGroupRepository.count()).isEqualTo(menuOptionGroupCount);
 
-		menuService.delete(testMenu.getId());
+		menuService.delete(menu.getId());
 
 		assertThat(fileGroupRepository.count()).isEqualTo(0);
 		assertThat(menuOptionRepository.count()).isEqualTo(0);
@@ -78,6 +79,5 @@ class DeleteMenuServiceTest {
 	void testDeleteMenuFail() {
 		assertThatThrownBy(() -> menuService.delete(999L))
 			.isInstanceOf(ApiException.class);
-		;
 	}
 }
