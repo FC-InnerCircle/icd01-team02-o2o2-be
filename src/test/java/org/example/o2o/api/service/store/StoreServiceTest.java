@@ -1,11 +1,11 @@
-package org.example.o2o.api.service;
+package org.example.o2o.api.service.store;
 
 import static org.assertj.core.api.Assertions.*;
 
 import org.example.o2o.api.dto.store.StoreDetailResponseDto;
 import org.example.o2o.api.dto.store.StoreListRequestDto;
 import org.example.o2o.api.dto.store.StoreListResponseDto;
-import org.example.o2o.api.service.store.StoreService;
+import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.domain.store.Store;
 import org.example.o2o.fixture.StoreFixture;
 import org.example.o2o.repository.store.StoreRepository;
@@ -84,6 +84,18 @@ public class StoreServiceTest {
 
 		assertThat(responseDto).isNotNull();
 		assertThat(responseDto.name()).isEqualTo("Test Store");
+	}
+
+	@Test
+	void testDeleteStoreByIdSuccessful() {
+		Store store = storeRepository.save(StoreFixture.createStore());
+		StoreDetailResponseDto responseDto = storeService.getStoreById(store.getId());
+
+		assertThat(responseDto).isNotNull();
+		storeService.deleteStoreById(store.getId());
+
+		assertThatThrownBy(() -> storeService.getStoreById(store.getId()))
+			.isInstanceOf(ApiException.class);
 	}
 
 }

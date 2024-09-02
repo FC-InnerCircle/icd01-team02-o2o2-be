@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class StoreService {
 
@@ -30,5 +32,12 @@ public class StoreService {
 		Store store = storeRepository.findById(id)
 			.orElseThrow(() -> new ApiException(StoreErrorCode.NOT_EXISTS_STORE));
 		return StoreDetailResponseDto.of(store);
+	}
+
+	@Transactional
+	public void deleteStoreById(Long id) {
+		Store store = storeRepository.findById(id)
+			.orElseThrow(() -> new ApiException(StoreErrorCode.NOT_EXISTS_STORE));
+		storeRepository.delete(store);
 	}
 }
