@@ -13,7 +13,7 @@ import org.example.o2o.api.dto.menu.response.MenusResponseDto;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.domain.menu.StoreMenu;
 import org.example.o2o.domain.menu.StoreMenuStatus;
-import org.example.o2o.fixture.MenuFixture;
+import org.example.o2o.fixture.menu.MenuFixture;
 import org.example.o2o.repository.menu.StoreMenuRepository;
 import org.example.o2o.repository.store.StoreRepository;
 import org.junit.jupiter.api.BeforeEach;

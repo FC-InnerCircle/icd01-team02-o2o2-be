@@ -1,4 +1,4 @@
-package org.example.o2o.fixture;
+package org.example.o2o.fixture.menu;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

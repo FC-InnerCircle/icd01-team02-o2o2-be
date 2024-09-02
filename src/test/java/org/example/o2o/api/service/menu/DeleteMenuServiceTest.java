@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.domain.menu.StoreMenu;
 import org.example.o2o.domain.store.Store;
-import org.example.o2o.fixture.MenuFixture;
+import org.example.o2o.fixture.menu.MenuFixture;
 import org.example.o2o.repository.file.FileGroupRepository;
 import org.example.o2o.repository.menu.StoreMenuOptionGroupRepository;
 import org.example.o2o.repository.menu.StoreMenuOptionRepository;
