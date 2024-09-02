@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public enum MenuErrorCode implements ErrorCode {
 
-	NOTFOUND_MENU(HttpStatus.NOT_FOUND.value(), String.valueOf(HttpStatus.NOT_FOUND.value()), "메뉴를 조회할 수 없습니다.");
+	NOTFOUND_MENU(HttpStatus.NOT_FOUND.value(), String.valueOf(HttpStatus.NOT_FOUND.value()), "메뉴를 조회할 수 없습니다."),
+	NOTFOUND_MENU_OPTION(HttpStatus.NOT_FOUND.value(), String.valueOf(HttpStatus.NOT_FOUND.value()),
+		"메뉴 옵션을 조회할 수 없습니다.");
 
 	private final int httpStatusCode;
 	private final String errorCode;

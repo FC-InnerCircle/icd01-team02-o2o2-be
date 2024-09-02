@@ -21,4 +21,11 @@ public interface MenuOptionDocsController {
 		content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 	org.example.o2o.common.dto.ApiResponse<MenuOptionGroupResponseDto> registerMenuOption(
 		@PathVariable(name = "menuId") Long menuId, @RequestBody MenuOptionGroupCreateDto requestDto);
+
+	@Operation(summary = "메뉴 옵션 삭제", description = "메뉴 옵션을 삭제합니다.")
+	@ApiResponse(responseCode = "200", description = "메뉴 정상 삭제")
+	@ApiResponse(responseCode = "404", description = "메뉴 옵션 정보가 없는 경우",
+		content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+	org.example.o2o.common.dto.ApiResponse<Void> deleteMenuOption(
+		@PathVariable(name = "optionGroupId") Long optionGroupId);
 }

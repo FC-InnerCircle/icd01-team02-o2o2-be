@@ -77,4 +77,8 @@ public class StoreMenu extends AbstractEntity {
 		}
 		return imageFileGroup.getDetails().get(0).getPath();
 	}
+
+	public void deleteOption(StoreMenuOptionGroup menuOptionGroup) {
+		this.menuOptionGroups.remove(menuOptionGroup);
+	}
 }
