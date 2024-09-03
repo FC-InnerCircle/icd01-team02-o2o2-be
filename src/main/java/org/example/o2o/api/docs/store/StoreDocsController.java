@@ -25,6 +25,11 @@ public interface StoreDocsController {
 	@ApiResponse(responseCode = "400", description = "유효하지 않은 스토어 ID입니다.")
 	org.example.o2o.common.dto.ApiResponse<StoreDetailResponseDto> getStoreById(@PathVariable Long id);
 
+	@Operation(summary = "스토어 삭제", description = "스토어 ID를 사용하여 스토어를 삭제합니다.")
+	@ApiResponse(responseCode = "200", description = "성공적으로 스토어를 삭제했습니다.")
+	@ApiResponse(responseCode = "404", description = "스토어를 찾을 수 없습니다.")
+	org.example.o2o.common.dto.ApiResponse<Void> deleteStoreById(@PathVariable Long id);
+
 	@Operation(summary = "상점 정보 저장", description = "상점 정보를 저장합니다.")
 	@ApiResponse(responseCode = "200", description = "상점 정보를 저장하고, 저장된 상점 정보를 반환합니다.")
 	org.example.o2o.common.dto.ApiResponse<StoreDto.StoreSaveResponse> saveStore(
