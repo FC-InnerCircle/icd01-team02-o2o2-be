@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.example.o2o.domain.AbstractEntity;
+import org.example.o2o.domain.file.FileGroup;
 import org.example.o2o.domain.menu.StoreMenu;
 
 import jakarta.persistence.CascadeType;
@@ -12,6 +13,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
@@ -44,9 +46,17 @@ public class Store extends AbstractEntity {
 	private String deliveryArea;
 	private Integer minimumOrderAmount;
 
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "thumbnail_file_group_id")
+	private FileGroup thumbnailFileGroup;
+
 	@OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
 	private List<StoreMenu> menus = new ArrayList<>();
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "store")
 	private StoreRateScore storeRateScore;
+
+	public void registerThumbnailFile(FileGroup fileGroup) {
+		this.thumbnailFileGroup = fileGroup;
+	}
 }

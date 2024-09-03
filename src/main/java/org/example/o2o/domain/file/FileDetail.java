@@ -1,5 +1,6 @@
 package org.example.o2o.domain.file;
 
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
 import org.example.o2o.domain.AbstractEntity;
@@ -39,7 +40,11 @@ public class FileDetail extends AbstractEntity {
 	private String storedFileName;
 	private String path;
 	private String extension;
-	private String size;
+	private Long size;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
+
+	public String getFileAccessUrl() {
+		return Paths.get(path, storedFileName).toString();
+	}
 }

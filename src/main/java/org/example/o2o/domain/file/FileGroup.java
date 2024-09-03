@@ -47,6 +47,12 @@ public class FileGroup extends AbstractEntity {
 	@JoinColumn(name = "menu_id")
 	private StoreMenu menu;
 
+	public static FileGroup createFileGroup(FileGroupType groupType) {
+		return FileGroup.builder()
+			.groupType(groupType)
+			.build();
+	}
+
 	public void addDetail(FileDetail detail) {
 		details.add(detail);
 		detail.setFileGroup(this);
