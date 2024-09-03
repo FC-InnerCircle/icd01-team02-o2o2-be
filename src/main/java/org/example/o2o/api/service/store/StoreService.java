@@ -70,7 +70,7 @@ public class StoreService {
 
 			// FileDetail 설정
 			AtomicInteger ordering = new AtomicInteger(1);
-			uploadFileResponses.stream()
+			uploadFileResponses
 				.forEach(uploadFile -> {
 					FileDetail fileDetail = uploadFile.toFileDetail(ordering.getAndIncrement());
 					fileGroup.addDetail(fileDetail);
