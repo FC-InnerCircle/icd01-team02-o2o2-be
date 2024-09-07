@@ -24,6 +24,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -40,6 +41,7 @@ public class StoreMenu extends AbstractEntity {
 	@OneToMany(mappedBy = "menu", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<StoreMenuOptionGroup> menuOptionGroups = new ArrayList<>();
 
+	@Setter
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "image_file_group_id")
 	private FileGroup imageFileGroup;
@@ -59,11 +61,6 @@ public class StoreMenu extends AbstractEntity {
 	public void setStore(Store store) {
 		this.store = store;
 		store.getMenus().add(this);
-	}
-
-	public void setImageFileGroup(FileGroup fileGroup) {
-		this.imageFileGroup = fileGroup;
-		fileGroup.setMenu(this);
 	}
 
 	public void addMenuOptionGroup(StoreMenuOptionGroup optionGroup) {
