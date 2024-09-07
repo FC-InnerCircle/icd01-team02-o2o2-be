@@ -43,4 +43,14 @@ public class MenuOptionService {
 		StoreMenu menu = menuOptionGroup.getMenu();
 		menu.deleteOption(menuOptionGroup);
 	}
+
+	@Transactional
+	public MenuOptionGroupResponseDto update(final Long optionGroupId, final StoreMenuOptionGroup afterOptionGroup) {
+		StoreMenuOptionGroup menuOptionGroup = menuOptionGroupRepository.findById(optionGroupId)
+			.orElseThrow(() -> new ApiException(MenuErrorCode.NOTFOUND_MENU_OPTION));
+
+		menuOptionGroup.updateBy(afterOptionGroup);
+
+		return MenuOptionGroupResponseDto.of(menuOptionGroup);
+	}
 }

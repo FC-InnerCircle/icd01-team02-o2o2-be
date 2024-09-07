@@ -2,6 +2,7 @@ package org.example.o2o.domain.menu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -45,5 +46,23 @@ public class StoreMenuOptionGroup {
 	public void addMenuOption(StoreMenuOption menuOption) {
 		options.add(menuOption);
 		menuOption.setOptionGroup(this);
+	}
+
+	public void updateBy(StoreMenuOptionGroup afterOptionGroup) {
+		if (!Objects.isNull(afterOptionGroup.title)) {
+			this.title = afterOptionGroup.title;
+		}
+		if (!Objects.isNull(afterOptionGroup.ordering)) {
+			this.ordering = afterOptionGroup.ordering;
+		}
+		if (!Objects.isNull(afterOptionGroup.isRequired)) {
+			this.isRequired = afterOptionGroup.isRequired;
+		}
+		this.options.clear();
+		afterOptionGroup.options
+			.forEach(option -> {
+				this.options.add(option);
+				option.setOptionGroup(this);
+			});
 	}
 }
