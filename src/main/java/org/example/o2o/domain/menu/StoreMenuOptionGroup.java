@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import org.example.o2o.config.exception.ApiException;
+import org.example.o2o.config.exception.enums.menu.MenuErrorCode;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -57,6 +60,9 @@ public class StoreMenuOptionGroup {
 		}
 		if (!Objects.isNull(afterOptionGroup.isRequired)) {
 			this.isRequired = afterOptionGroup.isRequired;
+		}
+		if (Objects.isNull(afterOptionGroup.options) || afterOptionGroup.options.isEmpty()) {
+			throw new ApiException(MenuErrorCode.REQUIRED_MENU_OPTION);
 		}
 		this.options.clear();
 		afterOptionGroup.options

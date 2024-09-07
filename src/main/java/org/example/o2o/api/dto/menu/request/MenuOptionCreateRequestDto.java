@@ -5,7 +5,9 @@ import org.example.o2o.domain.menu.StoreMenuOption;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
+@Builder
 public record MenuOptionCreateRequestDto(
 	@Schema(description = "메뉴 옵션 항목 정렬 순서", example = "1")
 	@NotNull(message = "메뉴 옵션 항목 정렬 순서는 필수입니다.")

@@ -51,6 +51,6 @@ public class MenuOptionService {
 
 		menuOptionGroup.updateBy(afterOptionGroup);
 
-		return MenuOptionGroupResponseDto.of(menuOptionGroup);
+		return MenuOptionGroupResponseDto.of(menuOptionGroupRepository.save(menuOptionGroup));
 	}
 }

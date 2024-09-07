@@ -1,13 +1,18 @@
 package org.example.o2o.api.dto.menu.request;
 
 import java.util.Arrays;
+import java.util.Objects;
 
+import org.example.o2o.config.exception.ApiException;
+import org.example.o2o.config.exception.enums.menu.MenuErrorCode;
 import org.example.o2o.domain.menu.StoreMenuOptionGroup;
 import org.hibernate.validator.constraints.Length;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 
+@Builder
 public record MenuOptionGroupCreateDto(
 	@Schema(description = "메뉴 옵션 정렬 순서", example = "1")
 	@NotNull(message = "메뉴 옵션 정렬 순서는 필수입니다.")
@@ -31,6 +36,10 @@ public record MenuOptionGroupCreateDto(
 			.title(title())
 			.isRequired(isRequired())
 			.build();
+
+		if (Objects.isNull(options) || options.length == 0) {
+			throw new ApiException(MenuErrorCode.REQUIRED_MENU_OPTION);
+		}
 
 		Arrays.stream(options).forEach(option -> optionGroup.addMenuOption(option.toStoreMenuOption()));
 		return optionGroup;

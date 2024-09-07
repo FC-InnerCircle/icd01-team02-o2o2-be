@@ -87,4 +87,96 @@ public class MenuOptionServiceTest {
 		assertThatThrownBy(() -> menuOptionService.delete(menuOptionID))
 			.isInstanceOf(ApiException.class);
 	}
+
+	@DisplayName("메뉴 옵션 수정 - 메뉴 옵션 그룹 변경")
+	@Test
+	void testUpdateOptionGroupSuccessful() {
+		StoreMenu menu = menuRepository.save(MenuFixture.createMenu(testStore, 1));
+
+		StoreMenuOptionGroup menuOptionGroup = menu.getMenuOptionGroups().get(0);
+
+		MenuOptionCreateRequestDto afterOption = MenuOptionCreateRequestDto.builder()
+			.name("")
+			.price(0)
+			.desc("")
+			.ordering(1)
+			.build();
+
+		MenuOptionGroupCreateDto afterOptionGroup = MenuOptionGroupCreateDto.builder()
+			.options(new MenuOptionCreateRequestDto[] {afterOption})
+			.title("메뉴 그룹명 수정")
+			.ordering(1)
+			.isRequired(false)
+			.build();
+
+		MenuOptionGroupResponseDto response = menuOptionService.update(menuOptionGroup.getId(),
+			afterOptionGroup.toStoreMenuOptionGroup());
+
+		assertThat(response.title()).isEqualTo("메뉴 그룹명 수정");
+		assertThat(response.ordering()).isEqualTo(1);
+		assertThat(response.isRequired()).isFalse();
+	}
+
+	@DisplayName("메뉴 옵션 수정 - 메뉴 옵션 변경")
+	@Test
+	void testUpdateOptionGroupWithOptionsSuccessful() {
+		StoreMenu menu = menuRepository.save(MenuFixture.createMenu(testStore, 1));
+
+		StoreMenuOptionGroup menuOptionGroup = menu.getMenuOptionGroups().get(0);
+
+		MenuOptionCreateRequestDto afterOption = MenuOptionCreateRequestDto.builder()
+			.name("이름 수정")
+			.price(1000)
+			.desc("설명 수정")
+			.ordering(1)
+			.build();
+
+		MenuOptionGroupCreateDto afterOptionGroup = MenuOptionGroupCreateDto.builder()
+			.options(new MenuOptionCreateRequestDto[] {afterOption})
+			.title(menuOptionGroup.getTitle())
+			.ordering(menuOptionGroup.getOrdering())
+			.isRequired(menuOptionGroup.getIsRequired())
+			.build();
+
+		MenuOptionGroupResponseDto response = menuOptionService.update(menuOptionGroup.getId(),
+			afterOptionGroup.toStoreMenuOptionGroup());
+
+		assertThat(response.title()).isEqualTo(afterOptionGroup.title());
+		assertThat(response.isRequired()).isEqualTo(afterOptionGroup.isRequired());
+		assertThat(response.options().size()).isEqualTo(1);
+		assertThat(response.options().get(0).name()).isEqualTo("이름 수정");
+		assertThat(response.options().get(0).price()).isEqualTo(1000);
+		assertThat(response.options().get(0).desc()).isEqualTo("설명 수정");
+		assertThat(response.options().get(0).price()).isEqualTo(afterOption.price());
+	}
+
+	@DisplayName("메뉴 옵션 수정 실패 - 옵션 없음")
+	@Test
+	void testUpdateOptionGroupFail_menuOptionsNullOrEmpty() {
+		StoreMenu menu = menuRepository.save(MenuFixture.createMenu(testStore, 1));
+
+		StoreMenuOptionGroup menuOptionGroup = menu.getMenuOptionGroups().get(0);
+
+		MenuOptionGroupCreateDto afterOptionGroupEmpty = MenuOptionGroupCreateDto.builder()
+			.options(new MenuOptionCreateRequestDto[] {})
+			.title(menuOptionGroup.getTitle())
+			.ordering(menuOptionGroup.getOrdering())
+			.isRequired(menuOptionGroup.getIsRequired())
+			.build();
+
+		MenuOptionGroupCreateDto afterOptionGroupNull = MenuOptionGroupCreateDto.builder()
+			.options(null)
+			.title(menuOptionGroup.getTitle())
+			.ordering(menuOptionGroup.getOrdering())
+			.isRequired(menuOptionGroup.getIsRequired())
+			.build();
+
+		assertThatThrownBy(
+			() -> menuOptionService.update(menuOptionGroup.getId(), afterOptionGroupEmpty.toStoreMenuOptionGroup()))
+			.isInstanceOf(ApiException.class);
+
+		assertThatThrownBy(
+			() -> menuOptionService.update(menuOptionGroup.getId(), afterOptionGroupNull.toStoreMenuOptionGroup()))
+			.isInstanceOf(ApiException.class);
+	}
 }
