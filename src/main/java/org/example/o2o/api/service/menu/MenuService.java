@@ -72,6 +72,6 @@ public class MenuService {
 		StoreMenu menu = menuRepository.findById(menuId)
 			.orElseThrow(() -> new ApiException(MenuErrorCode.NOTFOUND_MENU));
 
-		menuRepository.delete(menu);
+		menu.disable();
 	}
 }
