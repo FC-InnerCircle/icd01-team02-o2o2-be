@@ -34,6 +34,10 @@ public class MenuService {
 	public MenusResponseDto findStoreMenus(final Long storeId, final PageRequest page,
 		final List<StoreMenuStatus> status) {
 
+		if (!storeRepository.existsById(storeId)) {
+			throw new ApiException(StoreErrorCode.NOT_EXISTS_STORE);
+		}
+
 		return MenusResponseDto.of(menuRepository.findByStoreIdAndStatusIn(storeId, status, page));
 	}
 
