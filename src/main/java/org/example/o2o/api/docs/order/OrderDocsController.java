@@ -18,6 +18,8 @@ public interface OrderDocsController {
 	@ApiResponse(responseCode = "200", description = "주문 생성 뒤 storeId, orderId 반환")
 	@ApiResponse(responseCode = "400", description = "잘못된 결제 수단",
 		content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+	@ApiResponse(responseCode = "400", description = "잘못된 주문 정보",
+		content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 	org.example.o2o.common.dto.ApiResponse<OrderCreateResponseDto> registerOrder(
 		@RequestBody OrderCreateRequestDto requestDto);
 }
