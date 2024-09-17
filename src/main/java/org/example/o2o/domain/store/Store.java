@@ -50,6 +50,11 @@ public class Store extends AbstractEntity {
 	@JoinColumn(name = "thumbnail_file_group_id")
 	private FileGroup thumbnailFileGroup;
 
+	@Builder.Default
+	@OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<StoreBusinessDay> businessDays = new ArrayList<>();
+
+	@Builder.Default
 	@OneToMany(mappedBy = "store", cascade = CascadeType.REMOVE)
 	private List<StoreMenu> menus = new ArrayList<>();
 
@@ -58,5 +63,12 @@ public class Store extends AbstractEntity {
 
 	public void registerThumbnailFile(FileGroup fileGroup) {
 		this.thumbnailFileGroup = fileGroup;
+	}
+
+	public void registerBusinessDays(List<StoreBusinessDay> businessDays) {
+		for (StoreBusinessDay businessDay : businessDays) {
+			this.businessDays.add(businessDay);
+			businessDay.setStore(this);
+		}
 	}
 }

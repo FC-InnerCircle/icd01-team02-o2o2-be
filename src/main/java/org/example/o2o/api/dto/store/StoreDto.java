@@ -7,8 +7,11 @@ import java.util.stream.Collectors;
 
 import org.example.o2o.config.exception.validator.EnumValue;
 import org.example.o2o.domain.file.FileDetail;
+import org.example.o2o.domain.store.DayOfWeek;
 import org.example.o2o.domain.store.Store;
+import org.example.o2o.domain.store.StoreBusinessDay;
 import org.example.o2o.domain.store.StoreCategory;
+import org.springframework.util.ObjectUtils;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
@@ -60,15 +63,21 @@ public class StoreDto {
 		@NotBlank(message = "마감 시간은 필수 입력입니다.")
 		private String closeTime;
 
+		@Schema(description = "영업 시간")
+		private List<StoreBusinessDaysRequest> businessDays = new ArrayList<>();
+
 		@Schema(description = "카테고리 목록", example = "['CAFE', 'CHICKEN', 'KOREAN_FOOD']")
 		@EnumValue(enumClass = StoreCategory.class, message = "카테고리가 올바르지 않습니다. {enumValues}")
 		private List<StoreCategory> categories = new ArrayList<>();
+
+		@Schema(description = "배달 가능 지역", example = "['가산1동', '가산2동']")
+		private List<String> deliveryAreas = new ArrayList<>();
 
 		@Schema(description = "최소 주문 금액", example = "10000")
 		private int minimumOrderAmount;
 
 		public Store toStore() {
-			return Store.builder()
+			Store store = Store.builder()
 				.name(name)
 				.contactNumber(contactNumber)
 				.zipCode(zipCode)
@@ -83,9 +92,38 @@ public class StoreDto {
 				.longitude(longitude)
 				.openTime(openTime)
 				.closeTime(closeTime)
+				.deliveryArea(
+					ObjectUtils.isEmpty(deliveryAreas) ? null : String.join(",", deliveryAreas)
+				)
 				.minimumOrderAmount(minimumOrderAmount)
 				.build();
+
+			store.registerBusinessDays(
+				businessDays.stream()
+					.map(businessDay -> StoreBusinessDay.builder()
+						.dayOfWeek(businessDay.dayOfWeek)
+						.openTime(businessDay.openTime)
+						.closeTime(businessDay.closeTime)
+						.build()
+					)
+					.toList()
+			);
+
+			return store;
 		}
+	}
+
+	@Getter
+	@NoArgsConstructor
+	public static class StoreBusinessDaysRequest {
+		@Schema(description = "요일")
+		private DayOfWeek dayOfWeek;
+
+		@Schema(description = "오픈 시간", example = "10:00")
+		private String openTime;
+
+		@Schema(description = "마감 시간", example = "23:00")
+		private String closeTime;
 	}
 
 	@Getter
