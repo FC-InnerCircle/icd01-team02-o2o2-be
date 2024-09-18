@@ -78,13 +78,13 @@ public class MenuOptionServiceTest {
 
 		assertThat(menuOptionGroupRepository.count()).isGreaterThan(0);
 
-		Long menuOptionID = menu.getMenuOptionGroups().get(0).getId();
+		Long menuOptionId = menu.getMenuOptionGroups().get(0).getId();
 
-		menuOptionService.delete(menuOptionID);
+		menuOptionService.delete(menuOptionId);
 
-		assertThat(menuOptionGroupRepository.count()).isEqualTo(0);
+		assertThat(menuOptionGroupRepository.findByIdAndIsDeletedFalse(menuOptionId).isEmpty()).isTrue();
 
-		assertThatThrownBy(() -> menuOptionService.delete(menuOptionID))
+		assertThatThrownBy(() -> menuOptionService.delete(menuOptionId))
 			.isInstanceOf(ApiException.class);
 	}
 

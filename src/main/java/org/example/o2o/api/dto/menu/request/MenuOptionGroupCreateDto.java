@@ -35,6 +35,7 @@ public record MenuOptionGroupCreateDto(
 			.ordering(ordering())
 			.title(title())
 			.isRequired(isRequired())
+			.isDeleted(false)
 			.build();
 
 		if (Objects.isNull(options) || options.length == 0) {

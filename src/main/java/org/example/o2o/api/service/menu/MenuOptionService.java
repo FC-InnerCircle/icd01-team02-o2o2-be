@@ -37,16 +37,15 @@ public class MenuOptionService {
 
 	@Transactional
 	public void delete(final Long optionGroupId) {
-		StoreMenuOptionGroup menuOptionGroup = menuOptionGroupRepository.findById(optionGroupId)
+		StoreMenuOptionGroup menuOptionGroup = menuOptionGroupRepository.findByIdAndIsDeletedFalse(optionGroupId)
 			.orElseThrow(() -> new ApiException(MenuErrorCode.NOTFOUND_MENU_OPTION));
 
-		StoreMenu menu = menuOptionGroup.getMenu();
-		menu.deleteOption(menuOptionGroup);
+		menuOptionGroup.delete();
 	}
 
 	@Transactional
 	public MenuOptionGroupResponseDto update(final Long optionGroupId, final StoreMenuOptionGroup afterOptionGroup) {
-		StoreMenuOptionGroup menuOptionGroup = menuOptionGroupRepository.findById(optionGroupId)
+		StoreMenuOptionGroup menuOptionGroup = menuOptionGroupRepository.findByIdAndIsDeletedFalse(optionGroupId)
 			.orElseThrow(() -> new ApiException(MenuErrorCode.NOTFOUND_MENU_OPTION));
 
 		menuOptionGroup.updateBy(afterOptionGroup);
