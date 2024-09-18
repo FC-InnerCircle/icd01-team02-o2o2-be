@@ -78,4 +78,8 @@ public class StoreMenu extends AbstractEntity {
 	public void deleteOption(StoreMenuOptionGroup menuOptionGroup) {
 		this.menuOptionGroups.remove(menuOptionGroup);
 	}
+
+	public void disable() {
+		this.status = StoreMenuStatus.DISABLED;
+	}
 }

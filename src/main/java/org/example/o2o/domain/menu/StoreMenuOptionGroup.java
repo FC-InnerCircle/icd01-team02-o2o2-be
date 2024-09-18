@@ -44,6 +44,7 @@ public class StoreMenuOptionGroup {
 
 	private String title;
 	private Boolean isRequired;
+	private Boolean isDeleted;
 	private Integer ordering;
 
 	public void addMenuOption(StoreMenuOption menuOption) {
@@ -70,5 +71,9 @@ public class StoreMenuOptionGroup {
 				this.options.add(option);
 				option.setOptionGroup(this);
 			});
+	}
+
+	public void delete() {
+		this.isDeleted = true;
 	}
 }

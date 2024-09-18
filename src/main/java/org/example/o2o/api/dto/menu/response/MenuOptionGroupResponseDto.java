@@ -1,8 +1,10 @@
 package org.example.o2o.api.dto.menu.response;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.example.o2o.domain.menu.StoreMenuOption;
 import org.example.o2o.domain.menu.StoreMenuOptionGroup;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -33,6 +35,7 @@ public record MenuOptionGroupResponseDto(
 			.title(optionGroup.getTitle())
 			.options(optionGroup.getOptions()
 				.stream()
+				.sorted(Comparator.comparingInt(StoreMenuOption::getPrice)) // TODO ordering으로 정렬
 				.map(MenuOptionResponseDto::of)
 				.collect(Collectors.toList()))
 			.build();
