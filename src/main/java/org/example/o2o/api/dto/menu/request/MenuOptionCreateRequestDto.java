@@ -28,7 +28,6 @@ public record MenuOptionCreateRequestDto(
 		return StoreMenuOption.builder()
 			.ordering(ordering())
 			.name(name())
-			.description(desc())
 			.price(price())
 			.build();
 	}

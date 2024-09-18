@@ -146,7 +146,6 @@ public class MenuOptionServiceTest {
 		assertThat(response.options().size()).isEqualTo(1);
 		assertThat(response.options().get(0).name()).isEqualTo("이름 수정");
 		assertThat(response.options().get(0).price()).isEqualTo(1000);
-		assertThat(response.options().get(0).desc()).isEqualTo("설명 수정");
 		assertThat(response.options().get(0).price()).isEqualTo(afterOption.price());
 	}
 
