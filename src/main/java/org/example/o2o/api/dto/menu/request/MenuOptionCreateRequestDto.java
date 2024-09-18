@@ -17,9 +17,6 @@ public record MenuOptionCreateRequestDto(
 	@NotNull(message = "메뉴 옵션 항목 값은 필수입니다.")
 	String name,
 
-	@Schema(description = "메뉴 옵션 항목 설명", example = "신라면 정도 맵기")
-	String desc,
-
 	@Schema(description = "메뉴 옵션 항목 값", example = "1000")
 	@Min(value = 0, message = "메뉴 옵션 가격은 최소 0원입니다.")
 	Integer price

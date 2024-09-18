@@ -70,6 +70,7 @@ public class MenuFixture {
 		StoreMenuOptionGroup menuOptionGroup = StoreMenuOptionGroup.builder()
 			.title("맵기 선택")
 			.isRequired(true)
+			.isMultiple(true)
 			.isDeleted(false)
 			.ordering(1)
 			.build();
