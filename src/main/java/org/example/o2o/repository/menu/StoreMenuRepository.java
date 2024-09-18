@@ -29,4 +29,10 @@ public interface StoreMenuRepository extends JpaRepository<StoreMenu, Long> {
 		+ " LEFT JOIN FETCH sm.imageFileGroup fg"
 		+ " WHERE sm.id = :id")
 	Optional<StoreMenu> findStoreMenuWithDetails(@Param("id") Long id);
+
+	@Query("SELECT sm FROM StoreMenu sm"
+		+ " LEFT JOIN FETCH sm.menuOptionGroups mog"
+		+ " LEFT JOIN FETCH sm.imageFileGroup fg"
+		+ " WHERE sm.id IN :ids")
+	List<StoreMenu> findStoreMenusWithDetails(@Param("ids") List<Long> ids);
 }
