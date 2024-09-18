@@ -104,7 +104,7 @@ public record OrderCreateRequestDto(
 			OrderOptionGroupCreateRequestDto[] optionGroupsDto = menuDto.optionGroups();
 			for (OrderOptionGroupCreateRequestDto optionGroupDto : optionGroupsDto) { // 메뉴 옵션 그룹
 				StoreMenuOptionGroup optionGroup = menuOptionGroups.stream()
-					.filter(o -> Objects.equals(optionGroupDto.optionGroupId(), o.getId()))
+					.filter(o -> Objects.equals(optionGroupDto.optionGroupId(), o.getId()) && !o.getIsDeleted())
 					.findFirst()
 					.orElse(null);
 
@@ -115,6 +115,10 @@ public record OrderCreateRequestDto(
 
 				List<StoreMenuOption> options = optionGroup.getOptions();
 				OrderOptionCreateRequestDto[] optionsDto = optionGroupDto.options();
+
+				if (!optionGroup.getIsMultiple() && optionsDto.length > 1) { // 옵션 다중 선택 검증
+					return false;
+				}
 
 				for (OrderOptionCreateRequestDto optionDto : optionsDto) { // 메뉴 옵션
 					StoreMenuOption option = options.stream()
