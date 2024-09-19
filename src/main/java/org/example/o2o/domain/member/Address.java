@@ -3,6 +3,8 @@ package org.example.o2o.domain.member;
 import org.example.o2o.domain.AbstractEntity;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -14,6 +16,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Builder
 @Getter
@@ -26,14 +29,21 @@ public class Address extends AbstractEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
+	@Setter
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "member_id")
 	private Member member;
 
 	private String address;
 	private String detailAddress;
-	private Float latitude;
-	private Float longitude;
-	private String addressStatus;
+	private Double latitude;
+	private Double longitude;
+	private String zipCode;
 
+	@Enumerated(EnumType.STRING)
+	private AddressStatus status;
+
+	public void deleteAddress() {
+		this.status = AddressStatus.DELETED;
+	}
 }
