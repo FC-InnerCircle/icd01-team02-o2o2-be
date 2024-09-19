@@ -2,6 +2,10 @@ package org.example.o2o.domain.menu;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
+import org.example.o2o.config.exception.ApiException;
+import org.example.o2o.config.exception.enums.menu.MenuErrorCode;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -27,7 +31,7 @@ public class StoreMenuOptionGroup {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 
 	@Setter
 	@ManyToOne
@@ -40,10 +44,36 @@ public class StoreMenuOptionGroup {
 
 	private String title;
 	private Boolean isRequired;
+	private Boolean isDeleted;
 	private Integer ordering;
 
 	public void addMenuOption(StoreMenuOption menuOption) {
 		options.add(menuOption);
 		menuOption.setOptionGroup(this);
+	}
+
+	public void updateBy(StoreMenuOptionGroup afterOptionGroup) {
+		if (!Objects.isNull(afterOptionGroup.title)) {
+			this.title = afterOptionGroup.title;
+		}
+		if (!Objects.isNull(afterOptionGroup.ordering)) {
+			this.ordering = afterOptionGroup.ordering;
+		}
+		if (!Objects.isNull(afterOptionGroup.isRequired)) {
+			this.isRequired = afterOptionGroup.isRequired;
+		}
+		if (Objects.isNull(afterOptionGroup.options) || afterOptionGroup.options.isEmpty()) {
+			throw new ApiException(MenuErrorCode.REQUIRED_MENU_OPTION);
+		}
+		this.options.clear();
+		afterOptionGroup.options
+			.forEach(option -> {
+				this.options.add(option);
+				option.setOptionGroup(this);
+			});
+	}
+
+	public void delete() {
+		this.isDeleted = true;
 	}
 }

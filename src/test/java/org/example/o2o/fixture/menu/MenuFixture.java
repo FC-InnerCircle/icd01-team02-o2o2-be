@@ -16,9 +16,7 @@ public class MenuFixture {
 
 	public static StoreMenu createMenu(Store store, Integer ordering) {
 
-		return StoreMenu.builder()
-			.menuOptionGroups(List.of(createMenuOptionGroup()))
-			.imageFileGroup(createFileGroup())
+		StoreMenu menu = StoreMenu.builder()
 			.name("테스트 메뉴")
 			.description("테스트 설명")
 			.price(10_000)
@@ -26,6 +24,10 @@ public class MenuFixture {
 			.store(store)
 			.status(StoreMenuStatus.ENABLED)
 			.build();
+
+		menu.setImageFileGroup(createFileGroup());
+		menu.addMenuOptionGroup(createMenuOptionGroup());
+		return menu;
 	}
 
 	private static FileGroup createFileGroup() {
@@ -68,6 +70,7 @@ public class MenuFixture {
 		StoreMenuOptionGroup menuOptionGroup = StoreMenuOptionGroup.builder()
 			.title("맵기 선택")
 			.isRequired(true)
+			.isDeleted(false)
 			.ordering(1)
 			.build();
 
