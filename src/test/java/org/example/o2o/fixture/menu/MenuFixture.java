@@ -43,7 +43,7 @@ public class MenuFixture {
 			.storedFileName("메뉴 사진1.jpg")
 			.path("/store/menu")
 			.extension(".jpg")
-			.size("100mb")
+			.size(1000L)
 			.createdAt(LocalDateTime.now())
 			.updatedAt(LocalDateTime.now())
 			.build();
@@ -55,7 +55,7 @@ public class MenuFixture {
 			.storedFileName("메뉴 사진2.jpg")
 			.path("/store/menu")
 			.extension(".jpg")
-			.size("200mb")
+			.size(2000L)
 			.createdAt(LocalDateTime.now())
 			.updatedAt(LocalDateTime.now())
 			.build();

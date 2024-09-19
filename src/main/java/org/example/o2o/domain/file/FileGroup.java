@@ -37,6 +37,17 @@ public class FileGroup extends AbstractEntity {
 	@OneToMany(mappedBy = "fileGroup", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<FileDetail> details = new ArrayList<>();
 
+	@Setter
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "menu_id")
+	private StoreMenu menu;
+
+	public static FileGroup createFileGroup(FileGroupType groupType) {
+		return FileGroup.builder()
+			.groupType(groupType)
+			.build();
+	}
+
 	public void addDetail(FileDetail detail) {
 		details.add(detail);
 		detail.setFileGroup(this);

@@ -1,10 +1,6 @@
-package org.example.o2o.domain.file;
+package org.example.o2o.domain.store;
 
-import java.nio.file.Paths;
-import java.time.LocalDateTime;
-
-import org.example.o2o.domain.AbstractEntity;
-
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -24,27 +20,19 @@ import lombok.Setter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @Builder
 @Entity
-public class FileDetail extends AbstractEntity {
+public class StoreBusinessDay {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 
 	@Setter
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "file_group_id")
-	private FileGroup fileGroup;
+	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "store_id")
+	private Store store;
 
-	private Integer ordering;
-	private String originalFileName;
-	private String storedFileName;
-	private String path;
-	private String extension;
-	private Long size;
-	private LocalDateTime createdAt;
-	private LocalDateTime updatedAt;
+	private DayOfWeek dayOfWeek;
+	private String openTime;
+	private String closeTime;
 
-	public String getFileAccessUrl() {
-		return Paths.get(path, storedFileName).toString();
-	}
 }
