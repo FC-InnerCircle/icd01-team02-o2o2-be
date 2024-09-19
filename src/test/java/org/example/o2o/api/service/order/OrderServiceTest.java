@@ -9,7 +9,9 @@ import org.example.o2o.api.dto.order.request.OrderOptionGroupCreateRequestDto;
 import org.example.o2o.api.dto.order.response.OrderCreateResponseDto;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.domain.member.Address;
+import org.example.o2o.domain.member.AddressStatus;
 import org.example.o2o.domain.member.Member;
+import org.example.o2o.domain.member.MemberStatus;
 import org.example.o2o.domain.menu.StoreMenu;
 import org.example.o2o.domain.menu.StoreMenuOption;
 import org.example.o2o.domain.menu.StoreMenuOptionGroup;
@@ -66,15 +68,15 @@ class OrderServiceTest {
 			.nickname("test")
 			.contact("010-1234-5678")
 			.loginStatus("")
-			.status("")
+			.status(MemberStatus.ACTIVE)
 			.build());
 		Address address = addressRepository.save(Address.builder()
 			.member(member)
 			.address("주소")
 			.detailAddress("123-1")
-			.latitude(10.1F)
-			.longitude(10.1F)
-			.addressStatus("")
+			.latitude(10.1)
+			.longitude(10.1)
+			.status(AddressStatus.ACTIVE)
 			.build());
 
 		OrderOptionCreateRequestDto optionDto = new OrderOptionCreateRequestDto(option.getId(),
@@ -116,15 +118,15 @@ class OrderServiceTest {
 			.nickname("test")
 			.contact("010-1234-5678")
 			.loginStatus("")
-			.status("")
+			.status(MemberStatus.ACTIVE)
 			.build());
 		Address address = addressRepository.save(Address.builder()
 			.member(member)
 			.address("주소")
 			.detailAddress("123-1")
-			.latitude(10.1F)
-			.longitude(10.1F)
-			.addressStatus("")
+			.latitude(10.1)
+			.longitude(10.1)
+			.status(AddressStatus.ACTIVE)
 			.build());
 
 		OrderOptionCreateRequestDto optionDto = new OrderOptionCreateRequestDto(option.getId(),
@@ -157,7 +159,7 @@ class OrderServiceTest {
 			.nickname("test")
 			.contact("010-1234-5678")
 			.loginStatus("")
-			.status("")
+			.status(MemberStatus.ACTIVE)
 			.build());
 
 		OrderCreateRequestDto orderDtoInvalidMemberId = OrderCreateRequestDto.builder()

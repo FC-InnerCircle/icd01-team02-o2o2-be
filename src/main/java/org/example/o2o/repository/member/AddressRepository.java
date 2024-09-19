@@ -13,7 +13,7 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
 		+ " JOIN FETCH a.member m"
 		+ " WHERE a.id = :id")
 	Optional<Address> findAddressWithMember(@Param("id") Long id);
-	
+
 	@Query("""
 			SELECT a
 			FROM Address a
