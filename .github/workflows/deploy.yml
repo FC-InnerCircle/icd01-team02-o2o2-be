@@ -1,0 +1,54 @@
+name: Deploy to AWS ECS
+
+on:
+  push:
+    branches: [ deploy-test ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  BUCKET_NAME: o2o-bucket
+  BUCKET_DIR_NAME: o2o
+  APPLICATION_NAME: o2o-admin
+  DEPLOYMENT_GROUP_NAME: o2o-admin-prod-dg
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        run: ./gradlew clean build -x test
+
+      - name: 📦 Zip project files
+        run: zip -r ./$GITHUB_SHA.zip .
+
+      - name: 🌎 Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: 🚛 Upload to S3
+        run: aws s3 cp --region ap-northeast-2 ./$GITHUB_SHA.zip s3://${{ env.BUCKET_NAME }}/${{ env.BUCKET_DIR_NAME }}/$GITHUB_SHA.zip
+
+      - name: 🚀 Deploy to EC2 with CodeDeploy
+        run: aws deploy create-deployment
+          --application-name ${{ env.APPLICATION_NAME }}
+          --deployment-config-name CodeDeployDefault.AllAtOnce
+          --deployment-group-name ${{ env.DEPLOYMENT_GROUP_NAME }}
+          --s3-location bucket=${{ env.BUCKET_NAME }},bundleType=zip,key=${{ env.BUCKET_DIR_NAME }}/$GITHUB_SHA.zip
