@@ -1,0 +1,23 @@
+version: 0.0
+os: linux
+
+files:
+  - source: /
+    destination: /home/ec2-user/o2o-admin
+  - source: /build/libs
+    destination: /home/ec2-user/o2o-admin
+  - source: /scripts/Dockerfile
+    destination: /home/ec2-user/o2o-admin
+file_exists_behavior: OVERWRITE
+
+permissions:
+  - object: /home/ec2-user
+    pattern: '**'
+    owner: ec2-user
+    group: ec2-user
+
+hooks:
+  AfterInstall:
+    - location: scripts/after-deploy.sh
+      timeout: 100000
+      runas: root

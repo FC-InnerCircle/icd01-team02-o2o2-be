@@ -1,0 +1,12 @@
+FROM openjdk:17-jdk-alpine
+
+WORKDIR /app
+
+COPY *.jar app.jar
+
+ENV SPRING_PROFILES_ACTIVE=prod
+ENV JASYPT_PASSWORD=$(./JASYPT_PASSWORD.sh)
+
+ENTRYPOINT ["java", "-jar", "app.jar"]
+
+EXPOSE 8080
