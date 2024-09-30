@@ -1,5 +1,7 @@
 package org.example.o2o.config.security;
 
+import java.util.List;
+
 import org.example.o2o.common.component.TokenProvider;
 import org.example.o2o.config.security.filter.JwtAuthenticationFilter;
 import org.example.o2o.config.security.handler.CustomAccessDeniedHandler;
@@ -73,10 +75,11 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 
-		configuration.addAllowedOrigin("*");
-		configuration.addAllowedHeader("*");
-		configuration.addAllowedMethod("*");
 		configuration.setAllowCredentials(true);
+		configuration.setAllowedOrigins(List.of("http://localhost:3000", "http://o2o-admin.com:8080"));
+		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+		configuration.setAllowedHeaders(List.of("*"));
+		configuration.setExposedHeaders(List.of("*"));
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
