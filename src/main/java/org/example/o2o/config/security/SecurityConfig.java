@@ -79,8 +79,7 @@ public class SecurityConfig {
 
 		configuration.setAllowCredentials(true);
 		configuration.setAllowedOrigins(
-			List.of("http://localhost:3000", "http://localhost:8080", "http://o2o-admin.com:8080",
-				"https://o2o-admin.com", "https://www.o2o-admin.com"));
+			List.of("http://localhost:3000", "https://o2o-admin.com", "https://www.o2o-admin.com"));
 		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
 		configuration.setAllowedHeaders(List.of("*"));
 		configuration.setExposedHeaders(List.of("*"));
