@@ -1,5 +1,7 @@
 package org.example.o2o.config.security;
 
+import java.util.List;
+
 import org.example.o2o.common.component.TokenProvider;
 import org.example.o2o.config.security.filter.JwtAuthenticationFilter;
 import org.example.o2o.config.security.handler.CustomAccessDeniedHandler;
@@ -17,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -47,8 +50,10 @@ public class SecurityConfig {
 			)
 			.authorizeHttpRequests(authorizeRequests ->
 				authorizeRequests
+					.requestMatchers("/health/check").permitAll()
 					.requestMatchers("/api/v1/auth/*").permitAll()
 					.requestMatchers("/api/v1/accounts/*").hasRole("ADMIN")
+					.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
 					.anyRequest().permitAll()
 			)
 			.logout(logout ->
@@ -72,10 +77,12 @@ public class SecurityConfig {
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 
-		configuration.addAllowedOrigin("*");
-		configuration.addAllowedHeader("*");
-		configuration.addAllowedMethod("*");
 		configuration.setAllowCredentials(true);
+		configuration.setAllowedOrigins(
+			List.of("http://localhost:3000", "https://o2o-admin.com", "https://www.o2o-admin.com"));
+		configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
+		configuration.setAllowedHeaders(List.of("*"));
+		configuration.setExposedHeaders(List.of("*"));
 
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
