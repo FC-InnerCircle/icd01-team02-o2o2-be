@@ -4,6 +4,7 @@ import java.nio.file.Paths;
 import java.time.LocalDateTime;
 
 import org.example.o2o.domain.AbstractEntity;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -41,10 +42,17 @@ public class FileDetail extends AbstractEntity {
 	private String path;
 	private String extension;
 	private Long size;
+	private ResourceLocation resourceLocation;
 	private LocalDateTime createdAt;
 	private LocalDateTime updatedAt;
 
 	public String getFileAccessUrl() {
-		return Paths.get(path, storedFileName).toString();
+		return switch (resourceLocation) {
+			case S3 -> UriComponentsBuilder
+				.fromHttpUrl(path)
+				.path(storedFileName)
+				.build().toUriString();
+			case LOCAL -> Paths.get(path, storedFileName).toString();
+		};
 	}
 }
