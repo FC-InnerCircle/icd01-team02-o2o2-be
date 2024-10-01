@@ -1,6 +1,7 @@
 package org.example.o2o.common.dto.file;
 
 import org.example.o2o.domain.file.FileDetail;
+import org.example.o2o.domain.file.ResourceLocation;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,6 +22,7 @@ public class FileDto {
 		private String path;
 		private Long fileSize;
 		private String extension;
+		private ResourceLocation resourceLocation;
 
 		public FileDetail toFileDetail(int ordering) {
 			return FileDetail.builder()
@@ -30,6 +32,7 @@ public class FileDto {
 				.path(path)
 				.extension(extension)
 				.size(fileSize)
+				.resourceLocation(resourceLocation)
 				.build();
 		}
 	}

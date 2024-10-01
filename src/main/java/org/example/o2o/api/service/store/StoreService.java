@@ -17,7 +17,6 @@ import org.example.o2o.domain.file.FileGroupType;
 import org.example.o2o.domain.store.Store;
 import org.example.o2o.repository.store.StoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -35,7 +34,7 @@ public class StoreService {
 	private final FileManager fileManager;
 
 	@Autowired
-	public StoreService(StoreRepository storeRepository, @Qualifier("localFileManager") FileManager fileManager) {
+	public StoreService(StoreRepository storeRepository, FileManager fileManager) {
 		this.storeRepository = storeRepository;
 		this.fileManager = fileManager;
 	}

@@ -10,12 +10,14 @@ import java.util.UUID;
 import org.example.o2o.common.dto.file.FileDto.UploadFileResponse;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.config.exception.enums.file.FileErrorCode;
+import org.example.o2o.domain.file.ResourceLocation;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 
+@Profile("local")
 @Slf4j
 @Component
 public class LocalFileManager implements FileManager {
@@ -24,10 +26,6 @@ public class LocalFileManager implements FileManager {
 
 	@Override
 	public List<UploadFileResponse> storeFiles(List<MultipartFile> files) {
-		if (ObjectUtils.isEmpty(files)) {
-			return null;
-		}
-
 		List<MultipartFile> validFiles = files.stream()
 			.filter(file -> !file.isEmpty())
 			.toList();
@@ -71,6 +69,7 @@ public class LocalFileManager implements FileManager {
 				.fileSize(fileSize)
 				.extension(extension)
 				.path(path)
+				.resourceLocation(ResourceLocation.LOCAL)
 				.build();
 		} catch (IOException e) {
 			log.error("storeFile Exception: ", e);

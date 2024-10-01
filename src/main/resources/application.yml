@@ -40,6 +40,18 @@ spring:
         show_sql: true
         default_batch_fetch_size: 20
     defer-datasource-initialization: true
+cloud:
+  aws:
+    s3:
+      bucket: ${AWS_BUCKET_NAME}
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
 jwt:
   secret: wRe37FZ7VijwSr25mdaZl4q7Di06YOngs6aRgwYHkDM=
   access:
@@ -83,6 +95,18 @@ spring:
         show_sql: true
         default_batch_fetch_size: 20
     defer-datasource-initialization: true
+cloud:
+  aws:
+    s3:
+      bucket: ${AWS_BUCKET_NAME}
+    credentials:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
 jwt:
   secret: wRe37FZ7VijwSr25mdaZl4q7Di06YOngs6aRgwYHkDM=
   access:
@@ -101,9 +125,9 @@ spring:
       on-profile: prod
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: ENC(hYpxATor/jrVa1bwC7bZZchhtaUuFgYPNU58kHPqreG8ldVz3hGzjlCxITcuZEsXTRZq5FYPpFTobxtO72CiZ1tGwa8jA0SzGbrdmMfMOSym4wCtn1muLGFNkkj23UuoO22nBn4w9UbKu+TRTfRO7daKGxp7lKzCqmUsJaJ4CRI=)
-    username: ENC(CX+LJV901am18jPccXxOfg==)
-    password: ENC(p12SaSnZQDNruQN70BnXH3anTM29VfGP)
+    url: ENC(3BRtC0UgLFElj7pBY/cHeMqj1VUbzoRDBK8l7HhFryNmY6MRsXTnpf2x+fbfpfamgtg22EwU9ZAvQ6ICf8yKuOVbH1SDM/HamOiedRpjknCj4xxaPqRGsxVUFGMbTlhEJWmHZsopLwGZ0RjeCptXOdI9mh3YHn/ovwZg/+IN3zI=)
+    username: ENC(MNPbJxHCJK/oDJ7rOMxqTw==)
+    password: ENC(YghnKSsuDj23whkYf40A5pfInZEfGxiS)
   jpa:
     database-platform: org.hibernate.dialect.MySQL8Dialect
     hibernate:
@@ -111,12 +135,24 @@ spring:
     properties:
       hibernate:
         default_batch_fetch_size: 20
+cloud:
+  aws:
+    s3:
+      bucket: o2o-admin
+    credentials:
+      access-key: ENC(xwFknOjYHFJaj7MDWFp/SgPgEx7JQhxMLWw9iFtEldY=)
+      secret-key: ENC(OakzYJcvV6KRzG7iZLk857P6nrdxaNWHYyLPMZd+4/z/w5q2VVRRKORg1+xqVBnse9hOcU96kaQ=)
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
 jwt:
-  secret: ENC(HFtRCWAsBLgl7MDHKDv9ipgTiO/pnVXR7+Sbq/FlbJzdop9a+RFc2zUSgMP77M0GdokxbLYX/Lo=)
+  secret: ENC(8JRc4S9YtcEZ06sBIuVGFDqxq/P+gb11rolnvZrQa/AfqHpdUQ4wryhZyl3SgkvjUa/ws0hrzbQ=)
   access:
     expiration: 300000
   refresh:
     expiration: 86400000
 jasypt:
   encryptor:
-    password: Cjdtjd671!
+    password: ${JAYSPT_PASSWORD}
