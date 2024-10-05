@@ -16,6 +16,7 @@ import org.example.o2o.api.dto.store.StoreListResponseDto;
 import org.example.o2o.common.component.file.FileManager;
 import org.example.o2o.common.dto.file.FileDto;
 import org.example.o2o.config.exception.ApiException;
+import org.example.o2o.domain.file.ResourceLocation;
 import org.example.o2o.domain.store.Store;
 import org.example.o2o.fixture.StoreFixture;
 import org.example.o2o.repository.store.StoreRepository;
@@ -157,6 +158,7 @@ public class StoreServiceTest {
 				.originalFileName(thumbnailFile.getOriginalFilename())
 				.path(uploadPath)
 				.fileSize(thumbnailFile.getSize())
+				.resourceLocation(ResourceLocation.LOCAL)
 				.build())
 		);
 

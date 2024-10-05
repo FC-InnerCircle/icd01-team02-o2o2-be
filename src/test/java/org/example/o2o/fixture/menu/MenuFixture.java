@@ -6,6 +6,7 @@ import java.util.List;
 import org.example.o2o.domain.file.FileDetail;
 import org.example.o2o.domain.file.FileGroup;
 import org.example.o2o.domain.file.FileGroupType;
+import org.example.o2o.domain.file.ResourceLocation;
 import org.example.o2o.domain.menu.StoreMenu;
 import org.example.o2o.domain.menu.StoreMenuOption;
 import org.example.o2o.domain.menu.StoreMenuOptionGroup;
@@ -44,6 +45,7 @@ public class MenuFixture {
 			.path("/store/menu")
 			.extension(".jpg")
 			.size(1000L)
+			.resourceLocation(ResourceLocation.LOCAL)
 			.createdAt(LocalDateTime.now())
 			.updatedAt(LocalDateTime.now())
 			.build();
@@ -56,6 +58,7 @@ public class MenuFixture {
 			.path("/store/menu")
 			.extension(".jpg")
 			.size(2000L)
+			.resourceLocation(ResourceLocation.LOCAL)
 			.createdAt(LocalDateTime.now())
 			.updatedAt(LocalDateTime.now())
 			.build();

@@ -2,6 +2,8 @@ package org.example.o2o.api.service.menu;
 
 import static org.assertj.core.api.Assertions.*;
 
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.example.o2o.api.dto.file.request.ImageFileCreateRequestDto;
@@ -24,6 +26,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -41,6 +44,12 @@ public class CreateMenuServiceTest {
 
 	private Store testStore = null;
 
+	private final MockMultipartFile mockImageFile = new MockMultipartFile(
+		"thumbnailFile",
+		"thumbnail.jpg",
+		"text/plain",
+		"thumbnail file".getBytes(StandardCharsets.UTF_8));
+
 	@BeforeEach
 	void setUp() {
 		storeRepository.deleteAll();
@@ -51,7 +60,7 @@ public class CreateMenuServiceTest {
 	@Test
 	void testCreateMenuSuccessful() {
 		StoreMenu menu = MenuFixture.createMenu(testStore, 1);
-		MenuDetailResponseDto response = menuService.register(testStore.getId(), menu);
+		MenuDetailResponseDto response = menuService.register(testStore.getId(), List.of(mockImageFile), menu);
 
 		assertThat(menuRepository.count()).isEqualTo(1);
 		assertThat(response.name()).isEqualTo(menu.getName());
@@ -61,7 +70,7 @@ public class CreateMenuServiceTest {
 	@Test
 	void testCreateAndFindMenuSuccessful() {
 		StoreMenu menu = MenuFixture.createMenu(testStore, 1);
-		MenuDetailResponseDto saveMenu = menuService.register(testStore.getId(), menu);
+		MenuDetailResponseDto saveMenu = menuService.register(testStore.getId(), List.of(mockImageFile), menu);
 		MenuDetailResponseDto response = menuService.findStoreMenuDetail(saveMenu.menuId());
 
 		assertThat(response.menuId()).isEqualTo(saveMenu.menuId());
@@ -103,23 +112,22 @@ public class CreateMenuServiceTest {
 			new ImageFileCreateRequestDto[] {image1, image2}
 		);
 
-		MenuDetailResponseDto response = menuService.register(testStore.getId(), menu.toStoreMenu());
+		MenuDetailResponseDto response = menuService.register(testStore.getId(), List.of(mockImageFile),
+			menu.toStoreMenu());
 
 		assertThat(menuRepository.count()).isEqualTo(1);
 		assertThat(response.name()).isEqualTo(menu.name());
 		assertThat(response.optionGroups().size()).isEqualTo(1);
 		assertThat(response.optionGroups().get(0).options().get(0).name()).isEqualTo(option1.name());
 		assertThat(response.optionGroups().get(0).options().get(1).name()).isEqualTo(option2.name());
-		assertThat(response.images().get(0).imageUrl()).isEqualTo(image1.imageUrl());
-		assertThat(response.images().get(1).imageUrl()).isEqualTo(image2.imageUrl());
 	}
 
 	@Test
 	void testCreateMenuFail_store404() {
 		StoreMenu menu = MenuFixture.createMenu(testStore, 1);
-		menuService.register(testStore.getId(), menu);
+		menuService.register(testStore.getId(), List.of(mockImageFile), menu);
 
-		assertThatThrownBy(() -> menuService.register(999L, menu))
+		assertThatThrownBy(() -> menuService.register(999L, List.of(mockImageFile), menu))
 			.isInstanceOf(ApiException.class);
 	}
 }
