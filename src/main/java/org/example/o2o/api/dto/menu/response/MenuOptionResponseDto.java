@@ -17,10 +17,7 @@ public record MenuOptionResponseDto(
 	int price,
 
 	@Schema(description = "메뉴 옵션 항목 값", example = "1단계")
-	String name,
-
-	@Schema(description = "메뉴 옵션 항목 설명", example = "신라면 정도")
-	String desc
+	String name
 ) {
 	public static MenuOptionResponseDto of(StoreMenuOption option) {
 		return MenuOptionResponseDto.builder()
@@ -28,7 +25,6 @@ public record MenuOptionResponseDto(
 			.ordering(option.getOrdering())
 			.price(option.getPrice())
 			.name(option.getName())
-			.desc(option.getDescription())
 			.build();
 	}
 }

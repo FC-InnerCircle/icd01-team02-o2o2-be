@@ -8,7 +8,7 @@ import org.example.o2o.api.dto.file.request.ImageFileCreateRequestDto;
 import org.example.o2o.api.dto.file.response.ImageFileResponseDto;
 import org.example.o2o.api.dto.menu.request.MenuCreateRequestDto;
 import org.example.o2o.api.dto.menu.request.MenuOptionCreateRequestDto;
-import org.example.o2o.api.dto.menu.request.MenuOptionGroupCreateDto;
+import org.example.o2o.api.dto.menu.request.MenuOptionGroupCreateRequestDto;
 import org.example.o2o.api.dto.menu.response.MenuDetailResponseDto;
 import org.example.o2o.api.dto.menu.response.MenuOptionGroupResponseDto;
 import org.example.o2o.config.exception.ApiException;
@@ -80,11 +80,12 @@ public class CreateMenuServiceTest {
 	@DisplayName("메뉴 DTO로 등록")
 	@Test
 	void testCreateMenuByDtoSuccessful() {
-		MenuOptionCreateRequestDto option1 = new MenuOptionCreateRequestDto(1, "1단계", "", 0);
-		MenuOptionCreateRequestDto option2 = new MenuOptionCreateRequestDto(2, "2단계", "", 0);
-		MenuOptionGroupCreateDto optionGroup = new MenuOptionGroupCreateDto(
+		MenuOptionCreateRequestDto option1 = new MenuOptionCreateRequestDto(1, "1단계", 0);
+		MenuOptionCreateRequestDto option2 = new MenuOptionCreateRequestDto(2, "2단계", 0);
+		MenuOptionGroupCreateRequestDto optionGroup = new MenuOptionGroupCreateRequestDto(
 			1,
 			"맵기 선택",
+			true,
 			true,
 			new MenuOptionCreateRequestDto[] {option1, option2}
 		);
@@ -98,7 +99,7 @@ public class CreateMenuServiceTest {
 			"매운 실비 김치",
 			10_000,
 			1,
-			new MenuOptionGroupCreateDto[] {optionGroup},
+			new MenuOptionGroupCreateRequestDto[] {optionGroup},
 			new ImageFileCreateRequestDto[] {image1, image2}
 		);
 

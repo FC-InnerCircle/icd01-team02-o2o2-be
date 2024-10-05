@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.*;
 import java.util.List;
 
 import org.example.o2o.api.dto.menu.request.MenuOptionCreateRequestDto;
-import org.example.o2o.api.dto.menu.request.MenuOptionGroupCreateDto;
+import org.example.o2o.api.dto.menu.request.MenuOptionGroupCreateRequestDto;
 import org.example.o2o.api.dto.menu.response.MenuOptionGroupResponseDto;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.domain.menu.StoreMenu;
@@ -53,10 +53,10 @@ public class MenuOptionServiceTest {
 
 		int menuOptionGroupCount = menu.getMenuOptionGroups().size();
 
-		MenuOptionCreateRequestDto option1 = new MenuOptionCreateRequestDto(1, "옵션 내용 1", "", 1_000);
-		MenuOptionCreateRequestDto option2 = new MenuOptionCreateRequestDto(2, "옵션 내용 2", "", 2_000);
-		MenuOptionGroupCreateDto optionGroup = new MenuOptionGroupCreateDto(menuOptionGroupCount + 1,
-			"옵션 2", true,
+		MenuOptionCreateRequestDto option1 = new MenuOptionCreateRequestDto(1, "옵션 내용 1", 1_000);
+		MenuOptionCreateRequestDto option2 = new MenuOptionCreateRequestDto(2, "옵션 내용 2", 2_000);
+		MenuOptionGroupCreateRequestDto optionGroup = new MenuOptionGroupCreateRequestDto(menuOptionGroupCount + 1,
+			"옵션 2", true, true,
 			new MenuOptionCreateRequestDto[] {option1, option2});
 
 		StoreMenuOptionGroup storeMenuOptionGroup = optionGroup.toStoreMenuOptionGroup();
@@ -98,11 +98,10 @@ public class MenuOptionServiceTest {
 		MenuOptionCreateRequestDto afterOption = MenuOptionCreateRequestDto.builder()
 			.name("")
 			.price(0)
-			.desc("")
 			.ordering(1)
 			.build();
 
-		MenuOptionGroupCreateDto afterOptionGroup = MenuOptionGroupCreateDto.builder()
+		MenuOptionGroupCreateRequestDto afterOptionGroup = MenuOptionGroupCreateRequestDto.builder()
 			.options(new MenuOptionCreateRequestDto[] {afterOption})
 			.title("메뉴 그룹명 수정")
 			.ordering(1)
@@ -127,11 +126,10 @@ public class MenuOptionServiceTest {
 		MenuOptionCreateRequestDto afterOption = MenuOptionCreateRequestDto.builder()
 			.name("이름 수정")
 			.price(1000)
-			.desc("설명 수정")
 			.ordering(1)
 			.build();
 
-		MenuOptionGroupCreateDto afterOptionGroup = MenuOptionGroupCreateDto.builder()
+		MenuOptionGroupCreateRequestDto afterOptionGroup = MenuOptionGroupCreateRequestDto.builder()
 			.options(new MenuOptionCreateRequestDto[] {afterOption})
 			.title(menuOptionGroup.getTitle())
 			.ordering(menuOptionGroup.getOrdering())
@@ -146,7 +144,6 @@ public class MenuOptionServiceTest {
 		assertThat(response.options().size()).isEqualTo(1);
 		assertThat(response.options().get(0).name()).isEqualTo("이름 수정");
 		assertThat(response.options().get(0).price()).isEqualTo(1000);
-		assertThat(response.options().get(0).desc()).isEqualTo("설명 수정");
 		assertThat(response.options().get(0).price()).isEqualTo(afterOption.price());
 	}
 
@@ -157,14 +154,14 @@ public class MenuOptionServiceTest {
 
 		StoreMenuOptionGroup menuOptionGroup = menu.getMenuOptionGroups().get(0);
 
-		MenuOptionGroupCreateDto afterOptionGroupEmpty = MenuOptionGroupCreateDto.builder()
+		MenuOptionGroupCreateRequestDto afterOptionGroupEmpty = MenuOptionGroupCreateRequestDto.builder()
 			.options(new MenuOptionCreateRequestDto[] {})
 			.title(menuOptionGroup.getTitle())
 			.ordering(menuOptionGroup.getOrdering())
 			.isRequired(menuOptionGroup.getIsRequired())
 			.build();
 
-		MenuOptionGroupCreateDto afterOptionGroupNull = MenuOptionGroupCreateDto.builder()
+		MenuOptionGroupCreateRequestDto afterOptionGroupNull = MenuOptionGroupCreateRequestDto.builder()
 			.options(null)
 			.title(menuOptionGroup.getTitle())
 			.ordering(menuOptionGroup.getOrdering())

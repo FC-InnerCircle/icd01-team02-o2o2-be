@@ -31,7 +31,6 @@ public class StoreMenuOption {
 	private StoreMenuOptionGroup optionGroup;
 
 	private String name;
-	private String description;
 	private Integer price;
 	private Integer ordering;
 }

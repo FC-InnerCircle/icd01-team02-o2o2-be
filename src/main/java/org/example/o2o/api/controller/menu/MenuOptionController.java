@@ -1,7 +1,7 @@
 package org.example.o2o.api.controller.menu;
 
 import org.example.o2o.api.docs.menu.MenuOptionDocsController;
-import org.example.o2o.api.dto.menu.request.MenuOptionGroupCreateDto;
+import org.example.o2o.api.dto.menu.request.MenuOptionGroupCreateRequestDto;
 import org.example.o2o.api.dto.menu.response.MenuOptionGroupResponseDto;
 import org.example.o2o.api.service.menu.MenuOptionService;
 import org.example.o2o.common.dto.ApiResponse;
@@ -24,7 +24,7 @@ public class MenuOptionController implements MenuOptionDocsController {
 
 	@PostMapping("/menus/{menuId}/options")
 	public ApiResponse<MenuOptionGroupResponseDto> registerMenuOption(@PathVariable(name = "menuId") Long menuId,
-		@RequestBody MenuOptionGroupCreateDto requestDto) {
+		@RequestBody MenuOptionGroupCreateRequestDto requestDto) {
 
 		return ApiResponse.success(menuOptionService.register(menuId, requestDto.toStoreMenuOptionGroup()));
 	}
@@ -40,7 +40,8 @@ public class MenuOptionController implements MenuOptionDocsController {
 
 	@PatchMapping("/options/{optionGroupId}")
 	public ApiResponse<MenuOptionGroupResponseDto> updateMenuOption(
-		@PathVariable(name = "optionGroupId") Long optionGroupId, @RequestBody MenuOptionGroupCreateDto requestDto) {
+		@PathVariable(name = "optionGroupId") Long optionGroupId,
+		@RequestBody MenuOptionGroupCreateRequestDto requestDto) {
 
 		return ApiResponse.success(menuOptionService.update(optionGroupId, requestDto.toStoreMenuOptionGroup()));
 	}

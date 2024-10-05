@@ -45,6 +45,7 @@ public class StoreMenuOptionGroup {
 	private String title;
 	private Boolean isRequired;
 	private Boolean isDeleted;
+	private Boolean isMultiple;
 	private Integer ordering;
 
 	public void addMenuOption(StoreMenuOption menuOption) {
@@ -61,6 +62,9 @@ public class StoreMenuOptionGroup {
 		}
 		if (!Objects.isNull(afterOptionGroup.isRequired)) {
 			this.isRequired = afterOptionGroup.isRequired;
+		}
+		if (!Objects.isNull(afterOptionGroup.isMultiple)) {
+			this.isMultiple = afterOptionGroup.isMultiple;
 		}
 		if (Objects.isNull(afterOptionGroup.options) || afterOptionGroup.options.isEmpty()) {
 			throw new ApiException(MenuErrorCode.REQUIRED_MENU_OPTION);

@@ -1,6 +1,6 @@
 package org.example.o2o.api.docs.menu;
 
-import org.example.o2o.api.dto.menu.request.MenuOptionGroupCreateDto;
+import org.example.o2o.api.dto.menu.request.MenuOptionGroupCreateRequestDto;
 import org.example.o2o.api.dto.menu.response.MenuOptionGroupResponseDto;
 import org.example.o2o.config.exception.ErrorResponse;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +20,7 @@ public interface MenuOptionDocsController {
 	@ApiResponse(responseCode = "404", description = "메뉴 정보가 없는 경우",
 		content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 	org.example.o2o.common.dto.ApiResponse<MenuOptionGroupResponseDto> registerMenuOption(
-		@PathVariable(name = "menuId") Long menuId, @RequestBody MenuOptionGroupCreateDto requestDto);
+		@PathVariable(name = "menuId") Long menuId, @RequestBody MenuOptionGroupCreateRequestDto requestDto);
 
 	@Operation(summary = "메뉴 옵션 삭제", description = "메뉴 옵션을 삭제합니다.")
 	@ApiResponse(responseCode = "200", description = "메뉴 정상 삭제")
@@ -34,5 +34,6 @@ public interface MenuOptionDocsController {
 	@ApiResponse(responseCode = "404", description = "메뉴 옵션 정보가 없는 경우",
 		content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 	org.example.o2o.common.dto.ApiResponse<MenuOptionGroupResponseDto> updateMenuOption(
-		@PathVariable(name = "optionGroupId") Long optionGroupId, MenuOptionGroupCreateDto menuOptionGroupCreateDto);
+		@PathVariable(name = "optionGroupId") Long optionGroupId,
+		MenuOptionGroupCreateRequestDto menuOptionGroupCreateRequestDto);
 }

@@ -152,6 +152,53 @@ class OrderServiceTest {
 	}
 
 	@Test
+	void testSaveOrderFail_optionGroupNotMultiple() {
+		Store store = storeRepository.save(StoreFixture.createCustomStore("가게 생성", ""));
+		StoreMenu menu = menuRepository.save(MenuFixture.createMenu(store, 1));
+		StoreMenuOptionGroup optionGroup = menu.getMenuOptionGroups().get(0);
+		StoreMenuOption option1 = optionGroup.getOptions().get(0);
+		StoreMenuOption option2 = optionGroup.getOptions().get(1);
+		Member member = memberRepository.save(Member.builder()
+			.name("테스트 계정")
+			.nickname("test")
+			.contact("010-1234-5678")
+			.loginStatus("")
+			.status("")
+			.build());
+		Address address = addressRepository.save(Address.builder()
+			.member(member)
+			.address("주소")
+			.detailAddress("123-1")
+			.latitude(10.1F)
+			.longitude(10.1F)
+			.addressStatus("")
+			.build());
+
+		OrderOptionCreateRequestDto optionDto1 = new OrderOptionCreateRequestDto(option1.getId(),
+			option1.getName(), option1.getPrice());
+		OrderOptionCreateRequestDto optionDto2 = new OrderOptionCreateRequestDto(option2.getId(),
+			option2.getName(), option2.getPrice());
+		OrderOptionGroupCreateRequestDto optionGroupDto = new OrderOptionGroupCreateRequestDto(
+			optionGroup.getId(), optionGroup.getTitle(),
+			new OrderOptionCreateRequestDto[] {optionDto1, optionDto2});
+		OrderMenuCreateRequestDto menuDto = new OrderMenuCreateRequestDto(menu.getId(),
+			menu.getName(), 2, menu.getPrice(),
+			new OrderOptionGroupCreateRequestDto[] {optionGroupDto});
+		OrderCreateRequestDto orderDto = OrderCreateRequestDto.builder()
+			.memberId(member.getId())
+			.storeId(store.getId())
+			.storeName(store.getName())
+			.menus(new OrderMenuCreateRequestDto[] {menuDto})
+			.orderPrice(20000)
+			.payment("card")
+			.addressId(address.getId())
+			.build();
+
+		assertThatThrownBy(() -> orderService.order(orderDto))
+			.isInstanceOf(ApiException.class);
+	}
+
+	@Test
 	void testSaveOrderFail_idNotExists() {
 		Store store = storeRepository.save(StoreFixture.createCustomStore("가게 생성", ""));
 		Member member = memberRepository.save(Member.builder()

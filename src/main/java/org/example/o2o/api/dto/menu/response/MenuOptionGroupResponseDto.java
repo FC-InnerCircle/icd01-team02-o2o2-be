@@ -21,6 +21,9 @@ public record MenuOptionGroupResponseDto(
 	@Schema(description = "메뉴 옵션 필수 여부", example = "true")
 	boolean isRequired,
 
+	@Schema(description = "메뉴 옵션 다중선택 여부", example = "true")
+	boolean isMultiple,
+
 	@Schema(description = "메뉴 옵션명", example = "맵기 조절")
 	String title,
 
@@ -32,6 +35,7 @@ public record MenuOptionGroupResponseDto(
 			.optionGroupId(optionGroup.getId())
 			.ordering(optionGroup.getOrdering())
 			.isRequired(optionGroup.getIsRequired())
+			.isMultiple(optionGroup.getIsMultiple())
 			.title(optionGroup.getTitle())
 			.options(optionGroup.getOptions()
 				.stream()

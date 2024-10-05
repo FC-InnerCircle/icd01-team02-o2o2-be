@@ -39,7 +39,7 @@ public record MenuCreateRequestDto(
 		example = "[{"
 			+ "ordering: 1, title: '맵기', isRequired: true, options: []"
 			+ "}]")
-	MenuOptionGroupCreateDto[] optionGroups,
+	MenuOptionGroupCreateRequestDto[] optionGroups,
 
 	@Schema(description = "메뉴 이미지 목록", example = "[{ordering: 1, imageUrl: ''}, {ordering: 2, imageUrl: ''}]")
 	@Length(min = 1, message = "이미지는 하나 이상 등록 되어야 합니다.")

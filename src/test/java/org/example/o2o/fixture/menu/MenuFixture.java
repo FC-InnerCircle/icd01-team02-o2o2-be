@@ -70,6 +70,7 @@ public class MenuFixture {
 		StoreMenuOptionGroup menuOptionGroup = StoreMenuOptionGroup.builder()
 			.title("맵기 선택")
 			.isRequired(true)
+			.isMultiple(false)
 			.isDeleted(false)
 			.ordering(1)
 			.build();
@@ -77,7 +78,6 @@ public class MenuFixture {
 		StoreMenuOption option1 = StoreMenuOption.builder()
 			.optionGroup(menuOptionGroup)
 			.name("1단계 (신라면)")
-			.description("")
 			.price(0)
 			.ordering(1)
 			.build();
@@ -85,7 +85,6 @@ public class MenuFixture {
 		StoreMenuOption option2 = StoreMenuOption.builder()
 			.optionGroup(menuOptionGroup)
 			.name("2단계 (불닭)")
-			.description("")
 			.price(0)
 			.ordering(2)
 			.build();
@@ -93,7 +92,6 @@ public class MenuFixture {
 		StoreMenuOption option3 = StoreMenuOption.builder()
 			.optionGroup(menuOptionGroup)
 			.name("3단계 (땡초)")
-			.description("")
 			.price(1000)
 			.ordering(3)
 			.build();
