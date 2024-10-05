@@ -1,6 +1,7 @@
 package org.example.o2o.common.dto.file;
 
 import org.example.o2o.domain.file.FileDetail;
+import org.example.o2o.domain.file.FileTemporaryStorage;
 import org.example.o2o.domain.file.ResourceLocation;
 
 import lombok.AllArgsConstructor;
@@ -33,6 +34,45 @@ public class FileDto {
 				.extension(extension)
 				.size(fileSize)
 				.resourceLocation(resourceLocation)
+				.build();
+		}
+	}
+
+	@Getter
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class PreSignedUrlRequest {
+		private String memberId;
+		private String originalFileName;
+		private Long fileSize;
+		private String fileExtension;
+	}
+
+	@ToString
+	@Getter
+	@Builder
+	@NoArgsConstructor
+	@AllArgsConstructor
+	public static class PreSignedUrlResponse {
+
+		private String memberId;
+		private String originalFileName;
+		private String storedFileName;
+		private String path;
+		private Long fileSize;
+		private String fileExtension;
+		private FileTemporaryStorage.FileSyncStatus syncStatus;
+
+		public FileTemporaryStorage toFileTemporaryStorage() {
+			return FileTemporaryStorage.builder()
+				.memberId(memberId)
+				.originalFileName(originalFileName)
+				.storedFileName(storedFileName)
+				.path(path)
+				.size(fileSize)
+				.extension(fileExtension)
+				.syncStatus(syncStatus)
 				.build();
 		}
 	}

@@ -1,0 +1,55 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+      data-locations: file:sql/data.sql
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: true
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        highlight_sql: true
+        use_sql_comments: true
+        show_sql: true
+        default_batch_fetch_size: 20
+    defer-datasource-initialization: true
+cloud:
+  aws:
+    s3:
+      bucket: AWS_BUCKET_NAME
+    credentials:
+      access-key: AWS_ACCESS_KEY
+      secret-key: AWS_SECRET_KEY
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+jwt:
+  secret: wRe37FZ7VijwSr25mdaZl4q7Di06YOngs6aRgwYHkDM=
+  access:
+    expiration: 86400000
+  refresh:
+    expiration: 86400000
+jasypt:
+  encryptor:
+    password: jasypt-password
+file:
+  manager:
+    type: local

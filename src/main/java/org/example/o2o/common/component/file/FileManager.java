@@ -9,4 +9,8 @@ public interface FileManager {
 	List<UploadFileResponse> storeFiles(List<MultipartFile> files);
 
 	UploadFileResponse storeFile(MultipartFile file);
+
+	boolean isExistsFile(String fileName);
+
+	void deleteFile(String fileName);
 }

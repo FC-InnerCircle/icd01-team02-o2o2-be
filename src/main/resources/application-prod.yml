@@ -1,0 +1,40 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: ENC(3BRtC0UgLFElj7pBY/cHeMqj1VUbzoRDBK8l7HhFryNmY6MRsXTnpf2x+fbfpfamgtg22EwU9ZAvQ6ICf8yKuOVbH1SDM/HamOiedRpjknCj4xxaPqRGsxVUFGMbTlhEJWmHZsopLwGZ0RjeCptXOdI9mh3YHn/ovwZg/+IN3zI=)
+    username: ENC(MNPbJxHCJK/oDJ7rOMxqTw==)
+    password: ENC(YghnKSsuDj23whkYf40A5pfInZEfGxiS)
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        default_batch_fetch_size: 20
+cloud:
+  aws:
+    s3:
+      bucket: o2o-admin
+    credentials:
+      access-key: ENC(xwFknOjYHFJaj7MDWFp/SgPgEx7JQhxMLWw9iFtEldY=)
+      secret-key: ENC(OakzYJcvV6KRzG7iZLk857P6nrdxaNWHYyLPMZd+4/z/w5q2VVRRKORg1+xqVBnse9hOcU96kaQ=)
+    region:
+      static: ap-northeast-2
+      auto: false
+    stack:
+      auto: false
+jwt:
+  secret: ENC(8JRc4S9YtcEZ06sBIuVGFDqxq/P+gb11rolnvZrQa/AfqHpdUQ4wryhZyl3SgkvjUa/ws0hrzbQ=)
+  access:
+    expiration: 300000
+  refresh:
+    expiration: 86400000
+jasypt:
+  encryptor:
+    password: ${JASYPT_PASSWORD}
+file:
+  manager:
+    type: s3
