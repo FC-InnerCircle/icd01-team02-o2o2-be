@@ -2,7 +2,7 @@ name: Deploy to AWS ECS
 
 on:
   push:
-    branches: [ deploy-test ]
+    branches: [ develop ]
   pull_request:
     branches: [ main ]
 
