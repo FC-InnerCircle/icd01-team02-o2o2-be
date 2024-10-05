@@ -4,7 +4,7 @@ on:
   push:
     branches: [ develop ]
   pull_request:
-    branches: [ main ]
+    branches: [ main, develop ]
 
 env:
   BUCKET_NAME: o2o-bucket

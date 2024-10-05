@@ -11,15 +11,11 @@ import org.example.o2o.common.dto.file.FileDto.UploadFileResponse;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.config.exception.enums.file.FileErrorCode;
 import org.example.o2o.domain.file.ResourceLocation;
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 
-@Profile("local")
 @Slf4j
-@Component
 public class LocalFileManager implements FileManager {
 
 	private static final String UPLOAD_DIRECTORY = "upload/";
@@ -74,6 +70,27 @@ public class LocalFileManager implements FileManager {
 		} catch (IOException e) {
 			log.error("storeFile Exception: ", e);
 			throw new ApiException(FileErrorCode.FILE_SAVE_FAIL);
+		}
+	}
+
+	@Override
+	public boolean isExistsFile(String fileName) {
+		String uploadPath = createUploadDirectory();
+		Path path = Paths.get(uploadPath, fileName);
+		return Files.exists(path);
+	}
+
+	@Override
+	public void deleteFile(String fileName) {
+		String uploadPath = createUploadDirectory();
+		Path path = Paths.get(uploadPath, fileName);
+
+		if (Files.exists(path)) {
+			try {
+				Files.delete(path);
+			} catch (IOException e) {
+				throw new ApiException(FileErrorCode.FILE_DELETE_FAIL);
+			}
 		}
 	}
 
