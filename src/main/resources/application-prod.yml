@@ -34,7 +34,10 @@ jwt:
     expiration: 86400000
 jasypt:
   encryptor:
-    password: ${JASYPT_PASSWORD}
+    bean: jasyptStringEncryptor
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+    iv-generator-classname: org.jasypt.iv.NoIvGenerator
+    algorithm: PBEWithMD5AndDES
 file:
   manager:
     type: s3
