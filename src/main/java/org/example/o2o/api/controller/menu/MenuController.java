@@ -1,5 +1,7 @@
 package org.example.o2o.api.controller.menu;
 
+import java.util.List;
+
 import org.example.o2o.api.docs.menu.MenuDocsController;
 import org.example.o2o.api.dto.menu.request.MenuCreateRequestDto;
 import org.example.o2o.api.dto.menu.request.MenusRequestDto;
@@ -12,9 +14,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -50,9 +53,10 @@ public class MenuController implements MenuDocsController {
 	@PostMapping("/stores/{storeId}/menus")
 	public ApiResponse<MenuDetailResponseDto> registerMenu(
 		@PathVariable(name = "storeId") Long storeId,
-		@RequestBody @Valid MenuCreateRequestDto requestDto) {
+		@RequestPart("menuImageFiles") List<MultipartFile> imageFiles,
+		@RequestPart @Valid MenuCreateRequestDto requestDto) {
 
-		return ApiResponse.success(menuService.register(storeId, requestDto.toStoreMenu()));
+		return ApiResponse.success(menuService.register(storeId, imageFiles, requestDto.toStoreMenu()));
 	}
 
 	@DeleteMapping("/menus/{menuId}")

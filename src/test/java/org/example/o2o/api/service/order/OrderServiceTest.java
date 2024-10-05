@@ -163,15 +163,15 @@ class OrderServiceTest {
 			.nickname("test")
 			.contact("010-1234-5678")
 			.loginStatus("")
-			.status("")
+			.status(MemberStatus.ACTIVE)
 			.build());
 		Address address = addressRepository.save(Address.builder()
 			.member(member)
 			.address("주소")
 			.detailAddress("123-1")
-			.latitude(10.1F)
-			.longitude(10.1F)
-			.addressStatus("")
+			.latitude(10.1)
+			.longitude(10.1)
+			.status(AddressStatus.ACTIVE)
 			.build());
 
 		OrderOptionCreateRequestDto optionDto1 = new OrderOptionCreateRequestDto(option1.getId(),

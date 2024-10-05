@@ -68,11 +68,15 @@ public class StoreMenu extends AbstractEntity {
 		optionGroup.setMenu(this);
 	}
 
+	public void registerImageGroup(FileGroup fileGroup) {
+		this.imageFileGroup = fileGroup;
+	}
+
 	public String getThumbImageUrl() {
 		if (imageFileGroup == null || imageFileGroup.getDetails().isEmpty()) {
 			return "";
 		}
-		return imageFileGroup.getDetails().get(0).getPath();
+		return imageFileGroup.getDetails().get(0).getFileAccessUrl();
 	}
 
 	public void disable() {
