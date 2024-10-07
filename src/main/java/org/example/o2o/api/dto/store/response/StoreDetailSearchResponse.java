@@ -1,12 +1,16 @@
-package org.example.o2o.api.dto.store;
+package org.example.o2o.api.dto.store.response;
 
+import java.util.List;
+
+import org.example.o2o.domain.file.FileDetail;
 import org.example.o2o.domain.store.Store;
+import org.springframework.util.ObjectUtils;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 @Builder
-public record StoreDetailResponseDto(
+public record StoreDetailSearchResponse(
 	@Schema(description = "스토어 ID", example = "1")
 	Long id,
 
@@ -50,18 +54,23 @@ public record StoreDetailResponseDto(
 	String createdAt,
 
 	@Schema(description = "수정 일시", example = "2024-01-02T15:30:00")
-	String updatedAt) {
+	String updatedAt,
 
-	public static StoreDetailResponseDto of(Store store) {
-		return StoreDetailResponseDto.builder()
+	@Schema(description = "썸네일", example = "[\"https://s3.amazonaws.com/your-bucket-name/images/thumbnails/thumb1_abc123.jpg\", \"https://s3.amazonaws.com/your-bucket-name/images/thumbnails/thumb1_abc123.jpg\"]")
+	String[] thumbnails,
+
+	List<StoreMenuResponse> menus) {
+
+	public static StoreDetailSearchResponse of(Store store, List<StoreMenuResponse> storeMenuResponse) {
+		return StoreDetailSearchResponse.builder()
 			.id(store.getId())
 			.name(store.getName())
 			.contactNumber(store.getContactNumber())
 			.zipCode(store.getZipCode())
 			.address(store.getAddress())
 			.addressDetail(store.getAddressDetail())
-			.latitude(Double.parseDouble(store.getLatitude()))
-			.longitude(Double.parseDouble(store.getLongitude()))
+			.latitude(store.getLatitude())
+			.longitude(store.getLongitude())
 			.openTime(store.getOpenTime())
 			.closeTime(store.getCloseTime())
 			.categories(store.getCategory().split(","))
@@ -69,6 +78,14 @@ public record StoreDetailResponseDto(
 			.deliveryArea(store.getDeliveryArea())
 			.createdAt(store.getCreatedAt().toString())
 			.updatedAt(store.getUpdatedAt().toString())
+			.thumbnails(
+				ObjectUtils.isEmpty(store.getThumbnailFileGroup())
+					? new String[0]
+					: store.getThumbnailFileGroup().getDetails().stream()
+					.map(FileDetail::getFileAccessUrl)
+					.toArray(String[]::new)
+			)
+			.menus(storeMenuResponse)
 			.build();
 	}
 }

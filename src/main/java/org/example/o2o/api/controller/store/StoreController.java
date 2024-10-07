@@ -3,11 +3,11 @@ package org.example.o2o.api.controller.store;
 import java.util.List;
 
 import org.example.o2o.api.docs.store.StoreDocsController;
-import org.example.o2o.api.dto.store.StoreDetailResponseDto;
 import org.example.o2o.api.dto.store.StoreDto.StoreSaveRequest;
 import org.example.o2o.api.dto.store.StoreDto.StoreSaveResponse;
-import org.example.o2o.api.dto.store.StoreListRequestDto;
-import org.example.o2o.api.dto.store.StoreListResponseDto;
+import org.example.o2o.api.dto.store.request.StoreListSearchRequest;
+import org.example.o2o.api.dto.store.response.StoreDetailSearchResponse;
+import org.example.o2o.api.dto.store.response.StoreListSearchResponse;
 import org.example.o2o.api.service.store.StoreService;
 import org.example.o2o.common.dto.ApiResponse;
 import org.example.o2o.config.security.annotation.AdminAuthorize;
@@ -38,24 +38,24 @@ public class StoreController implements StoreDocsController {
 	}
 
 	@GetMapping
-	public ApiResponse<StoreListResponseDto> getStores(StoreListRequestDto requestDto) {
+	public ApiResponse<StoreListSearchResponse> getStores(StoreListSearchRequest requestDto) {
 		Pageable pageable = PageRequest.of(
 			requestDto.page(),
 			requestDto.size(),
 			Sort.by(requestDto.sortDirection(), requestDto.sortField())
 		);
-		StoreListResponseDto storeList = storeService.getStores(pageable);
+		StoreListSearchResponse storeList = storeService.getStores(pageable);
 		return ApiResponse.success(storeList);
 	}
 
 	@GetMapping("/{id}")
-	public org.example.o2o.common.dto.ApiResponse<StoreDetailResponseDto> getStoreById(@PathVariable Long id) {
-		StoreDetailResponseDto storeDto = storeService.getStoreById(id);
+	public ApiResponse<StoreDetailSearchResponse> getStoreById(@PathVariable Long id) {
+		StoreDetailSearchResponse storeDto = storeService.getStoreById(id);
 		return ApiResponse.success(storeDto);
 	}
 
 	@DeleteMapping("/{id}")
-	public org.example.o2o.common.dto.ApiResponse<Void> deleteStoreById(@PathVariable Long id) {
+	public ApiResponse<Void> deleteStoreById(@PathVariable Long id) {
 		storeService.deleteStoreById(id);
 		return ApiResponse.success(null);
 	}

@@ -11,10 +11,12 @@ import org.example.o2o.domain.store.DayOfWeek;
 import org.example.o2o.domain.store.Store;
 import org.example.o2o.domain.store.StoreBusinessDay;
 import org.example.o2o.domain.store.StoreCategory;
+import org.example.o2o.domain.store.StoreStatus;
 import org.springframework.util.ObjectUtils;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -48,12 +50,12 @@ public class StoreDto {
 		private String addressDetail;
 
 		@Schema(description = "위도", example = "37.5453458368972")
-		@NotBlank(message = "위도는 필수 입력입니다.")
-		private String latitude;
+		@NotNull(message = "위도는 필수 입력입니다.")
+		private Double latitude;
 
 		@Schema(description = "경도", example = "127.18484365063364")
-		@NotBlank(message = "경도는 필수 입력입니다.")
-		private String longitude;
+		@NotNull(message = "경도는 필수 입력입니다.")
+		private Double longitude;
 
 		@Schema(description = "오픈 시간", example = "10:00")
 		@NotBlank(message = "오픈 시간은 필수 입력입니다.")
@@ -63,13 +65,16 @@ public class StoreDto {
 		@NotBlank(message = "마감 시간은 필수 입력입니다.")
 		private String closeTime;
 
+		@Builder.Default
 		@Schema(description = "영업 시간")
 		private List<StoreBusinessDaysRequest> businessDays = new ArrayList<>();
 
+		@Builder.Default
 		@Schema(description = "카테고리 목록", example = "['CAFE', 'CHICKEN', 'KOREAN_FOOD']")
 		@EnumValue(enumClass = StoreCategory.class, message = "카테고리가 올바르지 않습니다. {enumValues}")
 		private List<StoreCategory> categories = new ArrayList<>();
 
+		@Builder.Default
 		@Schema(description = "배달 가능 지역", example = "['가산1동', '가산2동']")
 		private List<String> deliveryAreas = new ArrayList<>();
 
@@ -96,6 +101,7 @@ public class StoreDto {
 					ObjectUtils.isEmpty(deliveryAreas) ? null : String.join(",", deliveryAreas)
 				)
 				.minimumOrderAmount(minimumOrderAmount)
+				.status(StoreStatus.ACTIVE)
 				.build();
 
 			store.registerBusinessDays(
@@ -158,8 +164,8 @@ public class StoreDto {
 						.map(StoreCategory::valueOf)
 						.toList()
 				)
-				.latitude(Double.parseDouble(store.getLatitude()))
-				.longitude(Double.parseDouble(store.getLongitude()))
+				.latitude(store.getLatitude())
+				.longitude(store.getLongitude())
 				.openTime(store.getOpenTime())
 				.closeTime(store.getCloseTime())
 				.imageUrls(

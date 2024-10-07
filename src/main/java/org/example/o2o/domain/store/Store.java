@@ -9,6 +9,8 @@ import org.example.o2o.domain.menu.StoreMenu;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,13 +40,16 @@ public class Store extends AbstractEntity {
 	private String zipCode;
 	private String address;
 	private String addressDetail;
-	private String latitude;
-	private String longitude;
+	private Double latitude;
+	private Double longitude;
 	private String openTime;
 	private String closeTime;
 	private String category;
 	private String deliveryArea;
 	private Integer minimumOrderAmount;
+
+	@Enumerated(EnumType.STRING)
+	private StoreStatus status;
 
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "thumbnail_file_group_id")
@@ -70,5 +75,9 @@ public class Store extends AbstractEntity {
 			this.businessDays.add(businessDay);
 			businessDay.setStore(this);
 		}
+	}
+
+	public void delete() {
+		this.status = StoreStatus.DELETED;
 	}
 }

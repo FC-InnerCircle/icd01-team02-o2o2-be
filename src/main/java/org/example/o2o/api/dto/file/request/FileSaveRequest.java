@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,7 +23,7 @@ public class FileSaveRequest {
 	private String fileName;
 
 	@Schema(description = "파일 크기", example = "112233")
-	@NotBlank(message = "파일 크기는 필수 입력입니다.")
+	@Positive(message = "파일 크기는 필수 입력입니다.")
 	private Long fileSize;
 
 	@Schema(description = "파일 확장자", example = "txt")
