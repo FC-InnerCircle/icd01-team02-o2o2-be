@@ -34,6 +34,7 @@ public class OrderService {
 	private final StoreRepository storeRepository;
 	private final StoreMenuRepository menuRepository;
 	private final AddressRepository addressRepository;
+	private final OrderNotificationService orderNotificationService;
 
 	@Transactional
 	public OrderCreateResponseDto order(final OrderCreateRequestDto requestDto) {
