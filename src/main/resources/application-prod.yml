@@ -41,3 +41,5 @@ jasypt:
 file:
   manager:
     type: s3
+notification:
+  url: https://api.o2o-free.online
