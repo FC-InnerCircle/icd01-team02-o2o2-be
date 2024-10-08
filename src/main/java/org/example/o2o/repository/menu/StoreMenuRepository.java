@@ -13,6 +13,19 @@ import org.springframework.data.repository.query.Param;
 
 public interface StoreMenuRepository extends JpaRepository<StoreMenu, Long> {
 
+	@Query("""
+			SELECT sm
+			FROM StoreMenu sm
+			LEFT JOIN FETCH sm.menuOptionGroups
+			LEFT JOIN FETCH sm.imageFileGroup
+			WHERE sm.store.id = :storeId
+				AND sm.status IN (
+					org.example.o2o.domain.menu.StoreMenuStatus.SOLDOUT,
+					org.example.o2o.domain.menu.StoreMenuStatus.ENABLED
+				)
+		""")
+	List<StoreMenu> findActiveMenusByStoreId(@Param("storeId") Long storeId);
+
 	@Query(
 		value = "SELECT sm FROM StoreMenu sm"
 			+ " LEFT JOIN FETCH sm.menuOptionGroups"

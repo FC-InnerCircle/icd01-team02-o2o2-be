@@ -8,17 +8,17 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.List;
 
-import org.example.o2o.api.dto.store.StoreDetailResponseDto;
 import org.example.o2o.api.dto.store.StoreDto.StoreSaveRequest;
 import org.example.o2o.api.dto.store.StoreDto.StoreSaveResponse;
-import org.example.o2o.api.dto.store.StoreListRequestDto;
-import org.example.o2o.api.dto.store.StoreListResponseDto;
+import org.example.o2o.api.dto.store.request.StoreListSearchRequest;
+import org.example.o2o.api.dto.store.response.StoreDetailSearchResponse;
+import org.example.o2o.api.dto.store.response.StoreListSearchResponse;
 import org.example.o2o.common.component.file.FileManager;
 import org.example.o2o.common.dto.file.FileDto;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.domain.file.ResourceLocation;
 import org.example.o2o.domain.store.Store;
-import org.example.o2o.fixture.StoreFixture;
+import org.example.o2o.fixture.store.StoreFixture;
 import org.example.o2o.repository.store.StoreRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -62,11 +62,11 @@ public class StoreServiceTest {
 		Store store = StoreFixture.createStore();
 		storeRepository.save(store);
 
-		StoreListRequestDto requestDto = new StoreListRequestDto(0, 10, "createdAt", Sort.Direction.DESC);
+		StoreListSearchRequest requestDto = new StoreListSearchRequest(0, 10, "createdAt", Sort.Direction.DESC);
 		Pageable pageable = PageRequest.of(requestDto.page(), requestDto.size(),
 			Sort.by(requestDto.sortDirection(), requestDto.sortField()));
 
-		StoreListResponseDto responseDto = storeService.getStores(pageable);
+		StoreListSearchResponse responseDto = storeService.getStores(pageable);
 
 		assertThat(responseDto.stores()).isNotEmpty();
 		assertThat(responseDto.stores().get(0).name()).isEqualTo("Test Store");
@@ -77,11 +77,11 @@ public class StoreServiceTest {
 		storeRepository.save(StoreFixture.createStore());
 		storeRepository.save(StoreFixture.createCustomStore("Store 2", "Korean"));
 
-		StoreListRequestDto requestDto = new StoreListRequestDto(0, 1, "createdAt", Sort.Direction.DESC);
+		StoreListSearchRequest requestDto = new StoreListSearchRequest(0, 1, "createdAt", Sort.Direction.DESC);
 		Pageable pageable = PageRequest.of(requestDto.page(), requestDto.size(),
 			Sort.by(requestDto.sortDirection(), requestDto.sortField()));
 
-		StoreListResponseDto responseDto = storeService.getStores(pageable);
+		StoreListSearchResponse responseDto = storeService.getStores(pageable);
 
 		assertThat(responseDto.stores()).hasSize(1);
 	}
@@ -91,11 +91,11 @@ public class StoreServiceTest {
 		storeRepository.save(StoreFixture.createCustomStore("B Store", "Korean"));
 		storeRepository.save(StoreFixture.createCustomStore("A Store", "Korean"));
 
-		StoreListRequestDto requestDto = new StoreListRequestDto(0, 10, "name", Sort.Direction.ASC);
+		StoreListSearchRequest requestDto = new StoreListSearchRequest(0, 10, "name", Sort.Direction.ASC);
 		Pageable pageable = PageRequest.of(requestDto.page(), requestDto.size(),
 			Sort.by(requestDto.sortDirection(), requestDto.sortField()));
 
-		StoreListResponseDto responseDto = storeService.getStores(pageable);
+		StoreListSearchResponse responseDto = storeService.getStores(pageable);
 
 		assertThat(responseDto.stores().get(0).name()).isEqualTo("A Store");
 	}
@@ -103,7 +103,7 @@ public class StoreServiceTest {
 	@Test
 	void testGetStoreByIdSuccessful() {
 		Store store = storeRepository.save(StoreFixture.createStore());
-		StoreDetailResponseDto responseDto = storeService.getStoreById(store.getId());
+		StoreDetailSearchResponse responseDto = storeService.getStoreById(store.getId());
 
 		assertThat(responseDto).isNotNull();
 		assertThat(responseDto.name()).isEqualTo("Test Store");
@@ -112,7 +112,7 @@ public class StoreServiceTest {
 	@Test
 	void testDeleteStoreByIdSuccessful() {
 		Store store = storeRepository.save(StoreFixture.createStore());
-		StoreDetailResponseDto responseDto = storeService.getStoreById(store.getId());
+		StoreDetailSearchResponse responseDto = storeService.getStoreById(store.getId());
 
 		assertThat(responseDto).isNotNull();
 		storeService.deleteStoreById(store.getId());
