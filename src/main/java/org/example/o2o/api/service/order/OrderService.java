@@ -1,9 +1,12 @@
 package org.example.o2o.api.service.order;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.example.o2o.api.dto.order.request.OrderCreateRequestDto;
+import org.example.o2o.api.dto.order.request.OrdersRequestDto;
 import org.example.o2o.api.dto.order.response.OrderCreateResponseDto;
+import org.example.o2o.api.dto.order.response.OrdersResponseDto;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.config.exception.enums.auth.AccountErrorCode;
 import org.example.o2o.config.exception.enums.auth.AddressErrorCode;
@@ -12,6 +15,8 @@ import org.example.o2o.config.exception.enums.store.StoreErrorCode;
 import org.example.o2o.domain.member.Address;
 import org.example.o2o.domain.member.Member;
 import org.example.o2o.domain.menu.StoreMenu;
+import org.example.o2o.domain.order.OrderInfo;
+import org.example.o2o.domain.order.OrderStatus;
 import org.example.o2o.domain.store.Store;
 import org.example.o2o.repository.member.AddressRepository;
 import org.example.o2o.repository.member.MemberRepository;
@@ -55,5 +60,24 @@ public class OrderService {
 		}
 
 		return OrderCreateResponseDto.of(orderRepository.save(requestDto.toOrder(member, store, address)));
+	}
+
+	@Transactional(readOnly = true)
+	public List<OrdersResponseDto> getOrderListByStoreId(final OrdersRequestDto requestDto,
+		final List<OrderStatus> statues) {
+		Long storeId = requestDto.storeId();
+
+		if (!storeRepository.existsById(storeId)) {
+			throw new ApiException(StoreErrorCode.NOT_EXISTS_STORE);
+		}
+
+		List<OrderInfo> orders = orderRepository.findByStoreIdAndStatusIn(
+			storeId, statues, requestDto.toPageRequest(),
+			LocalDateTime.parse(requestDto.startDate() + "T00:00:00"),
+			LocalDateTime.parse(requestDto.endDate() + "T23:59:59"));
+
+		return orders.stream()
+			.map(OrdersResponseDto::of)
+			.toList();
 	}
 }
