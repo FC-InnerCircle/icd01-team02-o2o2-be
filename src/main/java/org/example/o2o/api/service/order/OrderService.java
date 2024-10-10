@@ -6,6 +6,7 @@ import java.util.List;
 import org.example.o2o.api.dto.order.request.OrderCreateRequestDto;
 import org.example.o2o.api.dto.order.request.OrdersRequestDto;
 import org.example.o2o.api.dto.order.response.OrderCreateResponseDto;
+import org.example.o2o.api.dto.order.response.OrderDetailResponseDto;
 import org.example.o2o.api.dto.order.response.OrdersResponseDto;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.config.exception.enums.auth.AccountErrorCode;
@@ -79,5 +80,10 @@ public class OrderService {
 		return orders.stream()
 			.map(OrdersResponseDto::of)
 			.toList();
+	}
+
+	@Transactional(readOnly = true)
+	public OrderDetailResponseDto getOrderDetail(final Long orderId) {
+		return OrderDetailResponseDto.of(orderRepository.findByIdWithDetail(orderId));
 	}
 }
