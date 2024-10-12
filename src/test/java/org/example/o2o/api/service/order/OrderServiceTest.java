@@ -2,11 +2,12 @@ package org.example.o2o.api.service.order;
 
 import static org.assertj.core.api.Assertions.*;
 
-import org.example.o2o.api.dto.order.request.OrderCreateRequestDto;
-import org.example.o2o.api.dto.order.request.OrderMenuCreateRequestDto;
-import org.example.o2o.api.dto.order.request.OrderOptionCreateRequestDto;
-import org.example.o2o.api.dto.order.request.OrderOptionGroupCreateRequestDto;
-import org.example.o2o.api.dto.order.response.OrderCreateResponseDto;
+import org.example.o2o.api.v1.dto.order.request.OrderCreateRequestDto;
+import org.example.o2o.api.v1.dto.order.request.OrderMenuCreateRequestDto;
+import org.example.o2o.api.v1.dto.order.request.OrderOptionCreateRequestDto;
+import org.example.o2o.api.v1.dto.order.request.OrderOptionGroupCreateRequestDto;
+import org.example.o2o.api.v1.dto.order.response.OrderCreateResponseDto;
+import org.example.o2o.api.v1.service.order.OrderService;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.domain.member.Address;
 import org.example.o2o.domain.member.AddressStatus;

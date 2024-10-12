@@ -1,7 +1,7 @@
 package org.example.o2o.fixture.auth;
 
-import org.example.o2o.api.dto.auth.AccountDto.SignupAdminRequest;
-import org.example.o2o.api.dto.auth.AccountDto.SignupOwnerRequest;
+import org.example.o2o.api.v1.dto.auth.AccountDto.SignupAdminRequest;
+import org.example.o2o.api.v1.dto.auth.AccountDto.SignupOwnerRequest;
 import org.example.o2o.domain.auth.Account;
 import org.example.o2o.domain.auth.AccountRole;
 import org.example.o2o.domain.auth.AccountStatus;

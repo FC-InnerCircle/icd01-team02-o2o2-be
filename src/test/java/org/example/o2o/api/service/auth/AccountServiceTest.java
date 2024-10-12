@@ -2,13 +2,14 @@ package org.example.o2o.api.service.auth;
 
 import static org.assertj.core.api.Assertions.*;
 
-import org.example.o2o.api.dto.auth.AccountDto.FindProfileResponse;
-import org.example.o2o.api.dto.auth.AccountDto.ModifyAccountResponse;
-import org.example.o2o.api.dto.auth.AccountDto.ModifyProfileRequest;
-import org.example.o2o.api.dto.auth.AccountDto.SignupAdminRequest;
-import org.example.o2o.api.dto.auth.AccountDto.SignupAdminResponse;
-import org.example.o2o.api.dto.auth.AccountDto.SignupOwnerRequest;
-import org.example.o2o.api.dto.auth.AccountDto.SignupOwnerResponse;
+import org.example.o2o.api.v1.dto.auth.AccountDto.FindProfileResponse;
+import org.example.o2o.api.v1.dto.auth.AccountDto.ModifyAccountResponse;
+import org.example.o2o.api.v1.dto.auth.AccountDto.ModifyProfileRequest;
+import org.example.o2o.api.v1.dto.auth.AccountDto.SignupAdminRequest;
+import org.example.o2o.api.v1.dto.auth.AccountDto.SignupAdminResponse;
+import org.example.o2o.api.v1.dto.auth.AccountDto.SignupOwnerRequest;
+import org.example.o2o.api.v1.dto.auth.AccountDto.SignupOwnerResponse;
+import org.example.o2o.api.v1.service.auth.AccountService;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.config.exception.enums.auth.AccountErrorCode;
 import org.example.o2o.domain.auth.Account;

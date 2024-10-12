@@ -8,11 +8,12 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.List;
 
-import org.example.o2o.api.dto.store.StoreDto.StoreSaveRequest;
-import org.example.o2o.api.dto.store.StoreDto.StoreSaveResponse;
-import org.example.o2o.api.dto.store.request.StoreListSearchRequest;
-import org.example.o2o.api.dto.store.response.StoreDetailSearchResponse;
-import org.example.o2o.api.dto.store.response.StoreListSearchResponse;
+import org.example.o2o.api.v1.dto.store.StoreDto.StoreSaveRequest;
+import org.example.o2o.api.v1.dto.store.StoreDto.StoreSaveResponse;
+import org.example.o2o.api.v1.dto.store.request.StoreListSearchRequest;
+import org.example.o2o.api.v1.dto.store.response.StoreDetailSearchResponse;
+import org.example.o2o.api.v1.dto.store.response.StoreListSearchResponse;
+import org.example.o2o.api.v1.service.store.StoreService;
 import org.example.o2o.common.component.file.FileManager;
 import org.example.o2o.common.dto.file.FileDto;
 import org.example.o2o.config.exception.ApiException;

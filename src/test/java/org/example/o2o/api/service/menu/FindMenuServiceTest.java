@@ -4,12 +4,13 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.stream.Collectors;
 
-import org.example.o2o.api.dto.file.response.ImageFileResponseDto;
-import org.example.o2o.api.dto.menu.request.MenusRequestDto;
-import org.example.o2o.api.dto.menu.response.MenuDetailResponseDto;
-import org.example.o2o.api.dto.menu.response.MenuOptionGroupResponseDto;
-import org.example.o2o.api.dto.menu.response.MenuResponseDto;
-import org.example.o2o.api.dto.menu.response.MenusResponseDto;
+import org.example.o2o.api.v1.dto.file.response.ImageFileResponseDto;
+import org.example.o2o.api.v1.dto.menu.request.MenusRequestDto;
+import org.example.o2o.api.v1.dto.menu.response.MenuDetailResponseDto;
+import org.example.o2o.api.v1.dto.menu.response.MenuOptionGroupResponseDto;
+import org.example.o2o.api.v1.dto.menu.response.MenuResponseDto;
+import org.example.o2o.api.v1.dto.menu.response.MenusResponseDto;
+import org.example.o2o.api.v1.service.menu.MenuService;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.domain.menu.StoreMenu;
 import org.example.o2o.domain.menu.StoreMenuStatus;

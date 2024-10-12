@@ -4,9 +4,10 @@ import static org.assertj.core.api.Assertions.*;
 
 import java.util.List;
 
-import org.example.o2o.api.dto.menu.request.MenuOptionCreateRequestDto;
-import org.example.o2o.api.dto.menu.request.MenuOptionGroupCreateRequestDto;
-import org.example.o2o.api.dto.menu.response.MenuOptionGroupResponseDto;
+import org.example.o2o.api.v1.dto.menu.request.MenuOptionCreateRequestDto;
+import org.example.o2o.api.v1.dto.menu.request.MenuOptionGroupCreateRequestDto;
+import org.example.o2o.api.v1.dto.menu.response.MenuOptionGroupResponseDto;
+import org.example.o2o.api.v1.service.menu.MenuOptionService;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.domain.menu.StoreMenu;
 import org.example.o2o.domain.menu.StoreMenuOptionGroup;

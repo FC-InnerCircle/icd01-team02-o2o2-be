@@ -1,8 +1,8 @@
 package org.example.o2o.fixture.auth;
 
-import org.example.o2o.api.dto.auth.AuthDto.LoginRequest;
-import org.example.o2o.api.dto.auth.AuthDto.LogoutRequest;
-import org.example.o2o.api.dto.auth.AuthDto.ReissueTokenRequest;
+import org.example.o2o.api.v1.dto.auth.AuthDto.LoginRequest;
+import org.example.o2o.api.v1.dto.auth.AuthDto.LogoutRequest;
+import org.example.o2o.api.v1.dto.auth.AuthDto.ReissueTokenRequest;
 
 public class AuthFixture {
 

@@ -2,11 +2,12 @@ package org.example.o2o.api.service.member;
 
 import static org.assertj.core.api.Assertions.*;
 
-import org.example.o2o.api.dto.member.MemberDto.MemberAddressRegisterRequest;
-import org.example.o2o.api.dto.member.MemberDto.MemberAddressRegisterResponse;
-import org.example.o2o.api.dto.member.MemberDto.MemberAddressRemoveResponse;
-import org.example.o2o.api.dto.member.MemberDto.MemberRegisterRequest;
-import org.example.o2o.api.dto.member.MemberDto.MemberRegisterResponse;
+import org.example.o2o.api.v1.dto.member.MemberDto.MemberAddressRegisterRequest;
+import org.example.o2o.api.v1.dto.member.MemberDto.MemberAddressRegisterResponse;
+import org.example.o2o.api.v1.dto.member.MemberDto.MemberAddressRemoveResponse;
+import org.example.o2o.api.v1.dto.member.MemberDto.MemberRegisterRequest;
+import org.example.o2o.api.v1.dto.member.MemberDto.MemberRegisterResponse;
+import org.example.o2o.api.v1.service.member.MemberService;
 import org.example.o2o.domain.member.Address;
 import org.example.o2o.domain.member.AddressStatus;
 import org.example.o2o.domain.member.Member;
