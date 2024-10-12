@@ -1,5 +1,6 @@
 package org.example.o2o.repository.store;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.example.o2o.domain.store.Store;
@@ -22,4 +23,15 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
 				AND s.id = :id
 		""")
 	Optional<Store> findStoreWithThumbnailAndById(@Param("id") Long id);
+
+	@Query("""
+			SELECT s
+			FROM Store s
+			LEFT JOIN FETCH s.storeRateScore src
+			LEFT JOIN FETCH s.thumbnailFileGroup fg
+			LEFT JOIN FETCH fg.details fgd
+			WHERE s.status = org.example.o2o.domain.store.StoreStatus.ACTIVE
+				AND s.id IN :ids
+		""")
+	List<Store> findStoreWithThumbnailAndByIds(@Param("ids") List<Long> ids);
 }
