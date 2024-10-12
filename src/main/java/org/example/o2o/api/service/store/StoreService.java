@@ -1,11 +1,13 @@
 package org.example.o2o.api.service.store;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.example.o2o.api.dto.store.StoreDto.StoreSaveRequest;
 import org.example.o2o.api.dto.store.StoreDto.StoreSaveResponse;
 import org.example.o2o.api.dto.store.response.StoreDetailSearchResponse;
+import org.example.o2o.api.dto.store.response.StoreListResponseDto.StoreListResponse;
 import org.example.o2o.api.dto.store.response.StoreListSearchResponse;
 import org.example.o2o.api.dto.store.response.StoreMenuResponse;
 import org.example.o2o.common.component.file.FileManager;
@@ -46,6 +48,19 @@ public class StoreService {
 	public StoreListSearchResponse getStores(Pageable pageable) {
 		Page<Store> storePage = storeRepository.findAllByOrderByCreatedAtDesc(pageable);
 		return StoreListSearchResponse.of(storePage);
+	}
+
+	/**
+	 * 상점 목록 조회
+	 * @param ids 상점 ID 목록
+	 */
+	public StoreListResponse findStoreByIds(List<Long> ids) {
+		if (ObjectUtils.isEmpty(ids)) {
+			return StoreListResponse.of(Collections.emptyList());
+		}
+
+		List<Store> stores = storeRepository.findStoreWithThumbnailAndByIds(ids);
+		return StoreListResponse.of(stores);
 	}
 
 	/**

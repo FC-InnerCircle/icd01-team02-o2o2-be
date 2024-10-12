@@ -5,8 +5,10 @@ import java.util.List;
 import org.example.o2o.api.docs.store.StoreDocsController;
 import org.example.o2o.api.dto.store.StoreDto.StoreSaveRequest;
 import org.example.o2o.api.dto.store.StoreDto.StoreSaveResponse;
+import org.example.o2o.api.dto.store.request.StoreListRequest;
 import org.example.o2o.api.dto.store.request.StoreListSearchRequest;
 import org.example.o2o.api.dto.store.response.StoreDetailSearchResponse;
+import org.example.o2o.api.dto.store.response.StoreListResponseDto.StoreListResponse;
 import org.example.o2o.api.dto.store.response.StoreListSearchResponse;
 import org.example.o2o.api.service.store.StoreService;
 import org.example.o2o.common.dto.ApiResponse;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
@@ -46,6 +49,12 @@ public class StoreController implements StoreDocsController {
 		);
 		StoreListSearchResponse storeList = storeService.getStores(pageable);
 		return ApiResponse.success(storeList);
+	}
+
+	@GetMapping("/list")
+	public ApiResponse<StoreListResponse> findStoreByIds(@RequestBody StoreListRequest request) {
+		StoreListResponse storeListResponse = storeService.findStoreByIds(request.getStoreIds());
+		return ApiResponse.success(storeListResponse);
 	}
 
 	@GetMapping("/{id}")
