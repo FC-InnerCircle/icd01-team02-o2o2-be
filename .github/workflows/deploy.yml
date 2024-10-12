@@ -5,6 +5,7 @@ on:
     branches: [ develop ]
   pull_request:
     branches: [ main, develop ]
+    types: [ closed ]
 
 env:
   BUCKET_NAME: o2o-bucket
@@ -14,6 +15,7 @@ env:
 
 jobs:
   build:
+    if: github.event.pull_request.merged == true
 
     runs-on: ubuntu-latest
 

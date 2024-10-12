@@ -3,8 +3,6 @@
 name: o2o server CI
 
 on:
-  push:
-    branches: [ develop ]
   pull_request:
     branches: [ develop ]
 
