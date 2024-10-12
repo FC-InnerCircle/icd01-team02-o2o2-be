@@ -2,6 +2,7 @@ package org.example.o2o.domain.order;
 
 import java.util.List;
 
+import org.example.o2o.api.dto.order.request.OrderMenuCreateRequestDto;
 import org.example.o2o.domain.AbstractEntity;
 import org.example.o2o.domain.member.Address;
 import org.example.o2o.domain.member.Member;
@@ -49,7 +50,7 @@ public class OrderInfo extends AbstractEntity {
 
 	@JdbcTypeCode(SqlTypes.JSON)
 	@Column(name = "menu_detail", columnDefinition = "json")
-	private List<Object> menuDetail; // 메뉴 상세 정보
+	private List<OrderMenuCreateRequestDto> menuDetail; // 메뉴 상세 정보
 
 	private String deliveryContactNumber; // 배달 연락처
 
