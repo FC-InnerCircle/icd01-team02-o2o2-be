@@ -24,7 +24,7 @@ public interface OrderInfoRepository extends JpaRepository<OrderInfo, Long> {
 			+ " AND o.status IN :statuses"
 	)
 	List<OrderInfo> findByStoreIdAndStatusIn(@Param("storeId") Long storeId,
-		@Param("statusIn") List<OrderStatus> statuses, Pageable pageable,
+		@Param("statuses") List<OrderStatus> statuses, Pageable pageable,
 		@Param("startDate") LocalDateTime startDateTime, @Param("endDate") LocalDateTime endDate);
 
 	@Query("SELECT o FROM OrderInfo o"
