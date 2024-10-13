@@ -6,10 +6,12 @@ import java.util.stream.Collectors;
 import org.example.o2o.domain.menu.StoreMenu;
 import org.springframework.data.domain.Page;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
 @Builder
 public record MenusResponseDto(
+	@Schema(description = "메뉴 목록", example = "[]")
 	List<MenuResponseDto> menus,
 	int page,
 	int size,

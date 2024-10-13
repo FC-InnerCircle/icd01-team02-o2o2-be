@@ -7,6 +7,7 @@ import org.example.o2o.api.v2.dto.order.request.OrdersRequestDto;
 import org.example.o2o.api.v2.dto.order.response.OrderDetailResponseDto;
 import org.example.o2o.api.v2.dto.order.response.OrdersResponseDto;
 import org.example.o2o.config.exception.ApiException;
+import org.example.o2o.config.exception.enums.order.OrderErrorCode;
 import org.example.o2o.config.exception.enums.store.StoreErrorCode;
 import org.example.o2o.domain.order.OrderStatus;
 import org.example.o2o.repository.order.OrderInfoRepository;
@@ -43,6 +44,11 @@ public class OrderServiceV2 {
 
 	@Transactional(readOnly = true)
 	public OrderDetailResponseDto getOrderDetail(final Long orderId) {
+
+		if (!orderRepository.existsById(orderId)) {
+			throw new ApiException(OrderErrorCode.NOT_EXISTS_ORDER);
+		}
+
 		return OrderDetailResponseDto.of(orderRepository.findByIdWithDetail(orderId));
 	}
 }
