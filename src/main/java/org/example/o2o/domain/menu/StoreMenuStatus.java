@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 
 import lombok.Getter;
 
+@Getter
 public enum StoreMenuStatus {
 	SOLDOUT("품절"), DISABLED("숨김"), ENABLED("활성화");
 
-	@Getter
 	private final String text;
 
 	StoreMenuStatus(String text) {

@@ -1,4 +1,4 @@
-package org.example.o2o.api.v1.dto.order.response;
+package org.example.o2o.api.v2.dto.order.response;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
@@ -21,29 +21,29 @@ public record OrderDetailResponseDto(
 	@Schema(description = "주문 id", example = "1")
 	Long orderId,
 
-	@Schema(description = "주문 시간", example = "2021-11-08T11:44:30")
-	LocalDateTime orderTime,
-
 	@Schema(description = "주문 상태", example = "PENDING | ACCEPTED | PREPARING | DELIVERING | DELIVERED | CANCELED")
-	OrderStatus orderStatus,
+	OrderStatus status,
 
 	@Schema(description = "주문 총 가격", example = "14000")
-	Integer orderPrice,
+	Integer price,
+
+	@Schema(description = "주문 시간", example = "2021-11-08T11:44:30")
+	LocalDateTime orderTime,
 
 	@Schema(description = "가게 정보", example = "{}")
 	StoreInfo store,
 
-	@Schema(description = "메뉴 정보", example = "[]")
-	List<Menu> menus,
-
 	@Schema(description = "주문자 정보", example = "{}")
-	Orderer orderer
+	Orderer orderer,
+
+	@Schema(description = "메뉴 정보", example = "[]")
+	List<Menu> menus
 ) {
 	public static OrderDetailResponseDto of(OrderInfo order) {
 		return OrderDetailResponseDto.builder()
 			.orderId(order.getId())
-			.orderStatus(order.getStatus())
-			.orderPrice(order.getPrice())
+			.status(order.getStatus())
+			.price(order.getPrice())
 			.orderTime(order.getCreatedAt())
 			.store(StoreInfo.of(order.getStore()))
 			.orderer(Orderer.of(order.getMember(), order.getAddress()))
@@ -90,39 +90,13 @@ public record OrderDetailResponseDto(
 		@Schema(description = "가게 id", example = "1")
 		Long storeId,
 		@Schema(description = "가게명", example = "동대문 엽기 떡볶이")
-		String storeName,
-		@Schema(description = "가게 주소", example = "{}")
-		StoreAddress storeAddress
+		String name
 	) {
 		public static StoreInfo of(Store store) {
 			return StoreInfo.builder()
 				.storeId(store.getId())
-				.storeName(store.getName())
+				.name(store.getName())
 				.build();
-		}
-
-		@Builder
-		public record StoreAddress(
-			@Schema(description = "위도", example = "37.5665")
-			String latitude,
-			@Schema(description = "경도", example = "126.9780")
-			String longitude,
-			@Schema(description = "가게 주소", example = "서울 특별시 마포구")
-			String address,
-			@Schema(description = "가게 상세 주소", example = "11층 1102호")
-			String addressDetail,
-			@Schema(description = "우편 번호", example = "111-11")
-			String zipCode
-		) {
-			public static StoreAddress of(Address address) {
-				return StoreAddress.builder()
-					.latitude(String.valueOf(address.getLatitude()))
-					.longitude(String.valueOf(address.getLongitude()))
-					.address(address.getAddress())
-					.addressDetail(address.getDetailAddress())
-					.zipCode(address.getZipCode())
-					.build();
-			}
 		}
 	}
 
@@ -132,10 +106,13 @@ public record OrderDetailResponseDto(
 		Long menuId,
 
 		@Schema(description = "메뉴명", example = "떡볶이")
-		String menuName,
+		String name,
+
+		@Schema(description = "메뉴 가격", example = "10000")
+		Integer price,
 
 		@Schema(description = "메뉴 수량", example = "2")
-		Integer menuCount,
+		Integer quantity,
 
 		@Schema(description = "메뉴 옵션 그룹", example = "{}")
 		List<OptionGroup> optionGroups
@@ -144,8 +121,9 @@ public record OrderDetailResponseDto(
 		public static Menu of(OrderMenuCreateRequestDto menu) {
 			return Menu.builder()
 				.menuId(menu.menuId())
-				.menuName(menu.menuName())
-				.menuCount(menu.menuCount())
+				.name(menu.menuName())
+				.price(menu.menuPrice())
+				.quantity(menu.menuCount())
 				.optionGroups(Arrays.stream(menu.optionGroups())
 					.map(OptionGroup::of)
 					.toList())
@@ -155,18 +133,18 @@ public record OrderDetailResponseDto(
 		@Builder
 		public record OptionGroup(
 			@Schema(description = "옵션 그룹 id", example = "1")
-			Long optionGroupId,
+			Long groupId,
 
 			@Schema(description = "옵션 그룹명", example = "사리 추가")
-			String optionGroupName,
+			String name,
 
 			@Schema(description = "옵션 목록", example = "[]")
 			List<Option> options
 		) {
 			public static OptionGroup of(OrderOptionGroupCreateRequestDto optionGroup) {
 				return OptionGroup.builder()
-					.optionGroupId(optionGroup.optionGroupId())
-					.optionGroupName(optionGroup.optionName())
+					.groupId(optionGroup.optionGroupId())
+					.name(optionGroup.optionName())
 					.options(Arrays.stream(optionGroup.options())
 						.map(Option::of)
 						.toList())
@@ -179,12 +157,16 @@ public record OrderDetailResponseDto(
 				Long optionId,
 
 				@Schema(description = "옵션명", example = "햄 추가")
-				String optionName
+				String name,
+
+				@Schema(description = "옵션 가격", example = "2000")
+				Integer price
 			) {
 				public static Option of(OrderOptionCreateRequestDto option) {
 					return Option.builder()
 						.optionId(option.optionId())
-						.optionName(option.optionName())
+						.name(option.optionName())
+						.price(option.optionPrice())
 						.build();
 				}
 			}
