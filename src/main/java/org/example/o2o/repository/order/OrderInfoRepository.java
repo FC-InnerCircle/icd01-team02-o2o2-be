@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.example.o2o.domain.order.OrderInfo;
 import org.example.o2o.domain.order.OrderStatus;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,7 +24,7 @@ public interface OrderInfoRepository extends JpaRepository<OrderInfo, Long> {
 			+ " WHERE o.store.id = :storeId"
 			+ " AND o.status IN :statuses"
 	)
-	List<OrderInfo> findByStoreIdAndStatusIn(@Param("storeId") Long storeId,
+	Page<OrderInfo> findByStoreIdAndStatusIn(@Param("storeId") Long storeId,
 		@Param("statuses") List<OrderStatus> statuses, Pageable pageable,
 		@Param("startDate") LocalDateTime startDateTime, @Param("endDate") LocalDateTime endDate);
 

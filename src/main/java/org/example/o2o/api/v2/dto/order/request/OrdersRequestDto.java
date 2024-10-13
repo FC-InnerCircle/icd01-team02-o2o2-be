@@ -8,7 +8,6 @@ import org.springframework.data.domain.Sort;
 import lombok.Builder;
 
 public record OrdersRequestDto(
-	Long storeId,
 	Integer page,
 	Integer size,
 	String status,

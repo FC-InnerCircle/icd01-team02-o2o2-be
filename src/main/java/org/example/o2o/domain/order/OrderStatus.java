@@ -1,5 +1,10 @@
 package org.example.o2o.domain.order;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
 import lombok.Getter;
 
 @Getter
@@ -15,5 +20,16 @@ public enum OrderStatus {
 
 	OrderStatus(String text) {
 		this.text = text;
+	}
+
+	public static List<OrderStatus> getOrderStatuses(String statusStr) {
+		if (Objects.isNull(statusStr) || statusStr.isEmpty()) {
+			return Arrays.asList(OrderStatus.values());
+		}
+
+		return Arrays.stream(statusStr.split(","))
+			.filter(status -> !status.isEmpty())
+			.map(OrderStatus::valueOf)
+			.collect(Collectors.toList());
 	}
 }

@@ -8,7 +8,6 @@ import org.example.o2o.api.v2.dto.order.response.OrderDetailResponseDto;
 import org.example.o2o.api.v2.dto.order.response.OrdersResponseDto;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.config.exception.enums.store.StoreErrorCode;
-import org.example.o2o.domain.order.OrderInfo;
 import org.example.o2o.domain.order.OrderStatus;
 import org.example.o2o.repository.order.OrderInfoRepository;
 import org.example.o2o.repository.store.StoreRepository;
@@ -27,22 +26,19 @@ public class OrderServiceV2 {
 	private final StoreRepository storeRepository;
 
 	@Transactional(readOnly = true)
-	public List<OrdersResponseDto> getOrderListByStoreId(final OrdersRequestDto requestDto,
-		final List<OrderStatus> statues) {
-		Long storeId = requestDto.storeId();
+	public OrdersResponseDto getOrderListByStoreId(
+		final Long storeId,
+		final OrdersRequestDto requestDto) {
 
 		if (!storeRepository.existsById(storeId)) {
 			throw new ApiException(StoreErrorCode.NOT_EXISTS_STORE);
 		}
 
-		List<OrderInfo> orders = orderRepository.findByStoreIdAndStatusIn(
+		List<OrderStatus> statues = OrderStatus.getOrderStatuses(requestDto.status());
+		return OrdersResponseDto.of(orderRepository.findByStoreIdAndStatusIn(
 			storeId, statues, requestDto.toPageRequest(),
 			LocalDateTime.parse(requestDto.startDate() + "T00:00:00"),
-			LocalDateTime.parse(requestDto.endDate() + "T23:59:59"));
-
-		return orders.stream()
-			.map(OrdersResponseDto::of)
-			.toList();
+			LocalDateTime.parse(requestDto.endDate() + "T23:59:59")));
 	}
 
 	@Transactional(readOnly = true)
