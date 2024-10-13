@@ -90,7 +90,7 @@ public class StoreDto {
 				.addressDetail(addressDetail)
 				.category(
 					categories.stream()
-						.map(StoreCategory::getText)
+						.map(StoreCategory::name)
 						.collect(Collectors.joining(","))
 				)
 				.latitude(latitude)

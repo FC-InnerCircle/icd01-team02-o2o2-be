@@ -3,6 +3,7 @@ package org.example.o2o.common.dto.file;
 import org.example.o2o.domain.file.FileDetail;
 import org.example.o2o.domain.file.FileTemporaryStorage;
 import org.example.o2o.domain.file.ResourceLocation;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -60,6 +61,7 @@ public class FileDto {
 		private String originalFileName;
 		private String storedFileName;
 		private String path;
+		private String fullPath;
 		private Long fileSize;
 		private String fileExtension;
 		private FileTemporaryStorage.FileSyncStatus syncStatus;
@@ -70,6 +72,12 @@ public class FileDto {
 				.originalFileName(originalFileName)
 				.storedFileName(storedFileName)
 				.path(path)
+				.fullPath(
+					UriComponentsBuilder
+						.fromHttpUrl(path)
+						.path(storedFileName)
+						.build().toUriString()
+				)
 				.size(fileSize)
 				.extension(fileExtension)
 				.syncStatus(syncStatus)
