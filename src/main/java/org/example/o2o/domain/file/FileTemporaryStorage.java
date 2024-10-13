@@ -4,6 +4,8 @@ import org.example.o2o.domain.AbstractEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -28,8 +30,11 @@ public class FileTemporaryStorage extends AbstractEntity {
 	private String originalFileName;
 	private String storedFileName;
 	private String path;
+	private String fullPath;
 	private Long size;
 	private String extension;
+
+	@Enumerated(EnumType.STRING)
 	private FileSyncStatus syncStatus;
 
 	public enum FileSyncStatus {
@@ -39,10 +44,26 @@ public class FileTemporaryStorage extends AbstractEntity {
 		COMPLETED    // 완료
 	}
 
+	public void completeFileSync() {
+		this.syncStatus = FileSyncStatus.COMPLETED;
+	}
+
 	public String getFileAccessUrl() {
 		return UriComponentsBuilder
 			.fromHttpUrl(path)
 			.path(storedFileName)
 			.build().toUriString();
+	}
+
+	public FileDetail toFileDetail(int ordering) {
+		return FileDetail.builder()
+			.ordering(ordering)
+			.originalFileName(originalFileName)
+			.storedFileName(storedFileName)
+			.path(path)
+			.extension(extension)
+			.size(size)
+			.resourceLocation(ResourceLocation.S3)
+			.build();
 	}
 }

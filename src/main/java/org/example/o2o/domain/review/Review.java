@@ -5,6 +5,7 @@ import org.example.o2o.domain.member.Member;
 import org.example.o2o.domain.order.OrderInfo;
 import org.example.o2o.domain.store.Store;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -14,11 +15,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity
 public class Review {
 
@@ -38,10 +43,14 @@ public class Review {
 	@JoinColumn(name = "store_id")
 	private Store store;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
 	@JoinColumn(name = "image_file_group_id")
 	private FileGroup fileGroup;
 
-	private Float rateScore;
+	private Integer rateScore;
 	private String comment;
+
+	public void registerReviewIamgeFile(FileGroup fileGroup) {
+		this.fileGroup = fileGroup;
+	}
 }

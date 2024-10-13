@@ -4,25 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.example.o2o.domain.AbstractEntity;
-import org.example.o2o.domain.menu.StoreMenu;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -41,11 +36,6 @@ public class FileGroup extends AbstractEntity {
 	@Builder.Default
 	@OneToMany(mappedBy = "fileGroup", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<FileDetail> details = new ArrayList<>();
-
-	@Setter
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "menu_id")
-	private StoreMenu menu;
 
 	public static FileGroup createFileGroup(FileGroupType groupType) {
 		return FileGroup.builder()

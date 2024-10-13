@@ -65,4 +65,8 @@ public class OrderInfo extends AbstractEntity {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "payment_type")
 	private OrderPaymentType payment;
+
+	public boolean isBuyer(Long memberId) {
+		return member.getId().equals(memberId);
+	}
 }
