@@ -31,6 +31,12 @@ public interface OrderInfoRepository extends JpaRepository<OrderInfo, Long> {
 	@Query("SELECT o FROM OrderInfo o"
 		+ "	LEFT JOIN FETCH o.member"
 		+ " LEFT JOIN FETCH o.store"
+		+ " WHERE o.member.id = :memberId")
+	List<OrderInfo> findByMemberId(@Param("memberId") Long memberId);
+
+	@Query("SELECT o FROM OrderInfo o"
+		+ "	LEFT JOIN FETCH o.member"
+		+ " LEFT JOIN FETCH o.store"
 		+ "	WHERE o.id = :orderId")
 	OrderInfo findByIdWithDetail(@Param("orderId") Long orderId);
 }

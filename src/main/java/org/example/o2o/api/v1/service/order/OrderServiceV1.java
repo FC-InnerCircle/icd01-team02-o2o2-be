@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.example.o2o.api.v1.dto.order.request.OrderCreateRequestDto;
 import org.example.o2o.api.v1.dto.order.response.OrderCreateResponseDto;
+import org.example.o2o.api.v1.dto.order.response.OrderDetailResponseDto;
+import org.example.o2o.api.v1.dto.order.response.OrdersResponseDto;
 import org.example.o2o.config.exception.ApiException;
 import org.example.o2o.config.exception.enums.auth.AccountErrorCode;
 import org.example.o2o.config.exception.enums.auth.AddressErrorCode;
@@ -55,5 +57,25 @@ public class OrderServiceV1 {
 		}
 
 		return OrderCreateResponseDto.of(orderRepository.save(requestDto.toOrder(member, store, address)));
+	}
+
+	@Transactional(readOnly = true)
+	public OrderDetailResponseDto getOrderDetail(final Long orderId) {
+
+		if (!orderRepository.existsById(orderId)) {
+			throw new ApiException(OrderErrorCode.NOT_EXISTS_ORDER);
+		}
+
+		return OrderDetailResponseDto.of(orderRepository.findByIdWithDetail(orderId));
+	}
+
+	@Transactional(readOnly = true)
+	public OrdersResponseDto getOrdersByMemberId(final Long memberId) {
+
+		if (!memberRepository.existsById(memberId)) {
+			throw new ApiException(AccountErrorCode.INVALID_ACCOUNT_INFO);
+		}
+
+		return OrdersResponseDto.of(orderRepository.findByMemberId(memberId));
 	}
 }

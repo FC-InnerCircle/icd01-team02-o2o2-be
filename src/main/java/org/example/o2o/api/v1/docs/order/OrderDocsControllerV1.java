@@ -2,7 +2,10 @@ package org.example.o2o.api.v1.docs.order;
 
 import org.example.o2o.api.v1.dto.order.request.OrderCreateRequestDto;
 import org.example.o2o.api.v1.dto.order.response.OrderCreateResponseDto;
+import org.example.o2o.api.v1.dto.order.response.OrderDetailResponseDto;
+import org.example.o2o.api.v1.dto.order.response.OrdersResponseDto;
 import org.example.o2o.config.exception.ErrorResponse;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,6 +23,18 @@ public interface OrderDocsControllerV1 {
 		content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
 	@ApiResponse(responseCode = "400", description = "잘못된 주문 정보",
 		content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
-	org.example.o2o.common.dto.ApiResponse<OrderCreateResponseDto> registerOrder(
+	OrderCreateResponseDto registerOrder(
 		@RequestBody OrderCreateRequestDto requestDto);
+
+	@Operation(summary = "주문 상세 조회", description = "주문의 상세 정보를 조회")
+	@ApiResponse(responseCode = "200", description = "orderId에 해당하는 주문 상세 정보 조회")
+	@ApiResponse(responseCode = "404", description = "유효하지 않은 주문입니다.",
+		content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+	OrderDetailResponseDto findById(@PathVariable Long orderId);
+
+	@Operation(summary = "주문 목록 조회", description = "주문 목록을 조회")
+	@ApiResponse(responseCode = "200", description = "memberId와 연관된 주문 목록 조회")
+	@ApiResponse(responseCode = "400", description = "계정 정보가 올바르지 않습니다.",
+		content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)))
+	OrdersResponseDto findAll(Long memberId);
 }

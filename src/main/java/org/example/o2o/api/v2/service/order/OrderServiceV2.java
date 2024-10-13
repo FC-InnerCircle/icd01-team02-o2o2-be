@@ -27,7 +27,7 @@ public class OrderServiceV2 {
 	private final StoreRepository storeRepository;
 
 	@Transactional(readOnly = true)
-	public OrdersResponseDto getOrderListByStoreId(
+	public OrdersResponseDto getOrdersByStoreId(
 		final Long storeId,
 		final OrdersRequestDto requestDto) {
 

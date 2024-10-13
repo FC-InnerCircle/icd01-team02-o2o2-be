@@ -27,6 +27,6 @@ public class OrderControllerV2 implements OrderDocsControllerV2 {
 
 	@GetMapping("/stores/{storeId}/orders")
 	public ApiResponse<OrdersResponseDto> findAll(@PathVariable Long storeId, OrdersRequestDto requestDto) {
-		return ApiResponse.success(orderServiceV2.getOrderListByStoreId(storeId, requestDto));
+		return ApiResponse.success(orderServiceV2.getOrdersByStoreId(storeId, requestDto));
 	}
 }
