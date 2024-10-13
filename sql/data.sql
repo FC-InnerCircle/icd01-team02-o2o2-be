@@ -6,11 +6,11 @@ VALUES (1, 'admin', '$2a$10$ejxYYyp384wWKU2jQDjOnO/lYSumEMBpo3BZL9OsIOnpb2jDVTEM
         'owner@test.com',
         'OWNER', 'ACTIVE');
 
-INSERT INTO file_group (id, created_at, updated_at, group_type, menu_id)
-VALUES (1, '2024-10-07 10:40:12.869157000', '2024-10-07 10:40:12.869157000', 'STORE', NULL),
-       (2, '2024-10-07 11:38:34.320748000', '2024-10-07 11:38:34.320748000', 'STORE', NULL),
-       (3, '2024-10-07 11:38:34.320748000', '2024-10-07 11:38:34.320748000', 'MENU', NULL),
-       (4, '2024-10-07 11:38:34.320748000', '2024-10-07 11:38:34.320748000', 'MENU', NULL);
+INSERT INTO file_group (id, created_at, updated_at, group_type)
+VALUES (1, '2024-10-07 10:40:12.869157000', '2024-10-07 10:40:12.869157000', 'STORE'),
+       (2, '2024-10-07 11:38:34.320748000', '2024-10-07 11:38:34.320748000', 'STORE'),
+       (3, '2024-10-07 11:38:34.320748000', '2024-10-07 11:38:34.320748000', 'MENU'),
+       (4, '2024-10-07 11:38:34.320748000', '2024-10-07 11:38:34.320748000', 'MENU');
 
 INSERT INTO file_detail (id, created_at, updated_at, extension, ordering, original_file_name, path, size,
                          stored_file_name, file_group_id, resource_location)
