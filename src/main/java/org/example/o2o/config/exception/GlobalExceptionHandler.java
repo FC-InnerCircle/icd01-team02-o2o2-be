@@ -8,6 +8,8 @@ import org.example.o2o.config.exception.enums.common.CommonErrorCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -54,6 +56,11 @@ public class GlobalExceptionHandler {
 		log.error("ACCESS_DENIED_ERROR: ", ex);
 
 		ErrorCode errorCode = CommonErrorCode.UNAUTHORIZED;
+
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (authentication != null && authentication.isAuthenticated()) {
+			errorCode = CommonErrorCode.ACCESS_DENIED;
+		}
 
 		return ResponseEntity
 			.status(errorCode.getHttpStatusCode())

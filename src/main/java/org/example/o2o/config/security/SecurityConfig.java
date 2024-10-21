@@ -29,7 +29,11 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Configuration
 @EnableWebSecurity
-@EnableMethodSecurity
+@EnableMethodSecurity(
+	prePostEnabled = true,
+	securedEnabled = true,
+	jsr250Enabled = true
+)
 public class SecurityConfig {
 
 	private final TokenProvider tokenProvider;
@@ -51,10 +55,18 @@ public class SecurityConfig {
 			.authorizeHttpRequests(authorizeRequests ->
 				authorizeRequests
 					.requestMatchers("/health/check").permitAll()
-					.requestMatchers("/api/v1/auth/*").permitAll()
-					.requestMatchers("/api/v1/accounts/*").hasRole("ADMIN")
+					.requestMatchers("/api/v1/auth/**").permitAll()
+					.requestMatchers("/api/v1/accounts/**").authenticated()
+					.requestMatchers("/api/v1/**").hasAnyRole("ADMIN", "OWNER")
+					.requestMatchers("/api/v2/**").permitAll()
+					.requestMatchers("/v2/api-docs",
+						"/v3/api-docs/**",
+						"/swagger-resources/**",
+						"/swagger-ui/**",
+						"/webjars/**",
+						"/swagger-ui.html").permitAll()
 					.requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-					.anyRequest().permitAll()
+					.anyRequest().authenticated()
 			)
 			.logout(logout ->
 				logout.logoutSuccessUrl("/api/v1/auth/logout")

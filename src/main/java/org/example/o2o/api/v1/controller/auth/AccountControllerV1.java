@@ -42,6 +42,7 @@ public class AccountControllerV1 implements AccountDocsControllerV1 {
 		return ApiResponse.success(response);
 	}
 
+	@AdminAuthorize
 	@PostMapping("/admin")
 	public ApiResponse<SignupAdminResponse> signupAdmin(
 		@RequestBody @Valid SignupAdminRequest signupRequest) {
